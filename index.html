@@ -2,559 +2,508 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1">
+      content="width=device-width,initial-scale=1,maximum-scale=1">
 
-<title>Cérebro Poker V2.4</title>
+<title>Cérebro Poker — V2.5</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-
-:root{
-  --bg:#070b11;
-  --card:#111823;
-  --card2:#192331;
-  --border:#2a384b;
-  --text:#f5f7fa;
-  --muted:#8e9bad;
-  --green:#32d17c;
-  --yellow:#ffc857;
-  --red:#ff5964;
-  --blue:#55a7ff;
-}
-
 *{
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
+  background:#07100d;
+  color:#eaf7f0;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 header{
-  padding:18px 16px 8px;
+  padding:16px;
+  background:linear-gradient(135deg,#0b2018,#123b2a);
+  border-bottom:1px solid #1f5d42;
 }
 
-.logo{
-  font-size:28px;
-  font-weight:900;
+header h1{
+  margin:0;
+  font-size:22px;
 }
 
-.version{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:3px;
+header small{
+  color:#7ee0b0;
 }
 
 nav{
   display:flex;
-  gap:7px;
+  gap:6px;
+  padding:8px;
   overflow-x:auto;
-  padding:8px 12px 12px;
-  border-bottom:1px solid var(--border);
+  background:#091611;
 }
 
 nav button{
   white-space:nowrap;
-  padding:9px 13px;
-  border-radius:20px;
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--muted);
+  border:1px solid #275b45;
+  background:#10241b;
+  color:#bfead3;
+  padding:10px 14px;
+  border-radius:9px;
 }
 
 nav button.active{
-  background:var(--green);
-  color:#03140a;
-  font-weight:900;
+  background:#1d704c;
+  color:white;
 }
 
 main{
-  max-width:780px;
+  padding:12px;
+  max-width:1100px;
   margin:auto;
-  padding:14px;
-}
-
-.section{
-  display:none;
-}
-
-.section.active{
-  display:block;
 }
 
 .card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:15px;
-  margin-bottom:13px;
+  background:#0d1c16;
+  border:1px solid #204936;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:12px;
 }
 
 h2{
-  margin:0 0 12px;
+  margin:0 0 10px;
   font-size:18px;
 }
 
 h3{
   font-size:15px;
-}
-
-button.primary,
-button.secondary,
-button.danger{
-  width:100%;
-  padding:13px;
-  border-radius:11px;
-  font-weight:900;
-  margin-top:7px;
+  color:#80e4b2;
 }
 
 button.primary{
-  background:var(--green);
-  color:#03140a;
+  background:#20a867;
   border:0;
+  color:white;
+  font-weight:bold;
+  padding:12px 16px;
+  border-radius:10px;
 }
 
 button.secondary{
-  background:var(--card2);
-  color:var(--text);
-  border:1px solid var(--border);
+  background:#142b20;
+  border:1px solid #2a6349;
+  color:#d8f7e6;
+  padding:10px 14px;
+  border-radius:9px;
 }
 
 button.danger{
-  background:#291216;
-  color:var(--red);
-  border:1px solid #57303a;
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  background:#0a1018;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px;
-  margin:5px 0 10px;
-  font-size:15px;
-}
-
-textarea{
-  min-height:90px;
-}
-
-.filebox{
-  border:2px dashed var(--border);
-  background:#0b1119;
-  padding:22px 12px;
-  border-radius:14px;
-  text-align:center;
-}
-
-.filebox input{
+  background:#7c2929;
   border:0;
+  color:white;
+  padding:10px;
+  border-radius:9px;
 }
 
-.notice,
-.warning,
-.success{
-  padding:11px;
-  border-radius:11px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.notice{
-  background:#0d1b2b;
-  border:1px solid #214668;
-}
-
-.warning{
-  background:#281f0e;
-  border:1px solid #59491e;
-}
-
-.success{
-  background:#0c2116;
-  border:1px solid #205d38;
-}
-
-.green{color:var(--green);}
-.yellow{color:var(--yellow);}
-.red{color:var(--red);}
-.blue{color:var(--blue);}
-.muted{color:var(--muted);}
-
-.progress{
-  height:9px;
-  background:#273244;
-  border-radius:10px;
-  overflow:hidden;
-  margin:12px 0;
-}
-
-.progress div{
-  height:100%;
-  width:0;
-  background:var(--green);
-  transition:.2s;
-}
-
-.hand{
-  background:var(--card2);
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:12px;
-}
-
-.hand img{
+input,textarea,select{
   width:100%;
-  max-height:650px;
-  object-fit:contain;
-  background:#05070a;
-  border-radius:10px;
-  margin-top:9px;
-}
-
-.action{
-  display:grid;
-  grid-template-columns:
-    1.2fr .8fr 1fr;
-  gap:6px;
-  margin-bottom:7px;
-}
-
-.player{
-  background:#0b1119;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:11px;
-  margin-bottom:9px;
-}
-
-.tag{
-  display:inline-block;
-  background:#283448;
-  border-radius:7px;
-  padding:4px 7px;
-  font-size:11px;
-  margin:2px;
-}
-
-.confidence{
-  height:7px;
-  background:#273244;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:6px;
-}
-
-.confidence div{
-  height:100%;
-}
-
-.reconstruction{
-  border:1px solid var(--border);
-  border-radius:13px;
-  overflow:hidden;
-  margin-bottom:12px;
-}
-
-.streetTitle{
-  background:#1a2636;
+  background:#07110d;
+  color:white;
+  border:1px solid #315b47;
+  border-radius:8px;
   padding:10px;
-  font-weight:900;
+  margin-top:5px;
 }
 
-.streetBody{
-  padding:10px;
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+label{
+  display:block;
+  margin:10px 0;
+  color:#b7d8c7;
 }
 
 .row{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
   gap:8px;
-  padding:9px 4px;
-  border-bottom:1px solid #202b3b;
+  flex-wrap:wrap;
 }
 
-.row:last-child{
-  border-bottom:0;
+.row>*{
+  flex:1;
+  min-width:120px;
 }
 
-.small{
+.status{
+  padding:10px;
+  border-radius:8px;
+  background:#10281d;
+  color:#8fe6b8;
+  margin-top:10px;
+}
+
+.warning{
+  background:#392d0c;
+  color:#ffd86a;
+  padding:10px;
+  border-radius:8px;
+}
+
+.success{
+  background:#0d3824;
+  color:#83f0b2;
+  padding:10px;
+  border-radius:8px;
+}
+
+.error{
+  background:#3c1515;
+  color:#ff9d9d;
+  padding:10px;
+  border-radius:8px;
+}
+
+/* IMAGEM */
+
+.image-wrap{
+  position:relative;
+  width:100%;
+  overflow:auto;
+  background:#000;
+  border-radius:10px;
+  max-height:70vh;
+}
+
+#sourceImage{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+#calibrationLayer{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.region{
+  position:absolute;
+  border:2px solid;
+  background:rgba(255,255,255,.04);
+  pointer-events:auto;
+  touch-action:none;
+}
+
+.region .tag{
+  position:absolute;
+  left:0;
+  top:0;
+  background:rgba(0,0,0,.8);
+  padding:3px 6px;
+  font-size:11px;
+  white-space:nowrap;
+}
+
+.region[data-type="blinds"]{
+  border-color:#f0c94c;
+}
+
+.region[data-type="preflop"]{
+  border-color:#4fc3f7;
+}
+
+.region[data-type="flop"]{
+  border-color:#8ee28e;
+}
+
+.region[data-type="turn"]{
+  border-color:#ff9b54;
+}
+
+.region[data-type="river"]{
+  border-color:#d38cff;
+}
+
+.region[data-type="table"]{
+  border-color:#ff5e72;
+}
+
+/* RECONSTRUÇÃO */
+
+.action{
+  display:grid;
+  grid-template-columns:40px 1fr 80px 100px;
+  gap:6px;
+  padding:8px 0;
+  border-bottom:1px solid #19372a;
+  align-items:center;
+  font-size:13px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 6px;
+  border-radius:5px;
+  font-size:11px;
+  background:#193d2d;
+}
+
+.conf{
+  font-weight:bold;
+}
+
+.high{color:#72e7a7}
+.medium{color:#ffd05a}
+.low{color:#ff8585}
+
+.meter{
+  height:8px;
+  border-radius:5px;
+  background:#1b3027;
+  overflow:hidden;
+}
+
+.meter span{
+  display:block;
+  height:100%;
+  background:#2ecc71;
+}
+
+pre{
+  white-space:pre-wrap;
+  word-break:break-word;
+  background:#050b08;
+  padding:12px;
+  border-radius:9px;
+  overflow:auto;
   font-size:12px;
 }
 
-.empty{
+.hidden{
+  display:none!important;
+}
+
+.stat{
   text-align:center;
-  padding:25px 10px;
-  color:var(--muted);
+  padding:12px;
+  background:#0a1711;
+  border-radius:9px;
 }
 
-.heroBox{
-  background:#0c2116;
-  border:1px solid #23643c;
-  border-radius:13px;
-  padding:13px;
+.stat strong{
+  display:block;
+  font-size:20px;
+  color:#71e6a5;
 }
 
-.board{
-  font-size:21px;
-  letter-spacing:4px;
+footer{
+  padding:30px 10px;
+  text-align:center;
+  color:#648375;
+  font-size:12px;
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">🧠 Cérebro</div>
-
-<div class="version">
-V2.4 · KKPoker Auto Parser
-</div>
-
+  <h1>🧠 CÉREBRO</h1>
+  <small>V2.5 — Parser + Calibração + Reconstrução</small>
 </header>
 
 <nav>
-
-<button class="active"
-        onclick="show('home',this)">
-Início
-</button>
-
-<button onclick="show('import',this)">
-📸 Importar
-</button>
-
-<button onclick="show('hands',this)">
-♠️ Mãos
-</button>
-
-<button onclick="show('reconstruct',this)">
-🧩 Reconstrução
-</button>
-
-<button onclick="show('players',this)">
-👤 Oponentes
-</button>
-
+  <button id="tabImport" class="active">📷 Importar</button>
+  <button id="tabCal">🎯 Calibrar</button>
+  <button id="tabOCR">🔎 OCR</button>
+  <button id="tabRecon">🧩 Reconstrução</button>
+  <button id="tabDB">🗃️ Mãos</button>
 </nav>
-
 
 <main>
 
+<!-- IMPORTAÇÃO -->
 
-<!-- HOME -->
-
-<section id="home"
-         class="section active">
+<section id="pageImport">
 
 <div class="card">
 
-<h2>🧠 Cérebro V2.4</h2>
+<h2>📷 Nova mão</h2>
 
-<div class="success">
+<label>
+Screenshot da mão
+<input id="imageInput"
+       type="file"
+       accept="image/*">
+</label>
 
-Parser especializado para screenshots
-do KKPoker Hand Review.
+<div id="imageInfo" class="status hidden"></div>
 
 </div>
 
-<br>
+<div id="previewCard" class="card hidden">
 
-<p class="small">
+<h2>Screenshot</h2>
 
-Objetivo desta versão:
+<div class="image-wrap">
+<img id="sourceImage">
+<div id="calibrationLayer"></div>
+</div>
 
-<br><br>
+</div>
 
-📸 screenshot
+</section>
 
-<br>↓
 
-🔎 regiões KKPoker
+<!-- CALIBRAÇÃO -->
 
-<br>↓
+<section id="pageCal" class="hidden">
 
-🤖 OCR
+<div class="card">
 
-<br>↓
+<h2>🎯 Calibração KKPoker</h2>
 
-🧠 parser de ações
-
-<br>↓
-
-♠️ reconstrução multiway
-
-<br>↓
-
-💾 banco de mãos
-
+<p>
+A V2.5 não tenta mais interpretar a tela inteira de uma vez.
+Você define as regiões uma vez e o Cérebro passa a OCRizar cada região separadamente.
 </p>
 
-<button class="primary"
-        onclick="go('import')">
+<div class="warning">
+Faça a calibração usando uma screenshot padrão do KKPoker.
+Depois clique em <b>Salvar calibração</b>.
+</div>
 
-📸 IMPORTAR SCREENSHOT
+</div>
 
+<div id="calibrationControls" class="card">
+
+<h3>Região selecionada</h3>
+
+<select id="regionSelect">
+<option value="blinds">Blinds</option>
+<option value="preflop">Pré-flop</option>
+<option value="flop">Flop</option>
+<option value="turn">Turn</option>
+<option value="river">River</option>
+<option value="table">Mesa</option>
+</select>
+
+<div class="row">
+<button class="secondary" onclick="addRegion()">
+Adicionar / atualizar região
+</button>
+
+<button class="primary" onclick="saveCalibration()">
+💾 Salvar calibração
+</button>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Regiões salvas</h3>
+
+<div id="regionList"></div>
+
+</div>
+
+</section>
+
+
+<!-- OCR -->
+
+<section id="pageOCR" class="hidden">
+
+<div class="card">
+
+<h2>🔎 OCR inteligente</h2>
+
+<p>
+O Cérebro vai recortar cada região, ampliar, melhorar contraste e então executar OCR.
+</p>
+
+<button id="runOCR" class="primary">
+🧠 Analisar screenshot
+</button>
+
+<div id="ocrStatus"></div>
+
+</div>
+
+<div id="ocrResults"></div>
+
+</section>
+
+
+<!-- RECONSTRUÇÃO -->
+
+<section id="pageRecon" class="hidden">
+
+<div class="card">
+
+<h2>🧩 Reconstrução automática</h2>
+
+<div id="handSummary"></div>
+
+</div>
+
+<div class="card">
+
+<h3>Sequência detectada</h3>
+
+<div id="actions"></div>
+
+</div>
+
+<div class="card">
+
+<h3>Texto OCR bruto</h3>
+
+<textarea id="rawText"></textarea>
+
+<button class="secondary"
+        onclick="reparseText()">
+🔄 Reconstruir novamente
 </button>
 
 </div>
 
 <div class="card">
 
-<h2>Estatísticas</h2>
-
-<div id="stats"></div>
-
-</div>
-
-</section>
-
-
-<!-- IMPORT -->
-
-<section id="import"
-         class="section">
-
-<div class="card">
-
-<h2>📸 Importar mão</h2>
-
-<div class="notice">
-
-Use a imagem completa do Hand Review
-do KKPoker, como a screenshot utilizada
-para desenvolver esta versão.
-
-</div>
-
-<br>
-
-<div class="filebox">
-
-<strong>
-Selecionar screenshot
-</strong>
-
-<br><br>
-
-<input id="fileInput"
-       type="file"
-       accept="image/*"
-       onchange="importHand(event)">
-
-</div>
-
-<div id="importStatus"
-     class="small muted">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- HANDS -->
-
-<section id="hands"
-         class="section">
-
-<div class="card">
-
-<h2>♠️ Mãos armazenadas</h2>
-
-<div id="handsList"></div>
-
-</div>
-
-</section>
-
-
-<!-- RECONSTRUCTION -->
-
-<section id="reconstruct"
-         class="section">
-
-<div id="sourceImage"></div>
-
-<div class="card">
-
-<h2>🤖 KKPoker Auto Parser</h2>
-
-<div class="notice">
-
-A V2.4 não lê mais a screenshot inteira
-como uma única região.
-
-Ela divide a imagem em:
-
-<br><br>
-
-• mesa<br>
-• jogadores<br>
-• blinds<br>
-• pré-flop<br>
-• flop<br>
-• turn<br>
-• river
-
-</div>
-
 <button class="primary"
-        onclick="parseCurrentHand()">
-
-🧠 ANALISAR SCREENSHOT
-
+        onclick="saveHand()">
+💾 Salvar mão
 </button>
 
-<div class="progress">
-<div id="progress"></div>
-</div>
-
-<div id="ocrStatus"
-     class="small muted">
-</div>
+<button class="secondary"
+        onclick="exportHand()">
+⬇️ Exportar JSON
+</button>
 
 </div>
-
-<div id="result"></div>
-
-<div id="manualEditor"></div>
 
 </section>
 
 
-<!-- PLAYERS -->
+<!-- DATABASE -->
 
-<section id="players"
-         class="section">
+<section id="pageDB" class="hidden">
 
 <div class="card">
 
-<h2>👤 Banco de oponentes</h2>
+<h2>🗃️ Banco de mãos</h2>
 
-<div id="playerList"></div>
+<div id="database"></div>
 
 </div>
 
@@ -562,2139 +511,1239 @@ Ela divide a imagem em:
 
 </main>
 
+<footer>
+Cérebro V2.5 • análise offline da screenshot após carregamento do OCR
+</footer>
+
 
 <script>
 
-/* =====================================================
-DATABASE
-===================================================== */
+/* ============================================================
+   ESTADO
+============================================================ */
 
-const KEY="cerebro_v24";
+const state = {
 
-let DB={
-  hands:[],
-  players:[],
-  current:null
+  image:null,
+
+  imageWidth:0,
+  imageHeight:0,
+
+  regions:{},
+
+  ocr:{},
+
+  hand:null,
+
+  hands: JSON.parse(
+    localStorage.getItem("cerebro_hands_v25") || "[]"
+  )
+
 };
 
-let imageDB=null;
 
-load();
+/* ============================================================
+   REGIÕES PADRÃO
+   Valores iniciais aproximados para screenshot 1080x1920.
+   O usuário deve calibrar.
+============================================================ */
 
+const defaultRegions = {
 
-/* =====================================================
-LOCAL STORAGE
-===================================================== */
+  blinds:{
+    x:0,
+    y:630,
+    w:216,
+    h:1290
+  },
 
-function load(){
+  preflop:{
+    x:216,
+    y:630,
+    w:216,
+    h:1290
+  },
 
-  try{
+  flop:{
+    x:432,
+    y:630,
+    w:216,
+    h:1290
+  },
 
-    const raw=
-      localStorage.getItem(KEY);
+  turn:{
+    x:648,
+    y:630,
+    w:216,
+    h:1290
+  },
 
-    if(raw)
-      DB=JSON.parse(raw);
+  river:{
+    x:864,
+    y:630,
+    w:216,
+    h:1290
+  },
 
-  }catch(e){
-
-    console.error(e);
-
+  table:{
+    x:0,
+    y:0,
+    w:1080,
+    h:630
   }
 
-}
+};
 
-function save(){
 
-  localStorage.setItem(
-    KEY,
-    JSON.stringify(DB)
-  );
+/* ============================================================
+   NAVEGAÇÃO
+============================================================ */
 
-}
+const pages = {
+  tabImport:"pageImport",
+  tabCal:"pageCal",
+  tabOCR:"pageOCR",
+  tabRecon:"pageRecon",
+  tabDB:"pageDB"
+};
 
+Object.entries(pages).forEach(([tab,page])=>{
 
-/* =====================================================
-IMAGE DATABASE
-===================================================== */
+  document.getElementById(tab).onclick=()=>{
 
-function openImageDB(){
+    Object.values(pages).forEach(p=>{
+      document.getElementById(p).classList.add("hidden");
+    });
 
-  return new Promise((resolve,reject)=>{
+    Object.keys(pages).forEach(t=>{
+      document.getElementById(t).classList.remove("active");
+    });
 
-    const request=
-      indexedDB.open(
-        "cerebro_v24_images",
-        1
-      );
+    document.getElementById(page).classList.remove("hidden");
+    document.getElementById(tab).classList.add("active");
 
-    request.onupgradeneeded=e=>{
-
-      const db=e.target.result;
-
-      if(!db.objectStoreNames.contains("images")){
-
-        db.createObjectStore(
-          "images",
-          {keyPath:"id"}
-        );
-
-      }
-
-    };
-
-    request.onsuccess=e=>{
-
-      imageDB=e.target.result;
-
-      resolve(imageDB);
-
-    };
-
-    request.onerror=reject;
-
-  });
-
-}
-
-function putImage(id,data){
-
-  return new Promise((resolve,reject)=>{
-
-    const tx=
-      imageDB.transaction(
-        "images",
-        "readwrite"
-      );
-
-    tx.objectStore("images")
-      .put({id,data});
-
-    tx.oncomplete=resolve;
-    tx.onerror=reject;
-
-  });
-
-}
-
-function getImage(id){
-
-  return new Promise((resolve,reject)=>{
-
-    if(!id){
-
-      resolve("");
-
-      return;
-
-    }
-
-    const tx=
-      imageDB.transaction(
-        "images",
-        "readonly"
-      );
-
-    const request=
-      tx.objectStore("images")
-      .get(id);
-
-    request.onsuccess=()=>{
-
-      resolve(
-        request.result?.data || ""
-      );
-
-    };
-
-    request.onerror=reject;
-
-  });
-
-}
-
-
-/* =====================================================
-NAV
-===================================================== */
-
-function show(id,button){
-
-  document
-    .querySelectorAll(".section")
-    .forEach(x=>
-      x.classList.remove("active")
-    );
-
-  document
-    .getElementById(id)
-    .classList.add("active");
-
-  document
-    .querySelectorAll("nav button")
-    .forEach(x=>
-      x.classList.remove("active")
-    );
-
-  if(button)
-    button.classList.add("active");
-
-  refresh();
-
-}
-
-function go(id){
-
-  const map={
-    home:"Início",
-    import:"Importar",
-    hands:"Mãos",
-    reconstruct:"Reconstrução",
-    players:"Oponentes"
-  };
-
-  const button=
-    [...document.querySelectorAll("nav button")]
-      .find(
-        x=>x.textContent.includes(map[id])
-      );
-
-  show(id,button);
-
-}
-
-
-/* =====================================================
-IMPORT
-===================================================== */
-
-async function importHand(event){
-
-  await openImageDB();
-
-  const file=
-    event.target.files[0];
-
-  if(!file)
-    return;
-
-  const data=
-    await readFile(file);
-
-  const imageId=
-    "img_"+Date.now();
-
-  await putImage(
-    imageId,
-    data
-  );
-
-  const hand={
-
-    id:
-      "hand_"+Date.now(),
-
-    imageId,
-
-    created:
-      new Date().toISOString(),
-
-    parsed:null,
-
-    confirmed:false
+    if(page==="pageCal") renderRegions();
+    if(page==="pageDB") renderDatabase();
 
   };
 
-  DB.hands.push(hand);
-
-  DB.current=
-    hand.id;
-
-  save();
-
-  document.getElementById(
-    "importStatus"
-  ).innerHTML=
-  `
-  <span class="green">
-  Screenshot importada.
-  </span>
-  `;
-
-  await openHand(hand.id);
-
-}
-
-function readFile(file){
-
-  return new Promise((resolve,reject)=>{
-
-    const reader=
-      new FileReader();
-
-    reader.onload=
-      ()=>resolve(reader.result);
-
-    reader.onerror=
-      reject;
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
+});
 
 
-/* =====================================================
-OPEN HAND
-===================================================== */
+/* ============================================================
+   IMPORTAÇÃO
+============================================================ */
 
-async function openHand(id){
+document.getElementById("imageInput").addEventListener(
+"change",
+async e=>{
 
-  DB.current=id;
+  const file=e.target.files[0];
 
-  save();
+  if(!file)return;
 
-  const hand=
-    DB.hands.find(
-      h=>h.id===id
-    );
+  const reader=new FileReader();
 
-  if(!hand)
-    return;
+  reader.onload=()=>{
 
-  const image=
-    await getImage(hand.imageId);
+    state.image=reader.result;
 
-  document.getElementById(
-    "sourceImage"
-  ).innerHTML=
-  `
-  <div class="card">
-
-    <h2>📸 Screenshot original</h2>
-
-    <img
-      src="${image}"
-      style="
-        width:100%;
-        max-height:700px;
-        object-fit:contain;
-        background:#05070a;
-        border-radius:12px;
-      "
-    >
-
-  </div>
-  `;
-
-  renderParsed(hand.parsed);
-
-  go("reconstruct");
-
-}
-
-
-/* =====================================================
-IMAGE → CANVAS
-===================================================== */
-
-function loadCanvas(data){
-
-  return new Promise((resolve,reject)=>{
-
-    const img=
-      new Image();
+    const img=document.getElementById("sourceImage");
 
     img.onload=()=>{
 
-      const canvas=
-        document.createElement("canvas");
+      state.imageWidth=img.naturalWidth;
+      state.imageHeight=img.naturalHeight;
 
-      canvas.width=
-        img.naturalWidth;
+      document.getElementById("imageInfo").classList.remove("hidden");
 
-      canvas.height=
-        img.naturalHeight;
+      document.getElementById("imageInfo").innerHTML=
+      `
+      <b>Imagem carregada</b><br>
+      ${state.imageWidth} × ${state.imageHeight}px
+      `;
 
-      const ctx=
-        canvas.getContext("2d");
+      document.getElementById("previewCard")
+      .classList.remove("hidden");
 
-      ctx.drawImage(
-        img,
-        0,
-        0
-      );
-
-      resolve({
-        canvas,
-        ctx,
-        width:img.naturalWidth,
-        height:img.naturalHeight
-      });
+      loadCalibration();
 
     };
 
-    img.onerror=reject;
+    img.src=state.image;
 
-    img.src=data;
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* ============================================================
+   CALIBRAÇÃO
+============================================================ */
+
+function loadCalibration(){
+
+  const saved=
+    JSON.parse(
+      localStorage.getItem("cerebro_calibration_v25") || "null"
+    );
+
+  if(saved){
+
+    state.regions=saved;
+
+  }else{
+
+    state.regions=
+      JSON.parse(JSON.stringify(defaultRegions));
+
+  }
+
+  renderRegions();
+
+}
+
+
+function renderRegions(){
+
+  const layer=
+    document.getElementById("calibrationLayer");
+
+  if(!layer)return;
+
+  layer.innerHTML="";
+
+  if(!state.imageWidth)return;
+
+  Object.entries(state.regions).forEach(([type,r])=>{
+
+    const div=document.createElement("div");
+
+    div.className="region";
+    div.dataset.type=type;
+
+    div.style.left=
+      (r.x/state.imageWidth*100)+"%";
+
+    div.style.top=
+      (r.y/state.imageHeight*100)+"%";
+
+    div.style.width=
+      (r.w/state.imageWidth*100)+"%";
+
+    div.style.height=
+      (r.h/state.imageHeight*100)+"%";
+
+    div.innerHTML=
+      `<div class="tag">${regionName(type)}</div>`;
+
+    layer.appendChild(div);
+
+  });
+
+  renderRegionList();
+
+}
+
+
+function regionName(type){
+
+  return {
+
+    blinds:"BLINDS",
+    preflop:"PRÉ-FLOP",
+    flop:"FLOP",
+    turn:"TURN",
+    river:"RIVER",
+    table:"MESA"
+
+  }[type] || type;
+
+}
+
+
+function addRegion(){
+
+  if(!state.imageWidth)return;
+
+  const type=
+    document.getElementById("regionSelect").value;
+
+  /*
+    Nesta V2.5 usamos uma caixa inicial.
+    A posição pode ser alterada pelos campos abaixo.
+  */
+
+  const r=
+    state.regions[type] ||
+    {
+      x:0,
+      y:0,
+      w:300,
+      h:300
+    };
+
+  const x=prompt(
+    "X (pixels)",
+    r.x
+  );
+
+  if(x===null)return;
+
+  const y=prompt(
+    "Y (pixels)",
+    r.y
+  );
+
+  if(y===null)return;
+
+  const w=prompt(
+    "Largura (pixels)",
+    r.w
+  );
+
+  if(w===null)return;
+
+  const h=prompt(
+    "Altura (pixels)",
+    r.h
+  );
+
+  if(h===null)return;
+
+  state.regions[type]={
+
+    x:Number(x),
+    y:Number(y),
+    w:Number(w),
+    h:Number(h)
+
+  };
+
+  renderRegions();
+
+}
+
+
+function saveCalibration(){
+
+  localStorage.setItem(
+    "cerebro_calibration_v25",
+    JSON.stringify(state.regions)
+  );
+
+  alert("Calibração salva.");
+
+}
+
+
+function renderRegionList(){
+
+  const box=
+    document.getElementById("regionList");
+
+  box.innerHTML="";
+
+  Object.entries(state.regions).forEach(([type,r])=>{
+
+    const div=document.createElement("div");
+
+    div.className="stat";
+
+    div.style.marginBottom="7px";
+
+    div.innerHTML=
+    `
+      <strong>${regionName(type)}</strong>
+      X:${Math.round(r.x)}
+      Y:${Math.round(r.y)}
+      W:${Math.round(r.w)}
+      H:${Math.round(r.h)}
+    `;
+
+    box.appendChild(div);
 
   });
 
 }
 
 
-/* =====================================================
-CROP
-===================================================== */
+/* ============================================================
+   CANVAS / PREPROCESSAMENTO
+============================================================ */
 
-function cropCanvas(
-  source,
-  x,
-  y,
-  w,
-  h
-){
+function cropImage(source,type){
 
-  const canvas=
-    document.createElement("canvas");
+  return new Promise(resolve=>{
 
-  canvas.width=
-    Math.round(
-      source.width*w
-    );
+    const img=new Image();
 
-  canvas.height=
-    Math.round(
-      source.height*h
-    );
+    img.onload=()=>{
 
-  const ctx=
-    canvas.getContext("2d");
+      const r=state.regions[type];
 
-  ctx.drawImage(
+      const scale=3;
 
-    source.canvas,
+      const canvas=document.createElement("canvas");
 
-    Math.round(
-      source.width*x
-    ),
+      canvas.width=r.w*scale;
+      canvas.height=r.h*scale;
 
-    Math.round(
-      source.height*y
-    ),
+      const ctx=canvas.getContext("2d");
 
-    Math.round(
-      source.width*w
-    ),
+      ctx.imageSmoothingEnabled=false;
 
-    Math.round(
-      source.height*h
-    ),
+      ctx.drawImage(
+        img,
+        r.x,
+        r.y,
+        r.w,
+        r.h,
+        0,
+        0,
+        r.w*scale,
+        r.h*scale
+      );
 
-    0,
-    0,
-    canvas.width,
-    canvas.height
+      /*
+        Grayscale + contraste
+      */
 
-  );
+      const data=
+        ctx.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
-  return canvas;
+      for(let i=0;i<data.data.length;i+=4){
+
+        const r=data.data[i];
+        const g=data.data[i+1];
+        const b=data.data[i+2];
+
+        let gray=
+          0.299*r+
+          0.587*g+
+          0.114*b;
+
+        gray=(gray-128)*1.45+128;
+
+        gray=Math.max(
+          0,
+          Math.min(255,gray)
+        );
+
+        data.data[i]=gray;
+        data.data[i+1]=gray;
+        data.data[i+2]=gray;
+
+      }
+
+      ctx.putImageData(data,0,0);
+
+      resolve(canvas.toDataURL("image/png"));
+
+    };
+
+    img.src=source;
+
+  });
 
 }
 
 
-/* =====================================================
-OCR
-===================================================== */
+/* ============================================================
+   OCR
+============================================================ */
 
 let worker=null;
 
+
 async function getWorker(){
 
-  if(worker)
-    return worker;
+  if(worker)return worker;
+
+  setOCRStatus(
+    "Carregando mecanismo OCR..."
+  );
 
   worker=
-    await Tesseract.createWorker(
-      "eng",
-      1,
-      {
+    await Tesseract.createWorker("eng");
 
-        logger:m=>{
+  await worker.setParameters({
 
-          if(
-            m.status===
-              "recognizing text"
-          ){
+    tessedit_pageseg_mode:
+      "6",
 
-            setProgress(
-              Math.round(
-                m.progress*100
-              )
-            );
+    preserve_interword_spaces:
+      "1"
 
-          }
-
-        }
-
-      }
-    );
+  });
 
   return worker;
 
 }
 
-async function ocrCanvas(canvas){
 
-  const w=
-    await getWorker();
+function setOCRStatus(text){
 
-  const result=
-    await w.recognize(canvas);
-
-  return result.data.text||"";
+  document.getElementById("ocrStatus")
+  .innerHTML=
+  `<div class="status">${text}</div>`;
 
 }
 
 
-/* =====================================================
-KKPOKER REGIONS
-===================================================== */
+document.getElementById("runOCR").onclick=
+async()=>{
 
-/*
-A screenshot de referência possui:
+  if(!state.image){
 
-1080-ish x 1920-ish
+    alert("Primeiro carregue uma screenshot.");
 
-A arquitetura abaixo usa COORDENADAS RELATIVAS,
-portanto continua funcionando em diferentes
-resoluções mantendo a mesma proporção.
-*/
+    return;
 
-const KK_REGIONS={
+  }
 
-  table:{
-    x:0,
-    y:0,
-    w:1,
-    h:.55
-  },
+  if(!Object.keys(state.regions).length){
 
-  actionPanel:{
-    x:0,
-    y:.545,
-    w:1,
-    h:.455
-  },
+    alert("Calibre as regiões primeiro.");
 
-  blinds:{
-    x:0,
-    y:.545,
-    w:.20,
-    h:.455
-  },
+    return;
 
-  preflop:{
-    x:.20,
-    y:.545,
-    w:.20,
-    h:.455
-  },
+  }
 
-  flop:{
-    x:.40,
-    y:.545,
-    w:.20,
-    h:.455
-  },
+  try{
 
-  turn:{
-    x:.60,
-    y:.545,
-    w:.20,
-    h:.455
-  },
+    const w=await getWorker();
 
-  river:{
-    x:.80,
-    y:.545,
-    w:.20,
-    h:.455
+    state.ocr={};
+
+    const types=[
+      "blinds",
+      "preflop",
+      "flop",
+      "turn",
+      "river",
+      "table"
+    ];
+
+    for(let i=0;i<types.length;i++){
+
+      const type=types[i];
+
+      setOCRStatus(
+        `OCR ${i+1}/${types.length}: ${regionName(type)}...`
+      );
+
+      const cropped=
+        await cropImage(state.image,type);
+
+      const result=
+        await w.recognize(cropped);
+
+      state.ocr[type]=
+        result.data.text || "";
+
+    }
+
+    setOCRStatus(
+      "OCR concluído. Reconstruindo mão..."
+    );
+
+    buildHand();
+
+    renderOCR();
+
+    renderReconstruction();
+
+    document.getElementById("tabRecon").click();
+
+  }catch(err){
+
+    console.error(err);
+
+    document.getElementById("ocrStatus")
+    .innerHTML=
+    `<div class="error">
+      Erro no OCR: ${err.message}
+    </div>`;
+
   }
 
 };
 
 
-/* =====================================================
-PARSER PRINCIPAL
-===================================================== */
+/* ============================================================
+   RENDER OCR
+============================================================ */
 
-async function parseCurrentHand(){
+function renderOCR(){
 
-  const hand=
-    DB.hands.find(
-      h=>h.id===DB.current
-    );
+  const box=
+    document.getElementById("ocrResults");
 
-  if(!hand)
-    return;
+  box.innerHTML="";
 
-  const image=
-    await getImage(hand.imageId);
+  Object.entries(state.ocr).forEach(([type,text])=>{
 
-  const source=
-    await loadCanvas(image);
+    const div=document.createElement("div");
 
-  setProgress(3);
+    div.className="card";
 
-  document.getElementById(
-    "ocrStatus"
-  ).textContent=
-    "Separando regiões do KKPoker...";
+    div.innerHTML=
+    `
+      <h3>${regionName(type)}</h3>
+      <pre>${escapeHTML(text)}</pre>
+    `;
 
-  const texts={};
+    box.appendChild(div);
 
-  for(
-    const [name,region]
-    of Object.entries(KK_REGIONS)
-  ){
-
-    if(
-      name==="table"
-    )
-      continue;
-
-    const crop=
-      cropCanvas(
-        source,
-        region.x,
-        region.y,
-        region.w,
-        region.h
-      );
-
-    document.getElementById(
-      "ocrStatus"
-    ).textContent=
-      "Lendo "+name+"...";
-
-    texts[name]=
-      await ocrCanvas(crop);
-
-  }
-
-  setProgress(85);
-
-  const tableCrop=
-    cropCanvas(
-      source,
-      KK_REGIONS.table.x,
-      KK_REGIONS.table.y,
-      KK_REGIONS.table.w,
-      KK_REGIONS.table.h
-    );
-
-  texts.table=
-    await ocrCanvas(
-      tableCrop
-    );
-
-  document.getElementById(
-    "ocrStatus"
-  ).textContent=
-    "Interpretando histórico...";
-
-  const parsed=
-    buildKKGameState(
-      texts
-    );
-
-  parsed.raw=texts;
-
-  hand.parsed=
-    parsed;
-
-  hand.confirmed=false;
-
-  save();
-
-  setProgress(100);
-
-  document.getElementById(
-    "ocrStatus"
-  ).textContent=
-    "Reconstrução concluída.";
-
-  renderParsed(parsed);
+  });
 
 }
 
 
-/* =====================================================
-ACTION PARSER
-===================================================== */
+/* ============================================================
+   PARSER
+============================================================ */
 
-const ACTIONS=[
-  "fold",
-  "check",
-  "call",
-  "bet",
-  "raise",
-  "all-in",
-  "all in"
-];
+const actionRegex=
+  /\b(fold|call|raise|all[\s-]?in|check|bet)\b/i;
 
-function parseActions(text){
+function normalizeText(text){
 
-  const lines=
-    text
-      .split(/\r?\n/)
-      .map(x=>
-        cleanLine(x)
-      )
-      .filter(Boolean);
+  return text
 
-  const actions=[];
+    .replace(/[|]/g," ")
 
-  let currentPlayer=null;
+    .replace(/\s+/g," ")
 
-  for(let i=0;i<lines.length;i++){
+    .replace(/al1-in/gi,"all-in")
 
-    const line=lines[i];
+    .replace(/allin/gi,"all-in")
 
-    const lower=
-      line.toLowerCase();
-
-    /*
-    posição
-    */
-
-    const position=
-      line.match(
-        /\b(UTG\+1|UTG|MP|HJ|CO|BTN|SB|BB)\b/i
-      );
-
-    /*
-    Às vezes o KKPoker coloca nickname
-    e posição em uma linha.
-    */
-
-    if(position){
-
-      const before=
-        line
-          .replace(
-            position[0],
-            ""
-          )
-          .trim();
-
-      if(
-        before.length>1
-      ){
-
-        currentPlayer={
-          name:before,
-          position:
-            normalizePosition(
-              position[0]
-            )
-        };
-
-      }
-
-    }
-
-    /*
-    ação
-    */
-
-    const action=
-      detectAction(lower);
-
-    if(action){
-
-      let amount="";
-
-      const amountMatch=
-        line.match(
-          /(\d[\d.,]*\s*[kKmM]?)/
-        );
-
-      if(amountMatch)
-        amount=
-          normalizeAmount(
-            amountMatch[1]
-          );
-
-      /*
-      Se a ação está separada em uma
-      linha seguinte ao nickname.
-      */
-
-      if(
-        !amount &&
-        i+1<lines.length
-      ){
-
-        const next=
-          lines[i+1]
-            .match(
-              /(\d[\d.,]*\s*[kKmM]?)/
-            );
-
-        if(next){
-
-          amount=
-            normalizeAmount(
-              next[1]
-            );
-
-        }
-
-      }
-
-      actions.push({
-
-        player:
-          currentPlayer?.name||"",
-
-        position:
-          currentPlayer?.position||"",
-
-        action,
-
-        amount,
-
-        source:line,
-
-        confidence:
-          calculateActionConfidence(
-            currentPlayer,
-            action,
-            amount
-          )
-
-      });
-
-    }
-
-  }
-
-  return actions;
+    .trim();
 
 }
 
-function detectAction(text){
 
-  if(/\ball[- ]?in\b/.test(text))
+function extractNumber(text){
+
+  if(!text)return null;
+
+  const matches=
+    text.match(
+      /(?:\d{1,3}(?:[.,]\d{3})+|\d+(?:[.,]\d+)?\s*[kK]?)/g
+    );
+
+  if(!matches)return null;
+
+  let raw=
+    matches[matches.length-1]
+    .replace(/\s/g,"")
+    .replace(/,/g,"");
+
+  if(/k$/i.test(raw)){
+
+    raw=
+      parseFloat(raw.replace(/k/i,""))*
+      1000;
+
+  }else{
+
+    raw=
+      parseFloat(raw);
+
+  }
+
+  return Number.isFinite(raw)
+    ? Math.round(raw)
+    : null;
+
+}
+
+
+function cleanAction(text){
+
+  const t=text.toLowerCase();
+
+  if(t.includes("all-in")||
+     t.includes("all in"))
     return "All-In";
 
-  if(/\braise\b/.test(text))
+  if(t.includes("raise"))
     return "Raise";
 
-  if(/\bcall\b/.test(text))
+  if(t.includes("call"))
     return "Call";
 
-  if(/\bcheck\b/.test(text))
+  if(t.includes("fold"))
+    return "Fold";
+
+  if(t.includes("check"))
     return "Check";
 
-  if(/\bbet\b/.test(text))
+  if(t.includes("bet"))
     return "Bet";
-
-  if(/\bfold\b/.test(text))
-    return "Fold";
 
   return null;
 
 }
 
-function calculateActionConfidence(
-  player,
-  action,
-  amount
-){
 
-  let score=.55;
+function parseColumn(text,type){
 
-  if(player)
-    score+=.20;
-
-  if(action)
-    score+=.15;
-
-  if(amount)
-    score+=.08;
-
-  return Math.min(
-    .99,
-    score
-  );
-
-}
-
-
-/* =====================================================
-PLAYERS
-===================================================== */
-
-function parsePlayers(
-  tableText,
-  actionText
-){
+  const lines=
+    text
+      .split(/\n+/)
+      .map(x=>x.trim())
+      .filter(Boolean);
 
   const result=[];
 
-  const positions=[
-    "UTG",
-    "UTG+1",
-    "MP",
-    "HJ",
-    "CO",
-    "BTN",
-    "SB",
-    "BB"
-  ];
+  lines.forEach(line=>{
 
-  const combined=
-    tableText+"\n"+actionText;
+    const action=
+      cleanAction(line);
 
-  const lines=
-    combined
-      .split(/\r?\n/)
-      .map(cleanLine)
-      .filter(Boolean);
+    if(!action)return;
 
-  for(
-    const position of positions
-  ){
+    const value=
+      extractNumber(line);
 
-    const regex=
-      new RegExp(
-        "(.{2,25})\\s+"+
-        escapeRegex(position)+
-        "\\b",
-        "i"
-      );
+    let confidence=0.65;
 
-    for(
-      const line of lines
-    ){
+    if(action)confidence+=0.15;
+    if(value!==null)confidence+=0.10;
 
-      const match=
-        line.match(regex);
+    /*
+      Se a linha contém apenas a ação,
+      não inventamos jogador/valor.
+    */
 
-      if(match){
+    result.push({
 
-        const name=
-          cleanPlayerName(
-            match[1]
-          );
+      street:
+        type==="preflop"
+          ? "Preflop"
+          : type.charAt(0).toUpperCase()+type.slice(1),
 
-        if(
-          name &&
-          !result.some(
-            p=>
-              p.name.toLowerCase()===
-              name.toLowerCase()
-          )
-        ){
+      raw:line,
 
-          result.push({
+      player:null,
 
-            name,
+      action,
 
-            position,
+      amount:value,
 
-            stack:
-              extractStack(line),
+      confidence:
+        Math.min(confidence,0.95)
 
-            cards:"",
+    });
 
-            confidence:.70
-
-          });
-
-        }
-
-        break;
-
-      }
-
-    }
-
-  }
+  });
 
   return result;
 
 }
 
 
-/* =====================================================
-GAME STATE
-===================================================== */
+/* ============================================================
+   CONSTRUÇÃO DA MÃO
+============================================================ */
 
-function buildKKGameState(
-  texts
-){
+function buildHand(){
 
-  const preflop=
-    parseActions(
-      texts.preflop||""
-    );
+  const actions=[];
 
-  const flop=
-    parseActions(
-      texts.flop||""
-    );
+  ["blinds","preflop","flop","turn","river"]
+  .forEach(type=>{
 
-  const turn=
-    parseActions(
-      texts.turn||""
-    );
+    if(state.ocr[type]){
 
-  const river=
-    parseActions(
-      texts.river||""
-    );
+      actions.push(
+        ...parseColumn(
+          state.ocr[type],
+          type
+        )
+      );
 
-  const allActions=[
-    ...preflop,
-    ...flop,
-    ...turn,
-    ...river
-  ];
+    }
 
-  const players=
-    mergePlayers(
-      parsePlayers(
-        texts.table||"",
-        texts.preflop||""
-      ),
-      allActions
-    );
+  });
 
-  const cards=
-    detectCards(
-      texts.table||""
-    );
+  const preflopPlayers=
+    actions.filter(
+      x=>x.street==="Preflop"
+    ).length;
 
-  const board=
-    detectBoard(
-      texts.table||""
-    );
-
-  const pot=
-    detectPot(
-      texts.table||""
-    );
+  let multiway=
+    preflopPlayers>=3;
 
   /*
-  Hero é identificado preferencialmente
-  pela posição CO + cartas visíveis.
+    Cartas / board podem ser melhorados nas próximas versões.
+    Por enquanto NÃO inventamos cartas.
   */
 
-  let hero=
-    players.find(
-      p=>p.position==="CO"
-    );
+  const avgConfidence=
+    actions.length
+      ? actions.reduce(
+          (a,b)=>a+b.confidence,0
+        )/actions.length
+      : 0;
 
-  if(!hero){
+  state.hand={
 
-    hero={
-      name:"",
-      position:"CO",
-      stack:"",
-      cards:"",
-      confidence:.35
-    };
+    id:
+      "CEREBRO-"+Date.now(),
 
-  }
+    created:
+      new Date().toISOString(),
 
-  hero.cards=
-    cards.hero.join(" ");
+    sourceImage:
+      state.image,
 
-  return{
+    imageWidth:
+      state.imageWidth,
 
-    name:
-      "KKPoker Hand",
+    imageHeight:
+      state.imageHeight,
 
-    game:
-      "NL Hold'em",
-
-    players,
-
-    multiway:
-      countActivePlayers(
-        allActions
-      )>2,
-
-    hero,
-
-    board:
-      board.join(" "),
-
-    finalPot:
-      pot,
+    actions,
 
     streets:{
 
-      blinds:
-        parseActions(
-          texts.blinds||""
-        ),
+      preflop:
+        state.ocr.preflop || "",
 
-      preflop,
+      flop:
+        state.ocr.flop || "",
 
-      flop,
+      turn:
+        state.ocr.turn || "",
 
-      turn,
-
-      river
+      river:
+        state.ocr.river || ""
 
     },
 
-    actions:
-      allActions,
+    multiway,
+
+    playerActionCount:
+      preflopPlayers,
 
     confidence:
-      calculateGameConfidence(
-        players,
-        allActions,
-        cards,
-        board
-      )
+      Math.round(avgConfidence*100),
+
+    rawOCR:
+      state.ocr
 
   };
 
 }
 
 
-/* =====================================================
-MERGE PLAYERS
-===================================================== */
+/* ============================================================
+   RECONSTRUÇÃO
+============================================================ */
 
-function mergePlayers(
-  players,
-  actions
-){
+function renderReconstruction(){
 
-  const output=[
-    ...players
-  ];
+  if(!state.hand)return;
 
-  actions.forEach(a=>{
+  const h=state.hand;
 
-    if(!a.player)
-      return;
-
-    const existing=
-      output.find(
-        p=>
-          p.name.toLowerCase()===
-          a.player.toLowerCase()
-      );
-
-    if(existing){
-
-      if(!existing.position)
-        existing.position=
-          a.position;
-
-    }else{
-
-      output.push({
-
-        name:a.player,
-
-        position:a.position,
-
-        stack:"",
-
-        cards:"",
-
-        confidence:
-          a.confidence
-
-      });
-
-    }
-
-  });
-
-  /*
-  garante que não teremos duplicatas
-  */
-
-  return output.filter(
-    (p,index,self)=>
-      index===
-      self.findIndex(
-        x=>
-          x.name.toLowerCase()===
-          p.name.toLowerCase()
-      )
-  );
-
-}
-
-
-/* =====================================================
-CARDS
-===================================================== */
-
-function detectCards(text){
-
-  /*
-  Reconhece formatos:
-
-  9c 9d
-  9♣ 9♦
-  9 C 9 D
-  */
-
-  const matches=
-    text.match(
-      /\b([2-9TJQKA])\s*([♠♥♦♣SHDC])\b/gi
-    )||[];
-
-  const normalized=
-    matches.map(
-      normalizeCard
-    );
-
-  /*
-  No layout KKPoker as duas cartas do
-  Hero aparecem juntas na região inferior
-  da mesa. Procuramos pares.
-  */
-
-  const hero=
-    findLikelyHeroCards(
-      normalized
-    );
-
-  return{
-
-    all:normalized,
-
-    hero
-
-  };
-
-}
-
-function normalizeCard(card){
-
-  const x=
-    card
-      .replace(/\s+/g,"")
-      .toUpperCase();
-
-  const rank=x[0];
-
-  const suit=x[1];
-
-  const map={
-    S:"♠",
-    H:"♥",
-    D:"♦",
-    C:"♣"
-  };
-
-  return(
-    rank+
-    (map[suit]||suit)
-  );
-
-}
-
-function findLikelyHeroCards(cards){
-
-  const result=[];
-
-  for(let i=0;i<cards.length;i++){
-
-    for(let j=i+1;j<cards.length;j++){
-
-      if(
-        cards[i]!==cards[j]
-      ){
-
-        result.push(
-          cards[i],
-          cards[j]
-        );
-
-        if(result.length===2)
-          return result;
-
-      }
-
-    }
-
-  }
-
-  return cards.slice(0,2);
-
-}
-
-
-/* =====================================================
-BOARD
-===================================================== */
-
-function detectBoard(text){
-
-  const matches=
-    text.match(
-      /\b([2-9TJQKA])\s*([♠♥♦♣SHDC])\b/gi
-    )||[];
-
-  const cards=
-    matches.map(
-      normalizeCard
-    );
-
-  /*
-  O board do KKPoker aparece no centro.
-  Tentamos localizar sequências de 3-5 cartas.
-  */
-
-  if(cards.length>=5)
-    return cards.slice(
-      cards.length-5
-    );
-
-  return cards;
-
-}
-
-
-/* =====================================================
-POT
-===================================================== */
-
-function detectPot(text){
-
-  const matches=
-    text.match(
-      /(?:pot|pote)\s*[:\-]?\s*([0-9.,]+[kKmM]?)/i
-    );
-
-  if(matches)
-    return matches[1];
-
-  /*
-  fallback para número com K
-  */
-
-  const k=
-    text.match(
-      /\b\d+(?:\.\d+)?K\b/
-    );
-
-  return k?k[0]:"";
-
-}
-
-
-/* =====================================================
-STACK
-===================================================== */
-
-function extractStack(line){
-
-  const matches=
-    line.match(
-      /(\d+(?:[.,]\d+)?\s*[kKmM]?)/
-    );
-
-  return matches
-    ?normalizeAmount(matches[1])
-    :"";
-
-}
-
-function normalizeAmount(value){
-
-  return value
-    .replace(/\s+/g,"")
-    .replace(",", ".");
-
-}
-
-
-/* =====================================================
-UTILITIES
-===================================================== */
-
-function cleanLine(line){
-
-  return line
-    .replace(/[|_]+/g," ")
-    .replace(/\s+/g," ")
-    .trim();
-
-}
-
-function cleanPlayerName(name){
-
-  return name
-    .replace(
-      /^(player|jogador)\s*\d*\s*/i,
-      ""
-    )
-    .replace(
-      /\d+(?:[.,]\d+)?[kKmM]?$/,
-      ""
-    )
-    .trim();
-
-}
-
-function normalizePosition(position){
-
-  return position
-    .toUpperCase()
-    .replace(/\s+/g,"");
-
-}
-
-function escapeRegex(value){
-
-  return value.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&"
-  );
-
-}
-
-function countActivePlayers(actions){
-
-  const names=
-    actions
-      .map(a=>a.player)
-      .filter(Boolean);
-
-  return new Set(
-    names.map(
-      x=>x.toLowerCase()
-    )
-  ).size;
-
-}
-
-function calculateGameConfidence(
-  players,
-  actions,
-  cards,
-  board
-){
-
-  let score=.20;
-
-  if(players.length>=6)
-    score+=.20;
-
-  if(actions.length>=5)
-    score+=.25;
-
-  if(cards.hero.length===2)
-    score+=.15;
-
-  if(board.length>=3)
-    score+=.10;
-
-  if(
-    actions.some(
-      a=>a.action==="All-In"
-    )
-  )
-    score+=.05;
-
-  return Math.min(
-    .98,
-    score
-  );
-
-}
-
-function setProgress(value){
-
-  document.getElementById(
-    "progress"
-  ).style.width=
-    value+"%";
-
-}
-
-
-/* =====================================================
-RENDER
-===================================================== */
-
-async function renderParsed(parsed){
-
-  const box=
-    document.getElementById(
-      "result"
-    );
-
-  if(!parsed){
-
-    box.innerHTML=
-    `
-    <div class="card">
-
-      <div class="empty">
-        Nenhuma reconstrução ainda.
-      </div>
-
-    </div>
-    `;
-
-    return;
-
-  }
-
-  const confidence=
-    Math.round(
-      parsed.confidence*100
-    );
-
-  let color=
-    confidence>=85
-      ?"green"
-      :confidence>=60
-        ?"yellow"
-        :"red";
-
-  box.innerHTML=
+  document.getElementById("handSummary")
+  .innerHTML=
   `
+  <div class="row">
 
-  <div class="card">
-
-    <h2>🧠 Game State detectado</h2>
-
-    <div class="${color}">
-
-      Confiança geral:
-      <strong>${confidence}%</strong>
-
+    <div class="stat">
+      <strong>${h.confidence}%</strong>
+      Confiança
     </div>
 
-    <div class="confidence">
-      <div
-        style="
-          width:${confidence}%;
-          background:
-          ${confidence>=85
-            ?"var(--green)"
-            :confidence>=60
-              ?"var(--yellow)"
-              :"var(--red)"};
-        "
-      ></div>
+    <div class="stat">
+      <strong>${h.actions.length}</strong>
+      Ações
     </div>
 
-  </div>
-
-
-  <div class="card">
-
-    <h2>👤 Hero</h2>
-
-    <div class="heroBox">
-
+    <div class="stat">
       <strong>
-        ${escapeHTML(
-          parsed.hero?.name||"Não identificado"
-        )}
+        ${h.multiway ? "SIM" : "NÃO"}
       </strong>
+      Multiway
+    </div>
 
-      <br>
+  </div>
 
-      <span class="tag">
-        ${escapeHTML(
-          parsed.hero?.position||"?"
-        )}
-      </span>
+  <br>
 
-      <br><br>
+  <div class="${
+    h.confidence>=80
+      ? "success"
+      : h.confidence>=60
+        ? "warning"
+        : "error"
+  }">
 
-      <div class="board">
-        ${escapeHTML(
-          parsed.hero?.cards||"?"
-        )}
+  ${
+    h.confidence>=80
+      ? "Reconstrução com boa confiança."
+      : h.confidence>=60
+        ? "Reconstrução parcial. Algumas informações precisam ser confirmadas."
+        : "Confiança baixa. NÃO use esta reconstrução como fato; revise o OCR."
+  }
+
+  </div>
+  `;
+
+
+  const box=
+    document.getElementById("actions");
+
+  box.innerHTML="";
+
+  if(!h.actions.length){
+
+    box.innerHTML=
+      `<div class="error">
+        Nenhuma ação foi reconhecida.
+        O próximo passo é ajustar a calibração da região.
+      </div>`;
+
+  }
+
+  h.actions.forEach((a,i)=>{
+
+    const pct=
+      Math.round(a.confidence*100);
+
+    const cls=
+      pct>=80
+        ? "high"
+        : pct>=60
+          ? "medium"
+          : "low";
+
+    const div=
+      document.createElement("div");
+
+    div.className="action";
+
+    div.innerHTML=
+    `
+      <span>${i+1}</span>
+
+      <div>
+        <span class="badge">
+          ${a.street}
+        </span>
+
+        ${escapeHTML(a.raw)}
       </div>
 
-    </div>
+      <div>
+        ${a.action}
+        ${
+          a.amount!==null
+            ? "<br>"+formatNumber(a.amount)
+            : ""
+        }
+      </div>
 
-  </div>
-
-
-  <div class="card">
-
-    <h2>🃏 Board</h2>
-
-    <div class="board">
-
-      ${escapeHTML(
-        parsed.board||"Não identificado"
-      )}
-
-    </div>
-
-    <br>
-
-    <span class="tag">
-
-      Pot:
-      ${escapeHTML(
-        parsed.finalPot||"?"
-      )}
-
-    </span>
-
-    <span class="tag">
-
-      ${
-        parsed.multiway
-          ?"MULTIWAY"
-          :"HEADS-UP"
-      }
-
-    </span>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>👥 Jogadores</h2>
-
-    ${
-      parsed.players.length
-      ?
-      parsed.players
-        .map(p=>`
-
-        <div class="player">
-
-          <strong>
-            ${escapeHTML(p.name)}
-          </strong>
-
-          <span class="tag">
-            ${escapeHTML(
-              p.position||"?"
-            )}
-          </span>
-
-          ${
-            p.stack
-            ?
-            `<span class="tag">
-              ${escapeHTML(p.stack)}
-            </span>`
-            :""
-          }
-
+      <div class="conf ${cls}">
+        ${pct}%
+        <div class="meter">
+          <span style="width:${pct}%"></span>
         </div>
-
-      `).join("")
-      :
-      `<div class="warning">
-        Nenhum jogador identificado.
-      </div>`
-    }
-
-  </div>
-
-
-  ${renderStreet(
-    "Pré-flop",
-    parsed.streets.preflop
-  )}
-
-  ${renderStreet(
-    "Flop",
-    parsed.streets.flop
-  )}
-
-  ${renderStreet(
-    "Turn",
-    parsed.streets.turn
-  )}
-
-  ${renderStreet(
-    "River",
-    parsed.streets.river
-  )}
-
-
-  <div class="card">
-
-    <h2>⚠️ Conferência</h2>
-
-    <div class="warning">
-
-      A reconstrução automática é uma
-      hipótese gerada a partir da imagem.
-
-      <br><br>
-
-      Antes de salvar como definitiva,
-      confira principalmente:
-
-      <br><br>
-
-      • valores das apostas<br>
-      • ordem das ações<br>
-      • nickname dos jogadores<br>
-      • cartas<br>
-      • board
-
-    </div>
-
-    <button
-      class="primary"
-      onclick="confirmParsed()">
-
-      ✓ CONFIRMAR E SALVAR
-
-    </button>
-
-  </div>
-
-  `;
-
-}
-
-
-function renderStreet(
-  title,
-  actions
-){
-
-  if(!actions?.length)
-    return "";
-
-  return`
-
-  <div class="card">
-
-    <div class="reconstruction">
-
-      <div class="streetTitle">
-        ${title}
       </div>
+    `;
 
-      <div class="streetBody">
-
-        ${actions.map(a=>`
-
-          <div class="row">
-
-            <div>
-
-              <strong>
-                ${escapeHTML(
-                  a.player||"?"
-                )}
-              </strong>
-
-              <br>
-
-              <span class="tag">
-                ${escapeHTML(
-                  a.position||"?"
-                )}
-              </span>
-
-            </div>
-
-            <div>
-
-              <strong>
-                ${escapeHTML(
-                  a.action
-                )}
-              </strong>
-
-              ${
-                a.amount
-                ?
-                `<br>
-                ${escapeHTML(
-                  a.amount
-                )}`
-                :""
-              }
-
-            </div>
-
-          </div>
-
-        `).join("")}
-
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-
-/* =====================================================
-CONFIRM
-===================================================== */
-
-function confirmParsed(){
-
-  const hand=
-    DB.hands.find(
-      h=>h.id===DB.current
-    );
-
-  if(!hand)
-    return;
-
-  hand.confirmed=true;
-
-  hand.status=
-    "Game State confirmado";
-
-  save();
-
-  updatePlayers(
-    hand.parsed
-  );
-
-  alert(
-    "Mão confirmada e salva no Cérebro."
-  );
-
-  refresh();
-
-}
-
-
-/* =====================================================
-PLAYER DATABASE
-===================================================== */
-
-function updatePlayers(game){
-
-  if(!game)
-    return;
-
-  game.players.forEach(p=>{
-
-    if(!p.name)
-      return;
-
-    const existing=
-      DB.players.find(
-        x=>
-          x.name.toLowerCase()===
-          p.name.toLowerCase()
-      );
-
-    if(existing){
-
-      existing.hands++;
-
-      if(
-        p.position &&
-        !existing.positions.includes(
-          p.position
-        )
-      ){
-
-        existing.positions.push(
-          p.position
-        );
-
-      }
-
-    }else{
-
-      DB.players.push({
-
-        name:p.name,
-
-        hands:1,
-
-        positions:
-          p.position
-            ?[p.position]
-            :[],
-
-        notes:"",
-
-        profile:
-          "Desconhecido"
-
-      });
-
-    }
+    box.appendChild(div);
 
   });
 
-  save();
+
+  document.getElementById("rawText").value=
+    Object.entries(state.ocr)
+      .map(([k,v])=>
+        `===== ${regionName(k)} =====\n${v}`
+      )
+      .join("\n\n");
 
 }
 
 
-/* =====================================================
-HANDS LIST
-===================================================== */
+function reparseText(){
 
-async function renderHands(){
+  const raw=
+    document.getElementById("rawText").value;
 
-  const box=
-    document.getElementById(
-      "handsList"
-    );
+  /*
+    Reprocessamento simples.
+    Mantém a possibilidade de editar
+    o OCR manualmente antes da reconstrução.
+  */
 
-  if(!box)
-    return;
+  const parts=
+    raw.split(/===== (.*?) =====/g);
 
-  if(!DB.hands.length){
+  const newOCR={};
 
-    box.innerHTML=
-    `
-    <div class="empty">
-      Nenhuma mão importada.
-    </div>
-    `;
+  for(let i=1;i<parts.length;i+=2){
+
+    const key=parts[i];
+    const value=parts[i+1] || "";
+
+    const type=
+      Object.keys(defaultRegions)
+        .find(
+          x=>regionName(x)===key
+        );
+
+    if(type)newOCR[type]=value;
+
+  }
+
+  state.ocr=newOCR;
+
+  buildHand();
+
+  renderReconstruction();
+
+}
+
+
+/* ============================================================
+   SALVAR
+============================================================ */
+
+function saveHand(){
+
+  if(!state.hand){
+
+    alert("Nenhuma mão reconstruída.");
 
     return;
 
   }
 
-  let html="";
+  /*
+    Não duplicar.
+  */
 
-  for(
-    const hand
-    of [...DB.hands].reverse()
-  ){
+  const existing=
+    state.hands.find(
+      h=>h.id===state.hand.id
+    );
 
-    const image=
-      await getImage(
-        hand.imageId
-      );
+  if(!existing){
 
-    const p=
-      hand.parsed;
+    state.hands.unshift(
+      state.hand
+    );
 
-    html+=`
+    localStorage.setItem(
+      "cerebro_hands_v25",
+      JSON.stringify(
+        state.hands
+      )
+    );
 
-    <div class="hand">
+  }
 
-      ${
-        image
-        ?
-        `<img src="${image}">`
-        :""
+  alert("Mão salva no banco local.");
+
+}
+
+
+function exportHand(){
+
+  if(!state.hand)return;
+
+  const blob=
+    new Blob(
+      [
+        JSON.stringify(
+          state.hand,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
       }
+    );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+
+  a.download=
+    state.hand.id+".json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* ============================================================
+   DATABASE
+============================================================ */
+
+function renderDatabase(){
+
+  const box=
+    document.getElementById("database");
+
+  if(!state.hands.length){
+
+    box.innerHTML=
+      `<div class="status">
+        Nenhuma mão salva ainda.
+      </div>`;
+
+    return;
+
+  }
+
+  box.innerHTML="";
+
+  state.hands.forEach((h,index)=>{
+
+    const div=
+      document.createElement("div");
+
+    div.className="card";
+
+    div.innerHTML=
+    `
+      <b>${h.id}</b>
 
       <br>
 
-      <strong>
-        ${
-          p?.hero?.name
-          ?
-          escapeHTML(
-            p.hero.name
-          )
-          :
-          "Mão importada"
-        }
-      </strong>
+      <small>
+        ${new Date(h.created).toLocaleString()}
+      </small>
 
-      <span class="tag">
+      <br><br>
 
-        ${
-          p?.multiway
-          ?"MULTIWAY"
-          :""
+      Confiança:
+      <b>${h.confidence}%</b>
 
-        }
+      &nbsp; | &nbsp;
 
-      </span>
+      Ações:
+      <b>${h.actions.length}</b>
 
-      <span class="tag">
+      &nbsp; | &nbsp;
 
-        ${
-          hand.confirmed
-          ?"✓ Confirmada"
-          :"Não confirmada"
-        }
-
-      </span>
+      Multiway:
+      <b>${h.multiway?"SIM":"NÃO"}</b>
 
       <br><br>
 
       <button
         class="secondary"
-        onclick=
-        "openHand('${hand.id}')">
-
-        🧩 ABRIR RECONSTRUÇÃO
-
+        onclick="loadHand(${index})">
+        Abrir
       </button>
 
-    </div>
-
+      <button
+        class="danger"
+        onclick="deleteHand(${index})">
+        Excluir
+      </button>
     `;
 
-  }
+    box.appendChild(div);
 
-  box.innerHTML=html;
+  });
 
 }
 
 
-/* =====================================================
-PLAYER LIST
-===================================================== */
+function loadHand(index){
 
-function renderPlayers(){
+  state.hand=
+    state.hands[index];
 
-  const box=
-    document.getElementById(
-      "playerList"
-    );
+  state.ocr=
+    state.hand.rawOCR || {};
 
-  if(!box)
+  renderReconstruction();
+
+  document.getElementById("tabRecon").click();
+
+}
+
+
+function deleteHand(index){
+
+  if(!confirm("Excluir esta mão?"))
     return;
 
-  if(!DB.players.length){
+  state.hands.splice(index,1);
 
-    box.innerHTML=
-    `
-    <div class="empty">
-      Ainda não há oponentes.
-    </div>
-    `;
+  localStorage.setItem(
+    "cerebro_hands_v25",
+    JSON.stringify(
+      state.hands
+    )
+  );
 
-    return;
-
-  }
-
-  box.innerHTML=
-    DB.players.map(p=>`
-
-      <div class="player">
-
-        <strong>
-          ${escapeHTML(p.name)}
-        </strong>
-
-        <span class="tag">
-          ${p.profile}
-        </span>
-
-        <span class="tag">
-          ${p.hands} mãos
-        </span>
-
-        <p class="small muted">
-
-          Posições:
-          ${p.positions.join(", ")}
-
-        </p>
-
-      </div>
-
-    `).join("");
+  renderDatabase();
 
 }
 
 
-/* =====================================================
-STATS
-===================================================== */
+/* ============================================================
+   UTILIDADES
+============================================================ */
 
-function renderStats(){
+function formatNumber(n){
 
-  document.getElementById(
-    "stats"
-  ).innerHTML=
-
-  `
-
-  <div class="tag">
-    ${DB.hands.length} mãos
-  </div>
-
-  <div class="tag">
-    ${
-      DB.hands.filter(
-        h=>h.parsed?.multiway
-      ).length
-    }
-    multiway
-  </div>
-
-  <div class="tag">
-    ${DB.players.length}
-    jogadores
-  </div>
-
-  `;
+  return Number(n)
+    .toLocaleString("pt-BR");
 
 }
 
 
-/* =====================================================
-REFRESH
-===================================================== */
+function escapeHTML(text){
 
-function refresh(){
-
-  load();
-
-  renderStats();
-
-  renderHands();
-
-  renderPlayers();
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* =====================================================
-ESCAPE
-===================================================== */
+/* ============================================================
+   INIT
+============================================================ */
 
-function escapeHTML(value){
-
-  return String(value??"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =====================================================
-START
-===================================================== */
-
-openImageDB()
-  .then(refresh)
-  .catch(refresh);
+state.regions=
+  JSON.parse(
+    localStorage.getItem(
+      "cerebro_calibration_v25"
+    ) ||
+    JSON.stringify(defaultRegions)
+  );
 
 </script>
 
