@@ -1,271 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0">
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1">
 
-<title>Cérebro Poker V2.3</title>
+<title>Cérebro Poker V2.4</title>
 
-<!-- OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 
 :root{
---bg:#070a10;
---card:#111722;
---card2:#192232;
---border:#29364a;
---text:#f5f7fa;
---muted:#8e9bad;
---green:#35d07f;
---red:#ff5964;
---yellow:#ffc857;
---blue:#55a7ff;
+  --bg:#070b11;
+  --card:#111823;
+  --card2:#192331;
+  --border:#2a384b;
+  --text:#f5f7fa;
+  --muted:#8e9bad;
+  --green:#32d17c;
+  --yellow:#ffc857;
+  --red:#ff5964;
+  --blue:#55a7ff;
 }
 
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-margin:0;
-background:var(--bg);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
 }
 
 header{
-padding:18px 16px 10px;
+  padding:18px 16px 8px;
 }
 
 .logo{
-font-size:27px;
-font-weight:900;
+  font-size:28px;
+  font-weight:900;
 }
 
-.subtitle{
-font-size:13px;
-color:var(--muted);
-margin-top:3px;
+.version{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
 }
 
 nav{
-display:flex;
-gap:7px;
-overflow-x:auto;
-padding:8px 12px 12px;
-border-bottom:1px solid var(--border);
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:8px 12px 12px;
+  border-bottom:1px solid var(--border);
 }
 
 nav button{
-white-space:nowrap;
-background:var(--card);
-color:var(--muted);
-border:1px solid var(--border);
-border-radius:20px;
-padding:9px 13px;
+  white-space:nowrap;
+  padding:9px 13px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--muted);
 }
 
 nav button.active{
-background:var(--green);
-color:#04130b;
-font-weight:900;
+  background:var(--green);
+  color:#03140a;
+  font-weight:900;
 }
 
 main{
-max-width:780px;
-margin:auto;
-padding:14px;
+  max-width:780px;
+  margin:auto;
+  padding:14px;
 }
 
 .section{
-display:none;
+  display:none;
 }
 
 .section.active{
-display:block;
+  display:block;
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:17px;
-padding:15px;
-margin-bottom:13px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+  margin-bottom:13px;
 }
 
-.card h2{
-margin:0 0 12px;
-font-size:18px;
+h2{
+  margin:0 0 12px;
+  font-size:18px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:9px;
-}
-
-.stat{
-background:var(--card2);
-padding:13px;
-border-radius:12px;
-}
-
-.stat-value{
-font-size:22px;
-font-weight:900;
-}
-
-.stat-label{
-font-size:11px;
-color:var(--muted);
-margin-top:3px;
-}
-
-input,
-select,
-textarea{
-width:100%;
-background:#0b1018;
-color:var(--text);
-border:1px solid var(--border);
-border-radius:10px;
-padding:11px;
-margin:5px 0 10px;
-font-size:15px;
-}
-
-textarea{
-min-height:85px;
+h3{
+  font-size:15px;
 }
 
 button.primary,
 button.secondary,
 button.danger{
-width:100%;
-border-radius:11px;
-padding:13px;
-font-weight:900;
-margin-top:6px;
+  width:100%;
+  padding:13px;
+  border-radius:11px;
+  font-weight:900;
+  margin-top:7px;
 }
 
 button.primary{
-background:var(--green);
-color:#04130b;
-border:0;
+  background:var(--green);
+  color:#03140a;
+  border:0;
 }
 
 button.secondary{
-background:var(--card2);
-color:var(--text);
-border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
 }
 
 button.danger{
-background:rgba(255,89,100,.1);
-color:var(--red);
-border:1px solid rgba(255,89,100,.3);
+  background:#291216;
+  color:var(--red);
+  border:1px solid #57303a;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#0a1018;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px;
+  margin:5px 0 10px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:90px;
 }
 
 .filebox{
-border:2px dashed var(--border);
-border-radius:14px;
-padding:20px 12px;
-text-align:center;
-background:#0b1018;
+  border:2px dashed var(--border);
+  background:#0b1119;
+  padding:22px 12px;
+  border-radius:14px;
+  text-align:center;
 }
 
 .filebox input{
-border:0;
+  border:0;
 }
 
-.hand{
-background:var(--card2);
-border-radius:14px;
-padding:12px;
-margin-bottom:12px;
+.notice,
+.warning,
+.success{
+  padding:11px;
+  border-radius:11px;
+  font-size:13px;
+  line-height:1.5;
 }
 
-.hand img{
-width:100%;
-max-height:520px;
-object-fit:contain;
-background:#05070a;
-border-radius:10px;
-margin-top:9px;
+.notice{
+  background:#0d1b2b;
+  border:1px solid #214668;
 }
 
-.editor-image{
-width:100%;
-max-height:680px;
-object-fit:contain;
-background:#05070a;
-border-radius:12px;
-border:1px solid var(--border);
+.warning{
+  background:#281f0e;
+  border:1px solid #59491e;
 }
 
-.image-caption{
-color:var(--muted);
-font-size:12px;
-margin-top:7px;
-line-height:1.4;
-}
-
-.player{
-background:#0c121b;
-border:1px solid var(--border);
-border-radius:12px;
-padding:11px;
-margin-bottom:9px;
-}
-
-.player-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:8px;
-}
-
-.street{
-border:1px solid var(--border);
-border-radius:13px;
-margin-bottom:11px;
-overflow:hidden;
-}
-
-.street-title{
-background:#1b2637;
-padding:10px 12px;
-font-weight:900;
-}
-
-.street-body{
-padding:10px;
-}
-
-.action{
-display:grid;
-grid-template-columns:1.2fr .8fr 1fr;
-gap:6px;
-align-items:center;
-margin-bottom:7px;
-}
-
-.tag{
-display:inline-block;
-font-size:11px;
-background:#283449;
-color:#c7d0dd;
-border-radius:7px;
-padding:4px 7px;
-margin:2px;
+.success{
+  background:#0c2116;
+  border:1px solid #205d38;
 }
 
 .green{color:var(--green);}
@@ -274,106 +200,127 @@ margin:2px;
 .blue{color:var(--blue);}
 .muted{color:var(--muted);}
 
-.small{
-font-size:12px;
-}
-
-.reason{
-line-height:1.55;
-color:#dce2ea;
-}
-
-.notice,
-.warning,
-.success{
-border-radius:11px;
-padding:11px;
-font-size:13px;
-line-height:1.5;
-}
-
-.notice{
-background:rgba(85,167,255,.08);
-border:1px solid rgba(85,167,255,.25);
-}
-
-.warning{
-background:rgba(255,200,87,.08);
-border:1px solid rgba(255,200,87,.25);
-}
-
-.success{
-background:rgba(53,208,127,.08);
-border:1px solid rgba(53,208,127,.25);
-}
-
-.ocr-box{
-background:#080d14;
-border:1px solid var(--border);
-border-radius:11px;
-padding:12px;
-font-size:13px;
-line-height:1.5;
-white-space:pre-wrap;
-max-height:300px;
-overflow:auto;
-}
-
-.confidence{
-height:7px;
-background:#263244;
-border-radius:10px;
-overflow:hidden;
-margin-top:6px;
-}
-
-.confidence div{
-height:100%;
-background:var(--green);
-}
-
-.empty{
-padding:25px 8px;
-text-align:center;
-color:var(--muted);
-}
-
 .progress{
-height:10px;
-background:#263244;
-border-radius:10px;
-overflow:hidden;
-margin:10px 0;
+  height:9px;
+  background:#273244;
+  border-radius:10px;
+  overflow:hidden;
+  margin:12px 0;
 }
 
 .progress div{
-height:100%;
-width:0%;
-background:var(--green);
-transition:.2s;
+  height:100%;
+  width:0;
+  background:var(--green);
+  transition:.2s;
 }
 
-hr{
-border:0;
-border-top:1px solid var(--border);
-margin:14px 0;
+.hand{
+  background:var(--card2);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px;
 }
 
-.auto-field{
-border:1px solid var(--border);
-border-radius:11px;
-padding:10px;
-margin-bottom:8px;
-background:#0c121b;
+.hand img{
+  width:100%;
+  max-height:650px;
+  object-fit:contain;
+  background:#05070a;
+  border-radius:10px;
+  margin-top:9px;
 }
 
-.auto-field strong{
-display:block;
-margin-bottom:3px;
+.action{
+  display:grid;
+  grid-template-columns:
+    1.2fr .8fr 1fr;
+  gap:6px;
+  margin-bottom:7px;
+}
+
+.player{
+  background:#0b1119;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:11px;
+  margin-bottom:9px;
+}
+
+.tag{
+  display:inline-block;
+  background:#283448;
+  border-radius:7px;
+  padding:4px 7px;
+  font-size:11px;
+  margin:2px;
+}
+
+.confidence{
+  height:7px;
+  background:#273244;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:6px;
+}
+
+.confidence div{
+  height:100%;
+}
+
+.reconstruction{
+  border:1px solid var(--border);
+  border-radius:13px;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+
+.streetTitle{
+  background:#1a2636;
+  padding:10px;
+  font-weight:900;
+}
+
+.streetBody{
+  padding:10px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:9px 4px;
+  border-bottom:1px solid #202b3b;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.small{
+  font-size:12px;
+}
+
+.empty{
+  text-align:center;
+  padding:25px 10px;
+  color:var(--muted);
+}
+
+.heroBox{
+  background:#0c2116;
+  border:1px solid #23643c;
+  border-radius:13px;
+  padding:13px;
+}
+
+.board{
+  font-size:21px;
+  letter-spacing:4px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -382,16 +329,16 @@ margin-bottom:3px;
 
 <div class="logo">🧠 Cérebro</div>
 
-<div class="subtitle">
-Poker Coach · V2.3 · Auto Reconstruction
+<div class="version">
+V2.4 · KKPoker Auto Parser
 </div>
 
 </header>
 
-
 <nav>
 
-<button class="active" onclick="show('home',this)">
+<button class="active"
+        onclick="show('home',this)">
 Início
 </button>
 
@@ -403,16 +350,12 @@ Início
 ♠️ Mãos
 </button>
 
-<button onclick="show('editor',this)">
-🧩 Reconstruir
+<button onclick="show('reconstruct',this)">
+🧩 Reconstrução
 </button>
 
 <button onclick="show('players',this)">
 👤 Oponentes
-</button>
-
-<button onclick="show('study',this)">
-📚 Estudo
 </button>
 
 </nav>
@@ -423,79 +366,66 @@ Início
 
 <!-- HOME -->
 
-<section id="home" class="section active">
+<section id="home"
+         class="section active">
 
 <div class="card">
 
-<h2>🧠 Estado do Cérebro</h2>
+<h2>🧠 Cérebro V2.4</h2>
 
-<div class="grid">
+<div class="success">
 
-<div class="stat">
-<div class="stat-value" id="countHands">0</div>
-<div class="stat-label">mãos</div>
-</div>
-
-<div class="stat">
-<div class="stat-value" id="countPlayers">0</div>
-<div class="stat-label">oponentes</div>
-</div>
-
-<div class="stat">
-<div class="stat-value" id="countImages">0</div>
-<div class="stat-label">screenshots</div>
-</div>
-
-<div class="stat">
-<div class="stat-value" id="countMultiway">0</div>
-<div class="stat-label">multiway</div>
-</div>
+Parser especializado para screenshots
+do KKPoker Hand Review.
 
 </div>
 
-</div>
+<br>
 
+<p class="small">
 
-<div class="card">
-
-<h2>🚀 Novo fluxo</h2>
-
-<p class="reason">
-
-Agora o processo é:
+Objetivo desta versão:
 
 <br><br>
 
-📸 Screenshot
+📸 screenshot
 
 <br>↓
 
-🔎 OCR automático
+🔎 regiões KKPoker
 
 <br>↓
 
-🧠 Parser de poker
+🤖 OCR
 
 <br>↓
 
-🧩 Game State
+🧠 parser de ações
 
 <br>↓
 
-⚠️ Você confirma somente o que estiver duvidoso
+♠️ reconstrução multiway
 
 <br>↓
 
-💾 Salvar
+💾 banco de mãos
 
 </p>
 
 <button class="primary"
-onclick="go('import')">
+        onclick="go('import')">
 
-📸 IMPORTAR MÃO
+📸 IMPORTAR SCREENSHOT
 
 </button>
+
+</div>
+
+<div class="card">
+
+<h2>Estatísticas</h2>
+
+<div id="stats"></div>
 
 </div>
 
@@ -504,17 +434,18 @@ onclick="go('import')">
 
 <!-- IMPORT -->
 
-<section id="import" class="section">
+<section id="import"
+         class="section">
 
 <div class="card">
 
-<h2>📸 Importar screenshots</h2>
+<h2>📸 Importar mão</h2>
 
 <div class="notice">
 
-Selecione uma ou várias screenshots.
-O Cérebro tentará reconstruir
-automaticamente as informações.
+Use a imagem completa do Hand Review
+do KKPoker, como a screenshot utilizada
+para desenvolver esta versão.
 
 </div>
 
@@ -523,25 +454,21 @@ automaticamente as informações.
 <div class="filebox">
 
 <strong>
-Selecionar screenshots
+Selecionar screenshot
 </strong>
 
-<p class="small muted">
-Pode selecionar várias imagens.
-</p>
+<br><br>
 
-<input
-id="fileInput"
-type="file"
-accept="image/*"
-multiple
-onchange="importImages(event)">
+<input id="fileInput"
+       type="file"
+       accept="image/*"
+       onchange="importHand(event)">
 
 </div>
 
-<p id="importStatus"
-class="small muted">
-</p>
+<div id="importStatus"
+     class="small muted">
+</div>
 
 </div>
 
@@ -550,11 +477,12 @@ class="small muted">
 
 <!-- HANDS -->
 
-<section id="hands" class="section">
+<section id="hands"
+         class="section">
 
 <div class="card">
 
-<h2>♠️ Biblioteca de mãos</h2>
+<h2>♠️ Mãos armazenadas</h2>
 
 <div id="handsList"></div>
 
@@ -563,300 +491,70 @@ class="small muted">
 </section>
 
 
-<!-- EDITOR -->
+<!-- RECONSTRUCTION -->
 
-<section id="editor" class="section">
+<section id="reconstruct"
+         class="section">
 
-<div id="editorImageBox"></div>
-
+<div id="sourceImage"></div>
 
 <div class="card">
 
-<h2>🤖 Reconstrução automática</h2>
+<h2>🤖 KKPoker Auto Parser</h2>
 
 <div class="notice">
 
-A V2.3 tenta transformar a screenshot
-em dados de poker automaticamente.
+A V2.4 não lê mais a screenshot inteira
+como uma única região.
 
-Você não precisa preencher tudo
-manualmente.
+Ela divide a imagem em:
+
+<br><br>
+
+• mesa<br>
+• jogadores<br>
+• blinds<br>
+• pré-flop<br>
+• flop<br>
+• turn<br>
+• river
 
 </div>
 
-<br>
-
 <button class="primary"
-onclick="runAutoReconstruction()">
+        onclick="parseCurrentHand()">
 
-🧠 RECONSTRUIR AUTOMATICAMENTE
+🧠 ANALISAR SCREENSHOT
 
 </button>
 
 <div class="progress">
-<div id="ocrProgress"></div>
+<div id="progress"></div>
 </div>
 
-<p id="ocrStatus"
-class="small muted">
-</p>
-
+<div id="ocrStatus"
+     class="small muted">
 </div>
-
-
-<div id="visionResult"></div>
-
-
-<div class="card">
-
-<h2>Dados gerais</h2>
-
-<label>Nome da mão</label>
-
-<input id="handName"
-placeholder="Ex.: MTT 25K">
-
-<label>Número de jogadores</label>
-
-<input id="numPlayers"
-type="number"
-min="2"
-max="9"
-value="8">
-
-<label>Hero</label>
-
-<input id="heroName"
-placeholder="Seu nickname">
-
-<label>Posição do Hero</label>
-
-<select id="heroPosition">
-
-<option>UTG</option>
-<option>UTG+1</option>
-<option>MP</option>
-<option>HJ</option>
-<option>CO</option>
-<option>BTN</option>
-<option>SB</option>
-<option>BB</option>
-
-</select>
-
-<label>Hero cards</label>
-
-<input id="heroCards"
-placeholder="A♠ K♠">
-
-<label>Board</label>
-
-<input id="board"
-placeholder="7♠ 8♥ Q♣">
-
-<label>Pote final</label>
-
-<input id="finalPot"
-placeholder="295.9K">
 
 </div>
 
+<div id="result"></div>
 
-<div class="card">
-
-<h2>👥 Jogadores</h2>
-
-<div id="playersEditor"></div>
-
-<button class="secondary"
-onclick="generatePlayers()">
-
-+ REGENERAR JOGADORES
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>♠️ Pré-flop</h2>
-
-<div id="preflop"></div>
-
-<button class="secondary"
-onclick="addAction('preflop')">
-
-+ ADICIONAR AÇÃO
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🟢 Flop</h2>
-
-<div id="flop"></div>
-
-<button class="secondary"
-onclick="addAction('flop')">
-
-+ ADICIONAR AÇÃO
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🟡 Turn</h2>
-
-<div id="turn"></div>
-
-<button class="secondary"
-onclick="addAction('turn')">
-
-+ ADICIONAR AÇÃO
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🔴 River</h2>
-
-<div id="river"></div>
-
-<button class="secondary"
-onclick="addAction('river')">
-
-+ ADICIONAR AÇÃO
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<button class="primary"
-onclick="saveStructuredHand()">
-
-💾 SALVAR GAME STATE
-
-</button>
-
-<button class="secondary"
-onclick="analyzeCurrent()">
-
-🧠 ANALISAR MÃO
-
-</button>
-
-</div>
-
-
-<div id="analysisBox"></div>
+<div id="manualEditor"></div>
 
 </section>
 
 
 <!-- PLAYERS -->
 
-<section id="players" class="section">
+<section id="players"
+         class="section">
 
 <div class="card">
 
-<h2>👤 Novo oponente</h2>
-
-<label>Nome</label>
-
-<input
-id="playerNewName"
-placeholder="Nickname">
-
-<label>Perfil inicial</label>
-
-<select id="playerNewType">
-
-<option>Desconhecido</option>
-<option>Recreativo</option>
-<option>TAG</option>
-<option>LAG</option>
-<option>Nit</option>
-<option>Calling Station</option>
-<option>Maníaco</option>
-<option>Regular</option>
-
-</select>
-
-<label>Observações</label>
-
-<textarea
-id="playerNewNotes"
-placeholder="Tendências observadas">
-</textarea>
-
-<button class="primary"
-onclick="savePlayer()">
-
-SALVAR OPONENTE
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Base de jogadores</h2>
+<h2>👤 Banco de oponentes</h2>
 
 <div id="playerList"></div>
-
-</div>
-
-</section>
-
-
-<!-- STUDY -->
-
-<section id="study" class="section">
-
-<div class="card">
-
-<h2>📚 Roadmap</h2>
-
-<p class="reason">
-
-<strong>V2.3</strong><br>
-OCR + Auto-Reconstruction.
-
-<br><br>
-
-<strong>V2.4</strong><br>
-Parser especializado do layout.
-
-<br><br>
-
-<strong>V2.5</strong><br>
-Equity + pot odds + outs.
-
-<br><br>
-
-<strong>V2.6</strong><br>
-Banco inteligente de oponentes.
-
-<br><br>
-
-<strong>V3.0</strong><br>
-Coach pessoal.
-
-</p>
 
 </div>
 
@@ -871,144 +569,147 @@ Coach pessoal.
 DATABASE
 ===================================================== */
 
-const DBKEY="cerebro_v23";
+const KEY="cerebro_v24";
 
 let DB={
-hands:[],
-players:[],
-currentHand:null
+  hands:[],
+  players:[],
+  current:null
 };
+
+let imageDB=null;
+
+load();
+
+
+/* =====================================================
+LOCAL STORAGE
+===================================================== */
 
 function load(){
 
-try{
+  try{
 
-const x=localStorage.getItem(DBKEY);
+    const raw=
+      localStorage.getItem(KEY);
 
-if(x) DB=JSON.parse(x);
+    if(raw)
+      DB=JSON.parse(raw);
 
-}catch(e){
+  }catch(e){
 
-console.error(e);
+    console.error(e);
 
-}
+  }
 
 }
 
 function save(){
 
-localStorage.setItem(
-DBKEY,
-JSON.stringify(DB)
-);
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(DB)
+  );
 
 }
 
 
 /* =====================================================
-IMAGE DB
+IMAGE DATABASE
 ===================================================== */
-
-let imageDB=null;
 
 function openImageDB(){
 
-return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
 
-const req=indexedDB.open(
-"cerebro_images_v23",1
-);
+    const request=
+      indexedDB.open(
+        "cerebro_v24_images",
+        1
+      );
 
-req.onupgradeneeded=e=>{
+    request.onupgradeneeded=e=>{
 
-const db=e.target.result;
+      const db=e.target.result;
 
-if(!db.objectStoreNames.contains("images")){
+      if(!db.objectStoreNames.contains("images")){
 
-db.createObjectStore(
-"images",
-{keyPath:"id"}
-);
+        db.createObjectStore(
+          "images",
+          {keyPath:"id"}
+        );
 
-}
+      }
 
-};
+    };
 
-req.onsuccess=e=>{
+    request.onsuccess=e=>{
 
-imageDB=e.target.result;
-resolve(imageDB);
+      imageDB=e.target.result;
 
-};
+      resolve(imageDB);
 
-req.onerror=reject;
+    };
 
-});
+    request.onerror=reject;
+
+  });
 
 }
 
 function putImage(id,data){
 
-return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
 
-const tx=imageDB.transaction(
-"images","readwrite"
-);
+    const tx=
+      imageDB.transaction(
+        "images",
+        "readwrite"
+      );
 
-tx.objectStore("images").put({
-id,data
-});
+    tx.objectStore("images")
+      .put({id,data});
 
-tx.oncomplete=resolve;
-tx.onerror=reject;
+    tx.oncomplete=resolve;
+    tx.onerror=reject;
 
-});
+  });
 
 }
 
 function getImage(id){
 
-return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
 
-if(!id){
-resolve("");
-return;
-}
+    if(!id){
 
-const tx=imageDB.transaction(
-"images","readonly"
-);
+      resolve("");
 
-const req=tx.objectStore("images").get(id);
+      return;
 
-req.onsuccess=()=>{
-resolve(req.result?.data||"");
-};
+    }
 
-req.onerror=reject;
+    const tx=
+      imageDB.transaction(
+        "images",
+        "readonly"
+      );
 
-});
+    const request=
+      tx.objectStore("images")
+      .get(id);
 
-}
+    request.onsuccess=()=>{
 
-function deleteImage(id){
+      resolve(
+        request.result?.data || ""
+      );
 
-return new Promise(resolve=>{
+    };
 
-if(!id){
-resolve();
-return;
-}
+    request.onerror=reject;
 
-const tx=imageDB.transaction(
-"images","readwrite"
-);
-
-tx.objectStore("images").delete(id);
-
-tx.oncomplete=resolve;
-
-});
+  });
 
 }
 
@@ -1017,42 +718,48 @@ tx.oncomplete=resolve;
 NAV
 ===================================================== */
 
-function show(id,btn){
+function show(id,button){
 
-document
-.querySelectorAll(".section")
-.forEach(x=>x.classList.remove("active"));
+  document
+    .querySelectorAll(".section")
+    .forEach(x=>
+      x.classList.remove("active")
+    );
 
-document
-.getElementById(id)
-.classList.add("active");
+  document
+    .getElementById(id)
+    .classList.add("active");
 
-document
-.querySelectorAll("nav button")
-.forEach(x=>x.classList.remove("active"));
+  document
+    .querySelectorAll("nav button")
+    .forEach(x=>
+      x.classList.remove("active")
+    );
 
-if(btn) btn.classList.add("active");
+  if(button)
+    button.classList.add("active");
 
-refresh();
+  refresh();
 
 }
 
 function go(id){
 
-const names={
-home:"Início",
-import:"Importar",
-hands:"Mãos",
-editor:"Reconstruir",
-players:"Oponentes",
-study:"Estudo"
-};
+  const map={
+    home:"Início",
+    import:"Importar",
+    hands:"Mãos",
+    reconstruct:"Reconstrução",
+    players:"Oponentes"
+  };
 
-const btn=[
-...document.querySelectorAll("nav button")
-].find(x=>x.textContent.includes(names[id]));
+  const button=
+    [...document.querySelectorAll("nav button")]
+      .find(
+        x=>x.textContent.includes(map[id])
+      );
 
-show(id,btn);
+  show(id,button);
 
 }
 
@@ -1061,904 +768,669 @@ show(id,btn);
 IMPORT
 ===================================================== */
 
-async function importImages(event){
+async function importHand(event){
 
-await openImageDB();
+  await openImageDB();
 
-const files=[...event.target.files];
+  const file=
+    event.target.files[0];
 
-if(!files.length) return;
+  if(!file)
+    return;
 
-let count=0;
+  const data=
+    await readFile(file);
 
-for(const file of files){
+  const imageId=
+    "img_"+Date.now();
 
-if(!file.type.startsWith("image/"))
-continue;
+  await putImage(
+    imageId,
+    data
+  );
 
-const data=await readImage(file);
+  const hand={
 
-const id=
-"img_"+Date.now()+"_"+Math.random();
+    id:
+      "hand_"+Date.now(),
 
-await putImage(id,data);
+    imageId,
 
-DB.hands.push({
+    created:
+      new Date().toISOString(),
 
-id:
-"hand_"+Date.now()+"_"+Math.random(),
+    parsed:null,
 
-imageId:id,
+    confirmed:false
 
-created:
-new Date().toISOString(),
+  };
 
-status:
-"imagem importada",
+  DB.hands.push(hand);
 
-gameState:null,
+  DB.current=
+    hand.id;
 
-vision:null
+  save();
 
-});
+  document.getElementById(
+    "importStatus"
+  ).innerHTML=
+  `
+  <span class="green">
+  Screenshot importada.
+  </span>
+  `;
 
-count++;
-
-}
-
-save();
-
-document.getElementById(
-"importStatus"
-).innerHTML=
-`
-<span class="green">
-${count} screenshot(s) importada(s).
-</span>
-`;
-
-event.target.value="";
-
-refresh();
-
-go("hands");
+  await openHand(hand.id);
 
 }
 
-function readImage(file){
+function readFile(file){
 
-return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
 
-const reader=new FileReader();
+    const reader=
+      new FileReader();
 
-reader.onload=()=>{
-resolve(reader.result);
-};
+    reader.onload=
+      ()=>resolve(reader.result);
 
-reader.onerror=reject;
+    reader.onerror=
+      reject;
 
-reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
-});
+  });
 
 }
 
 
 /* =====================================================
-HAND LIST
+OPEN HAND
 ===================================================== */
 
-async function renderHands(){
+async function openHand(id){
 
-const box=document.getElementById("handsList");
+  DB.current=id;
 
-if(!box) return;
+  save();
 
-if(!DB.hands.length){
+  const hand=
+    DB.hands.find(
+      h=>h.id===id
+    );
 
-box.innerHTML=
-`
-<div class="empty">
-Nenhuma mão ainda.
-</div>
-`;
+  if(!hand)
+    return;
 
-return;
+  const image=
+    await getImage(hand.imageId);
 
-}
+  document.getElementById(
+    "sourceImage"
+  ).innerHTML=
+  `
+  <div class="card">
 
-let html="";
+    <h2>📸 Screenshot original</h2>
 
-for(const hand of DB.hands.slice().reverse()){
+    <img
+      src="${image}"
+      style="
+        width:100%;
+        max-height:700px;
+        object-fit:contain;
+        background:#05070a;
+        border-radius:12px;
+      "
+    >
 
-const img=await getImage(hand.imageId);
+  </div>
+  `;
 
-const gs=hand.gameState;
+  renderParsed(hand.parsed);
 
-html+=`
-
-<div class="hand">
-
-<strong>
-${escapeHtml(
-gs?.name||"Mão importada"
-)}
-</strong>
-
-<span class="tag">
-${escapeHtml(hand.status)}
-</span>
-
-<div class="small muted">
-
-${new Date(hand.created)
-.toLocaleString("pt-BR")}
-
-</div>
-
-${img?`
-<img src="${img}">
-`:""}
-
-<hr>
-
-${
-gs
-?
-`
-<div class="small">
-
-<strong>
-${gs.players.length} jogadores
-</strong>
-
-·
-
-${gs.multiway?"Multiway":"Heads-up"}
-
-<br><br>
-
-Board:
-${escapeHtml(gs.board||"não informado")}
-
-<br>
-
-Hero:
-${escapeHtml(gs.hero?.name||"não definido")}
-
-</div>
-`
-:
-`
-<p class="small muted">
-Ainda não reconstruída.
-</p>
-`
-}
-
-<button
-class="secondary"
-onclick="editHand('${hand.id}')">
-
-🧩 ABRIR
-
-</button>
-
-<button
-class="secondary"
-onclick="deleteHand('${hand.id}')">
-
-EXCLUIR
-
-</button>
-
-</div>
-`;
-
-}
-
-box.innerHTML=html;
+  go("reconstruct");
 
 }
 
 
 /* =====================================================
-EDIT HAND
+IMAGE → CANVAS
 ===================================================== */
 
-async function editHand(id){
+function loadCanvas(data){
 
-const hand=DB.hands.find(h=>h.id===id);
+  return new Promise((resolve,reject)=>{
 
-if(!hand) return;
+    const img=
+      new Image();
 
-DB.currentHand=id;
+    img.onload=()=>{
 
-const gs=hand.gameState||{};
+      const canvas=
+        document.createElement("canvas");
 
-document.getElementById("handName").value=
-gs.name||"";
+      canvas.width=
+        img.naturalWidth;
 
-document.getElementById("numPlayers").value=
-gs.players?.length||8;
+      canvas.height=
+        img.naturalHeight;
 
-document.getElementById("heroName").value=
-gs.hero?.name||"";
+      const ctx=
+        canvas.getContext("2d");
 
-document.getElementById("heroPosition").value=
-gs.hero?.position||"BTN";
+      ctx.drawImage(
+        img,
+        0,
+        0
+      );
 
-document.getElementById("heroCards").value=
-gs.hero?.cards||"";
+      resolve({
+        canvas,
+        ctx,
+        width:img.naturalWidth,
+        height:img.naturalHeight
+      });
 
-document.getElementById("board").value=
-gs.board||"";
+    };
 
-document.getElementById("finalPot").value=
-gs.finalPot||"";
+    img.onerror=reject;
 
-generatePlayers(gs.players||[]);
+    img.src=data;
 
-loadActions(gs.streets||{});
-
-const imageBox=
-document.getElementById("editorImageBox");
-
-const img=await getImage(hand.imageId);
-
-imageBox.innerHTML=img
-?
-`
-<div class="card">
-
-<h2>📸 Screenshot</h2>
-
-<img
-class="editor-image"
-src="${img}">
-
-<div class="image-caption">
-Fonte da reconstrução.
-</div>
-
-</div>
-`
-:
-"";
-
-document.getElementById(
-"visionResult"
-).innerHTML="";
-
-go("editor");
+  });
 
 }
 
 
 /* =====================================================
-OCR WORKER
+CROP
 ===================================================== */
 
-let OCR_WORKER=null;
-
-async function getOCRWorker(){
-
-if(OCR_WORKER)
-return OCR_WORKER;
-
-if(typeof Tesseract==="undefined"){
-
-throw new Error(
-"O mecanismo OCR não carregou."
-);
-
-}
-
-OCR_WORKER=
-await Tesseract.createWorker(
-"eng",
-1,
-{
-logger:m=>{
-
-if(
-m.status==="recognizing text" &&
-typeof m.progress==="number"
+function cropCanvas(
+  source,
+  x,
+  y,
+  w,
+  h
 ){
 
-setProgress(
-Math.round(m.progress*100)
-);
+  const canvas=
+    document.createElement("canvas");
 
-}
+  canvas.width=
+    Math.round(
+      source.width*w
+    );
 
-}
-}
-);
+  canvas.height=
+    Math.round(
+      source.height*h
+    );
 
-return OCR_WORKER;
+  const ctx=
+    canvas.getContext("2d");
 
-}
+  ctx.drawImage(
 
+    source.canvas,
 
-/* =====================================================
-AUTO RECONSTRUCTION
-===================================================== */
+    Math.round(
+      source.width*x
+    ),
 
-async function runAutoReconstruction(){
+    Math.round(
+      source.height*y
+    ),
 
-const id=DB.currentHand;
+    Math.round(
+      source.width*w
+    ),
 
-if(!id){
+    Math.round(
+      source.height*h
+    ),
 
-alert(
-"Abra uma screenshot primeiro."
-);
+    0,
+    0,
+    canvas.width,
+    canvas.height
 
-return;
+  );
 
-}
-
-const hand=DB.hands.find(
-h=>h.id===id
-);
-
-if(!hand?.imageId){
-
-alert(
-"Esta mão não possui screenshot."
-);
-
-return;
-
-}
-
-const status=
-document.getElementById("ocrStatus");
-
-const resultBox=
-document.getElementById("visionResult");
-
-try{
-
-status.textContent=
-"Preparando imagem...";
-
-setProgress(5);
-
-const image=
-await getImage(hand.imageId);
-
-const worker=
-await getOCRWorker();
-
-status.textContent=
-"Executando OCR...";
-
-setProgress(10);
-
-const result=
-await worker.recognize(image);
-
-setProgress(100);
-
-const raw=
-result.data.text||"";
-
-const parsed=
-parsePokerText(raw);
-
-hand.vision={
-rawText:raw,
-parsed,
-timestamp:
-new Date().toISOString()
-};
-
-hand.status=
-"Reconstrução automática disponível";
-
-save();
-
-applyParsedState(parsed);
-
-renderVisionResult(parsed,raw);
-
-status.textContent=
-"Leitura concluída.";
-
-}catch(error){
-
-console.error(error);
-
-status.textContent=
-"Erro durante a leitura.";
-
-resultBox.innerHTML=
-`
-<div class="card">
-
-<div class="warning">
-
-<strong>
-Não foi possível concluir o OCR.
-</strong>
-
-<br><br>
-
-${escapeHtml(
-error.message||String(error)
-)}
-
-</div>
-
-</div>
-`;
-
-}
+  return canvas;
 
 }
 
 
 /* =====================================================
-PROGRESS
+OCR
 ===================================================== */
 
-function setProgress(value){
+let worker=null;
 
-const bar=
-document.getElementById("ocrProgress");
+async function getWorker(){
 
-if(bar)
-bar.style.width=
-Math.max(0,Math.min(100,value))+"%";
+  if(worker)
+    return worker;
+
+  worker=
+    await Tesseract.createWorker(
+      "eng",
+      1,
+      {
+
+        logger:m=>{
+
+          if(
+            m.status===
+              "recognizing text"
+          ){
+
+            setProgress(
+              Math.round(
+                m.progress*100
+              )
+            );
+
+          }
+
+        }
+
+      }
+    );
+
+  return worker;
+
+}
+
+async function ocrCanvas(canvas){
+
+  const w=
+    await getWorker();
+
+  const result=
+    await w.recognize(canvas);
+
+  return result.data.text||"";
 
 }
 
 
 /* =====================================================
-POKER PARSER
+KKPOKER REGIONS
 ===================================================== */
-
-function parsePokerText(raw){
-
-const lines=
-raw
-.split(/\r?\n/)
-.map(x=>x.trim())
-.filter(Boolean);
-
-const actions=[];
-
-let hero="";
-let board="";
-let pot="";
-
-const actionRegex=
-/^(.{2,25}?)\s+(fold|check|call|bet|raise|all[\s-]?in)(?:\s+([0-9.,kKmM]+))?/i;
-
-for(const line of lines){
-
-const lower=line.toLowerCase();
-
-/* pot */
-
-if(
-lower.includes("pot") ||
-lower.includes("pote")
-){
-
-const match=
-line.match(
-/([0-9][0-9.,]*\s*[kKmM]?)/
-);
-
-if(match)
-pot=match[1];
-
-}
-
-/* board */
-
-const cardMatches=
-line.match(
-/\b[2-9TJQKA][♠♥♦♣shdc]\b/gi
-);
-
-if(
-cardMatches &&
-cardMatches.length>=3 &&
-cardMatches.length<=5
-){
-
-board=
-cardMatches.join(" ");
-
-}
-
-/* actions */
-
-const m=
-line.match(actionRegex);
-
-if(m){
-
-let action=
-normalizeAction(m[2]);
-
-actions.push({
-
-player:
-m[1].trim(),
-
-action,
-
-amount:
-m[3]||"",
-
-source:
-line,
-
-confidence:
-action==="Fold"||
-action==="Check"
-?
-0.91
-:
-0.76
-
-});
-
-}
-
-}
 
 /*
-heurística simples para Hero.
-Não inventa nickname.
+A screenshot de referência possui:
+
+1080-ish x 1920-ish
+
+A arquitetura abaixo usa COORDENADAS RELATIVAS,
+portanto continua funcionando em diferentes
+resoluções mantendo a mesma proporção.
 */
-const heroCandidates=
-lines.filter(x=>
-/hero|you|você/i.test(x)
-);
 
-if(heroCandidates.length)
-hero=heroCandidates[0];
+const KK_REGIONS={
 
-return{
+  table:{
+    x:0,
+    y:0,
+    w:1,
+    h:.55
+  },
 
-lines,
+  actionPanel:{
+    x:0,
+    y:.545,
+    w:1,
+    h:.455
+  },
 
-hero,
+  blinds:{
+    x:0,
+    y:.545,
+    w:.20,
+    h:.455
+  },
 
-board,
+  preflop:{
+    x:.20,
+    y:.545,
+    w:.20,
+    h:.455
+  },
 
-pot,
+  flop:{
+    x:.40,
+    y:.545,
+    w:.20,
+    h:.455
+  },
 
-actions,
+  turn:{
+    x:.60,
+    y:.545,
+    w:.20,
+    h:.455
+  },
 
-confidence:
-calculateOverallConfidence(
-actions,
-lines
-)
+  river:{
+    x:.80,
+    y:.545,
+    w:.20,
+    h:.455
+  }
 
 };
 
-}
 
-function normalizeAction(action){
+/* =====================================================
+PARSER PRINCIPAL
+===================================================== */
 
-const x=
-action
-.toLowerCase()
-.replace("-"," ")
-.trim();
+async function parseCurrentHand(){
 
-if(x==="fold") return "Fold";
-if(x==="check") return "Check";
-if(x==="call") return "Call";
-if(x==="bet") return "Bet";
-if(x==="raise") return "Raise";
-if(x==="all in") return "All-In";
+  const hand=
+    DB.hands.find(
+      h=>h.id===DB.current
+    );
 
-return action;
+  if(!hand)
+    return;
 
-}
+  const image=
+    await getImage(hand.imageId);
 
-function calculateOverallConfidence(actions,lines){
+  const source=
+    await loadCanvas(image);
 
-if(!lines.length)
-return 0;
+  setProgress(3);
 
-if(!actions.length)
-return .35;
+  document.getElementById(
+    "ocrStatus"
+  ).textContent=
+    "Separando regiões do KKPoker...";
 
-const avg=
-actions.reduce(
-(a,b)=>a+b.confidence,0
-)/actions.length;
+  const texts={};
 
-return Math.min(
-.95,
-avg
-);
+  for(
+    const [name,region]
+    of Object.entries(KK_REGIONS)
+  ){
+
+    if(
+      name==="table"
+    )
+      continue;
+
+    const crop=
+      cropCanvas(
+        source,
+        region.x,
+        region.y,
+        region.w,
+        region.h
+      );
+
+    document.getElementById(
+      "ocrStatus"
+    ).textContent=
+      "Lendo "+name+"...";
+
+    texts[name]=
+      await ocrCanvas(crop);
+
+  }
+
+  setProgress(85);
+
+  const tableCrop=
+    cropCanvas(
+      source,
+      KK_REGIONS.table.x,
+      KK_REGIONS.table.y,
+      KK_REGIONS.table.w,
+      KK_REGIONS.table.h
+    );
+
+  texts.table=
+    await ocrCanvas(
+      tableCrop
+    );
+
+  document.getElementById(
+    "ocrStatus"
+  ).textContent=
+    "Interpretando histórico...";
+
+  const parsed=
+    buildKKGameState(
+      texts
+    );
+
+  parsed.raw=texts;
+
+  hand.parsed=
+    parsed;
+
+  hand.confirmed=false;
+
+  save();
+
+  setProgress(100);
+
+  document.getElementById(
+    "ocrStatus"
+  ).textContent=
+    "Reconstrução concluída.";
+
+  renderParsed(parsed);
 
 }
 
 
 /* =====================================================
-APPLY OCR TO GAME STATE
+ACTION PARSER
 ===================================================== */
 
-function applyParsedState(parsed){
+const ACTIONS=[
+  "fold",
+  "check",
+  "call",
+  "bet",
+  "raise",
+  "all-in",
+  "all in"
+];
 
-/*
-Não apagamos dados já confirmados.
+function parseActions(text){
 
-O OCR só preenche campos vazios.
-*/
+  const lines=
+    text
+      .split(/\r?\n/)
+      .map(x=>
+        cleanLine(x)
+      )
+      .filter(Boolean);
 
-if(
-parsed.board &&
-!document.getElementById("board").value
+  const actions=[];
+
+  let currentPlayer=null;
+
+  for(let i=0;i<lines.length;i++){
+
+    const line=lines[i];
+
+    const lower=
+      line.toLowerCase();
+
+    /*
+    posição
+    */
+
+    const position=
+      line.match(
+        /\b(UTG\+1|UTG|MP|HJ|CO|BTN|SB|BB)\b/i
+      );
+
+    /*
+    Às vezes o KKPoker coloca nickname
+    e posição em uma linha.
+    */
+
+    if(position){
+
+      const before=
+        line
+          .replace(
+            position[0],
+            ""
+          )
+          .trim();
+
+      if(
+        before.length>1
+      ){
+
+        currentPlayer={
+          name:before,
+          position:
+            normalizePosition(
+              position[0]
+            )
+        };
+
+      }
+
+    }
+
+    /*
+    ação
+    */
+
+    const action=
+      detectAction(lower);
+
+    if(action){
+
+      let amount="";
+
+      const amountMatch=
+        line.match(
+          /(\d[\d.,]*\s*[kKmM]?)/
+        );
+
+      if(amountMatch)
+        amount=
+          normalizeAmount(
+            amountMatch[1]
+          );
+
+      /*
+      Se a ação está separada em uma
+      linha seguinte ao nickname.
+      */
+
+      if(
+        !amount &&
+        i+1<lines.length
+      ){
+
+        const next=
+          lines[i+1]
+            .match(
+              /(\d[\d.,]*\s*[kKmM]?)/
+            );
+
+        if(next){
+
+          amount=
+            normalizeAmount(
+              next[1]
+            );
+
+        }
+
+      }
+
+      actions.push({
+
+        player:
+          currentPlayer?.name||"",
+
+        position:
+          currentPlayer?.position||"",
+
+        action,
+
+        amount,
+
+        source:line,
+
+        confidence:
+          calculateActionConfidence(
+            currentPlayer,
+            action,
+            amount
+          )
+
+      });
+
+    }
+
+  }
+
+  return actions;
+
+}
+
+function detectAction(text){
+
+  if(/\ball[- ]?in\b/.test(text))
+    return "All-In";
+
+  if(/\braise\b/.test(text))
+    return "Raise";
+
+  if(/\bcall\b/.test(text))
+    return "Call";
+
+  if(/\bcheck\b/.test(text))
+    return "Check";
+
+  if(/\bbet\b/.test(text))
+    return "Bet";
+
+  if(/\bfold\b/.test(text))
+    return "Fold";
+
+  return null;
+
+}
+
+function calculateActionConfidence(
+  player,
+  action,
+  amount
 ){
 
-document.getElementById("board").value=
-parsed.board;
+  let score=.55;
 
-}
+  if(player)
+    score+=.20;
 
-if(
-parsed.pot &&
-!document.getElementById("finalPot").value
-){
+  if(action)
+    score+=.15;
 
-document.getElementById("finalPot").value=
-parsed.pot;
+  if(amount)
+    score+=.08;
 
-}
-
-
-/*
-Ações OCR são colocadas no pré-flop
-como primeira hipótese.
-
-Depois refinaremos o parser por região
-específica do layout.
-*/
-
-if(parsed.actions.length){
-
-const box=
-document.getElementById("preflop");
-
-box.innerHTML="";
-
-parsed.actions.forEach(a=>{
-
-box.insertAdjacentHTML(
-"beforeend",
-actionTemplate()
-);
-
-const rows=
-box.querySelectorAll(".action");
-
-const row=
-rows[rows.length-1];
-
-row.querySelector(".aname").value=
-a.player;
-
-row.querySelector(".atype").value=
-a.action;
-
-row.querySelector(".aamount").value=
-a.amount;
-
-});
-
-}
-
-}
-
-
-/* =====================================================
-OCR RESULT
-===================================================== */
-
-function renderVisionResult(parsed,raw){
-
-const box=
-document.getElementById(
-"visionResult"
-);
-
-const confidence=
-Math.round(
-parsed.confidence*100
-);
-
-let confidenceClass=
-confidence>=85
-?
-"green"
-:
-confidence>=60
-?
-"yellow"
-:
-"red";
-
-box.innerHTML=
-`
-<div class="card">
-
-<h2>🤖 Resultado automático</h2>
-
-<div class="${confidenceClass}">
-
-<strong>
-Confiança geral: ${confidence}%
-</strong>
-
-</div>
-
-<br>
-
-<div class="confidence">
-<div style="width:${confidence}%"></div>
-</div>
-
-<br>
-
-<div class="grid">
-
-<div class="stat">
-
-<div class="stat-value">
-${parsed.actions.length}
-</div>
-
-<div class="stat-label">
-ações encontradas
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-value">
-${parsed.board?"✓":"?"}
-</div>
-
-<div class="stat-label">
-board
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<h3>
-🔎 O que foi encontrado
-</h3>
-
-${
-parsed.actions.length
-?
-parsed.actions.map(a=>`
-
-<div class="auto-field">
-
-<strong>
-${escapeHtml(a.player)}
-</strong>
-
-${escapeHtml(a.action)}
-
-${a.amount
-?
-" · "+escapeHtml(a.amount)
-:
-""}
-
-<br>
-
-<span class="small muted">
-
-Confiança:
-${Math.round(a.confidence*100)}%
-
-</span>
-
-</div>
-
-`).join("")
-:
-`
-<div class="warning">
-Nenhuma ação foi reconhecida
-com confiança suficiente.
-</div>
-`
-}
-
-<hr>
-
-<h3>
-📄 Texto bruto do OCR
-</h3>
-
-<div class="ocr-box">
-${escapeHtml(raw||"Nenhum texto encontrado.")}
-</div>
-
-<br>
-
-<div class="warning">
-
-<strong>
-Importante:
-</strong>
-
-O OCR é uma hipótese, não uma
-fonte infalível.
-
-Confira os campos antes de salvar.
-
-</div>
-
-</div>
-`;
-
-}
-
-
-/* =====================================================
-ACTION TEMPLATE
-===================================================== */
-
-function actionTemplate(){
-
-return `
-<div class="action">
-
-<input
-class="aname"
-placeholder="Jogador">
-
-<select class="atype">
-
-<option>Fold</option>
-<option>Check</option>
-<option>Call</option>
-<option>Bet</option>
-<option>Raise</option>
-<option>All-In</option>
-
-</select>
-
-<input
-class="aamount"
-placeholder="Valor">
-
-</div>
-`;
-
-}
-
-function addAction(street){
-
-document
-.getElementById(street)
-.insertAdjacentHTML(
-"beforeend",
-actionTemplate()
-);
+  return Math.min(
+    .99,
+    score
+  );
 
 }
 
@@ -1967,619 +1439,1218 @@ actionTemplate()
 PLAYERS
 ===================================================== */
 
-function generatePlayers(existing=[]){
+function parsePlayers(
+  tableText,
+  actionText
+){
 
-const n=Math.max(
-2,
-Math.min(
-9,
-parseInt(
-document.getElementById(
-"numPlayers"
-).value
-)||8
-)
-);
+  const result=[];
 
-const positions=[
-"UTG",
-"UTG+1",
-"MP",
-"HJ",
-"CO",
-"BTN",
-"SB",
-"BB"
-];
+  const positions=[
+    "UTG",
+    "UTG+1",
+    "MP",
+    "HJ",
+    "CO",
+    "BTN",
+    "SB",
+    "BB"
+  ];
 
-let html="";
+  const combined=
+    tableText+"\n"+actionText;
 
-for(let i=0;i<n;i++){
+  const lines=
+    combined
+      .split(/\r?\n/)
+      .map(cleanLine)
+      .filter(Boolean);
 
-const old=existing[i]||{};
+  for(
+    const position of positions
+  ){
 
-html+=`
+    const regex=
+      new RegExp(
+        "(.{2,25})\\s+"+
+        escapeRegex(position)+
+        "\\b",
+        "i"
+      );
 
-<div class="player">
+    for(
+      const line of lines
+    ){
 
-<div class="player-header">
+      const match=
+        line.match(regex);
 
-<strong>
-Jogador ${i+1}
-</strong>
+      if(match){
 
-<span class="tag">
-${positions[i]||""}
-</span>
+        const name=
+          cleanPlayerName(
+            match[1]
+          );
 
-</div>
+        if(
+          name &&
+          !result.some(
+            p=>
+              p.name.toLowerCase()===
+              name.toLowerCase()
+          )
+        ){
 
-<label>Nickname</label>
+          result.push({
 
-<input
-class="pname"
-value="${escapeHtml(old.name||"")}"
-placeholder="Nickname">
+            name,
 
-<label>Posição</label>
+            position,
 
-<select class="pposition">
+            stack:
+              extractStack(line),
 
-${positions.map(p=>`
-<option
-${old.position===p?"selected":""}>
-${p}
-</option>
-`).join("")}
+            cards:"",
 
-</select>
+            confidence:.70
 
-<label>Stack</label>
+          });
 
-<input
-class="pstack"
-value="${escapeHtml(old.stack||"")}"
-placeholder="Stack">
+        }
 
-<label>Cartas</label>
+        break;
 
-<input
-class="pcards"
-value="${escapeHtml(old.cards||"")}"
-placeholder="Cartas">
+      }
 
-</div>
-`;
+    }
 
-}
+  }
 
-document.getElementById(
-"playersEditor"
-).innerHTML=html;
-
-}
-
-
-/* =====================================================
-LOAD ACTIONS
-===================================================== */
-
-function loadActions(streets){
-
-[
-"preflop",
-"flop",
-"turn",
-"river"
-]
-.forEach(s=>{
-
-const box=
-document.getElementById(s);
-
-box.innerHTML="";
-
-(streets[s]||[]).forEach(a=>{
-
-box.insertAdjacentHTML(
-"beforeend",
-actionTemplate()
-);
-
-const rows=
-box.querySelectorAll(".action");
-
-const row=
-rows[rows.length-1];
-
-row.querySelector(".aname").value=
-a.player||"";
-
-row.querySelector(".atype").value=
-a.action||"Fold";
-
-row.querySelector(".aamount").value=
-a.amount||"";
-
-});
-
-});
+  return result;
 
 }
 
 
 /* =====================================================
-COLLECT
+GAME STATE
 ===================================================== */
 
-function collectPlayers(){
+function buildKKGameState(
+  texts
+){
 
-const names=[
-...document.querySelectorAll(".pname")
-];
+  const preflop=
+    parseActions(
+      texts.preflop||""
+    );
 
-const positions=[
-...document.querySelectorAll(".pposition")
-];
+  const flop=
+    parseActions(
+      texts.flop||""
+    );
 
-const stacks=[
-...document.querySelectorAll(".pstack")
-];
+  const turn=
+    parseActions(
+      texts.turn||""
+    );
 
-const cards=[
-...document.querySelectorAll(".pcards")
-];
+  const river=
+    parseActions(
+      texts.river||""
+    );
 
-return names.map((x,i)=>({
+  const allActions=[
+    ...preflop,
+    ...flop,
+    ...turn,
+    ...river
+  ];
 
-name:x.value.trim(),
+  const players=
+    mergePlayers(
+      parsePlayers(
+        texts.table||"",
+        texts.preflop||""
+      ),
+      allActions
+    );
 
-position:
-positions[i].value,
+  const cards=
+    detectCards(
+      texts.table||""
+    );
 
-stack:
-stacks[i].value.trim(),
+  const board=
+    detectBoard(
+      texts.table||""
+    );
 
-cards:
-cards[i].value.trim()
+  const pot=
+    detectPot(
+      texts.table||""
+    );
 
-}));
+  /*
+  Hero é identificado preferencialmente
+  pela posição CO + cartas visíveis.
+  */
 
-}
+  let hero=
+    players.find(
+      p=>p.position==="CO"
+    );
 
-function collectStreet(id){
+  if(!hero){
 
-return [
-...document.querySelectorAll(
-`#${id} .action`
-)
-]
-.map(row=>({
+    hero={
+      name:"",
+      position:"CO",
+      stack:"",
+      cards:"",
+      confidence:.35
+    };
 
-player:
-row.querySelector(".aname").value.trim(),
+  }
 
-action:
-row.querySelector(".atype").value,
+  hero.cards=
+    cards.hero.join(" ");
 
-amount:
-row.querySelector(".aamount").value.trim()
+  return{
 
-}))
-.filter(x=>x.player||x.amount);
+    name:
+      "KKPoker Hand",
 
-}
+    game:
+      "NL Hold'em",
 
-function collectState(){
+    players,
 
-const players=collectPlayers();
+    multiway:
+      countActivePlayers(
+        allActions
+      )>2,
 
-const heroName=
-document.getElementById(
-"heroName"
-).value.trim();
+    hero,
 
-const hero=
-players.find(
-p=>p.name===heroName
-)||{
+    board:
+      board.join(" "),
 
-name:heroName,
+    finalPot:
+      pot,
 
-position:
-document.getElementById(
-"heroPosition"
-).value,
+    streets:{
 
-cards:
-document.getElementById(
-"heroCards"
-).value.trim()
+      blinds:
+        parseActions(
+          texts.blinds||""
+        ),
 
-};
+      preflop,
 
-return{
+      flop,
 
-name:
-document.getElementById(
-"handName"
-).value.trim(),
+      turn,
 
-players,
+      river
 
-multiway:
-players.filter(p=>p.name).length>2,
+    },
 
-hero,
+    actions:
+      allActions,
 
-board:
-document.getElementById(
-"board"
-).value.trim(),
+    confidence:
+      calculateGameConfidence(
+        players,
+        allActions,
+        cards,
+        board
+      )
 
-finalPot:
-document.getElementById(
-"finalPot"
-).value.trim(),
-
-streets:{
-
-preflop:
-collectStreet("preflop"),
-
-flop:
-collectStreet("flop"),
-
-turn:
-collectStreet("turn"),
-
-river:
-collectStreet("river")
-
-}
-
-};
+  };
 
 }
 
 
 /* =====================================================
-SAVE
+MERGE PLAYERS
 ===================================================== */
 
-function saveStructuredHand(){
+function mergePlayers(
+  players,
+  actions
+){
 
-const state=collectState();
+  const output=[
+    ...players
+  ];
 
-if(state.players.length<2){
+  actions.forEach(a=>{
 
-alert(
-"Cadastre pelo menos dois jogadores."
-);
+    if(!a.player)
+      return;
 
-return;
+    const existing=
+      output.find(
+        p=>
+          p.name.toLowerCase()===
+          a.player.toLowerCase()
+      );
 
-}
+    if(existing){
 
-let hand=
-DB.hands.find(
-h=>h.id===DB.currentHand
-);
+      if(!existing.position)
+        existing.position=
+          a.position;
 
-if(!hand){
+    }else{
 
-hand={
+      output.push({
 
-id:
-"hand_"+Date.now(),
+        name:a.player,
 
-created:
-new Date().toISOString(),
+        position:a.position,
 
-imageId:null
+        stack:"",
 
-};
+        cards:"",
 
-DB.hands.push(hand);
+        confidence:
+          a.confidence
 
-DB.currentHand=hand.id;
+      });
 
-}
+    }
 
-hand.gameState=state;
+  });
 
-hand.status=
-"Game State confirmado";
+  /*
+  garante que não teremos duplicatas
+  */
 
-save();
-
-updateOpponentDatabase(state);
-
-alert(
-"Game State salvo."
-);
-
-refresh();
+  return output.filter(
+    (p,index,self)=>
+      index===
+      self.findIndex(
+        x=>
+          x.name.toLowerCase()===
+          p.name.toLowerCase()
+      )
+  );
 
 }
 
 
 /* =====================================================
-OPPONENT DB
+CARDS
 ===================================================== */
 
-function updateOpponentDatabase(state){
+function detectCards(text){
 
-const hero=state.hero?.name;
+  /*
+  Reconhece formatos:
 
-state.players
-.filter(p=>p.name&&p.name!==hero)
-.forEach(p=>{
+  9c 9d
+  9♣ 9♦
+  9 C 9 D
+  */
 
-let dbPlayer=
-DB.players.find(
-x=>
-x.name.toLowerCase()===
-p.name.toLowerCase()
-);
+  const matches=
+    text.match(
+      /\b([2-9TJQKA])\s*([♠♥♦♣SHDC])\b/gi
+    )||[];
 
-if(!dbPlayer){
+  const normalized=
+    matches.map(
+      normalizeCard
+    );
 
-dbPlayer={
+  /*
+  No layout KKPoker as duas cartas do
+  Hero aparecem juntas na região inferior
+  da mesa. Procuramos pares.
+  */
 
-name:p.name,
+  const hero=
+    findLikelyHeroCards(
+      normalized
+    );
 
-type:"Desconhecido",
+  return{
 
-notes:"",
+    all:normalized,
 
-hands:0,
+    hero
 
-confidence:"baixa"
-
-};
-
-DB.players.push(dbPlayer);
+  };
 
 }
 
-dbPlayer.hands++;
+function normalizeCard(card){
 
-if(dbPlayer.hands>=20)
-dbPlayer.confidence="moderada";
+  const x=
+    card
+      .replace(/\s+/g,"")
+      .toUpperCase();
 
-if(dbPlayer.hands>=100)
-dbPlayer.confidence="alta";
+  const rank=x[0];
 
-});
+  const suit=x[1];
 
-save();
+  const map={
+    S:"♠",
+    H:"♥",
+    D:"♦",
+    C:"♣"
+  };
+
+  return(
+    rank+
+    (map[suit]||suit)
+  );
+
+}
+
+function findLikelyHeroCards(cards){
+
+  const result=[];
+
+  for(let i=0;i<cards.length;i++){
+
+    for(let j=i+1;j<cards.length;j++){
+
+      if(
+        cards[i]!==cards[j]
+      ){
+
+        result.push(
+          cards[i],
+          cards[j]
+        );
+
+        if(result.length===2)
+          return result;
+
+      }
+
+    }
+
+  }
+
+  return cards.slice(0,2);
 
 }
 
 
 /* =====================================================
-ANALYSIS
+BOARD
 ===================================================== */
 
-function analyzeCurrent(){
+function detectBoard(text){
 
-const state=collectState();
+  const matches=
+    text.match(
+      /\b([2-9TJQKA])\s*([♠♥♦♣SHDC])\b/gi
+    )||[];
 
-const box=
-document.getElementById(
-"analysisBox"
-);
+  const cards=
+    matches.map(
+      normalizeCard
+    );
 
-box.innerHTML=
-`
-<div class="card">
+  /*
+  O board do KKPoker aparece no centro.
+  Tentamos localizar sequências de 3-5 cartas.
+  */
 
-<h2>🧠 Coach</h2>
+  if(cards.length>=5)
+    return cards.slice(
+      cards.length-5
+    );
 
-<div class="success">
-
-A mão foi reconstruída com
-${state.players.length} jogadores.
-
-</div>
-
-<br>
-
-<p class="reason">
-
-<strong>Tipo:</strong>
-
-${state.multiway
-?"Multiway"
-:"Heads-up"}
-
-<br><br>
-
-<strong>Board:</strong>
-
-${escapeHtml(
-state.board||"não informado"
-)}
-
-<br><br>
-
-<strong>Pré-flop:</strong>
-
-${state.streets.preflop.length}
-ações encontradas.
-
-</p>
-
-<hr>
-
-<p class="reason">
-
-O Cérebro ainda não deve chamar
-uma decisão de GTO com base apenas
-no OCR.
-
-A próxima camada será:
-
-<br><br>
-
-Equity → ranges → pot odds → EV.
-
-</p>
-
-</div>
-`;
+  return cards;
 
 }
 
 
 /* =====================================================
-PLAYER DB UI
+POT
 ===================================================== */
 
-function savePlayer(){
+function detectPot(text){
 
-const name=
-document.getElementById(
-"playerNewName"
-).value.trim();
+  const matches=
+    text.match(
+      /(?:pot|pote)\s*[:\-]?\s*([0-9.,]+[kKmM]?)/i
+    );
 
-if(!name){
+  if(matches)
+    return matches[1];
 
-alert(
-"Digite o nickname."
-);
+  /*
+  fallback para número com K
+  */
 
-return;
+  const k=
+    text.match(
+      /\b\d+(?:\.\d+)?K\b/
+    );
 
-}
-
-const type=
-document.getElementById(
-"playerNewType"
-).value;
-
-const notes=
-document.getElementById(
-"playerNewNotes"
-).value.trim();
-
-const existing=
-DB.players.find(
-p=>
-p.name.toLowerCase()===
-name.toLowerCase()
-);
-
-if(existing){
-
-existing.type=type;
-
-if(notes)
-existing.notes=
-(existing.notes||"")+
-"\n"+notes;
-
-}else{
-
-DB.players.push({
-
-name,
-type,
-notes,
-hands:0,
-confidence:"baixa"
-
-});
+  return k?k[0]:"";
 
 }
 
-save();
 
-refresh();
+/* =====================================================
+STACK
+===================================================== */
+
+function extractStack(line){
+
+  const matches=
+    line.match(
+      /(\d+(?:[.,]\d+)?\s*[kKmM]?)/
+    );
+
+  return matches
+    ?normalizeAmount(matches[1])
+    :"";
 
 }
+
+function normalizeAmount(value){
+
+  return value
+    .replace(/\s+/g,"")
+    .replace(",", ".");
+
+}
+
+
+/* =====================================================
+UTILITIES
+===================================================== */
+
+function cleanLine(line){
+
+  return line
+    .replace(/[|_]+/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+
+}
+
+function cleanPlayerName(name){
+
+  return name
+    .replace(
+      /^(player|jogador)\s*\d*\s*/i,
+      ""
+    )
+    .replace(
+      /\d+(?:[.,]\d+)?[kKmM]?$/,
+      ""
+    )
+    .trim();
+
+}
+
+function normalizePosition(position){
+
+  return position
+    .toUpperCase()
+    .replace(/\s+/g,"");
+
+}
+
+function escapeRegex(value){
+
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
+
+}
+
+function countActivePlayers(actions){
+
+  const names=
+    actions
+      .map(a=>a.player)
+      .filter(Boolean);
+
+  return new Set(
+    names.map(
+      x=>x.toLowerCase()
+    )
+  ).size;
+
+}
+
+function calculateGameConfidence(
+  players,
+  actions,
+  cards,
+  board
+){
+
+  let score=.20;
+
+  if(players.length>=6)
+    score+=.20;
+
+  if(actions.length>=5)
+    score+=.25;
+
+  if(cards.hero.length===2)
+    score+=.15;
+
+  if(board.length>=3)
+    score+=.10;
+
+  if(
+    actions.some(
+      a=>a.action==="All-In"
+    )
+  )
+    score+=.05;
+
+  return Math.min(
+    .98,
+    score
+  );
+
+}
+
+function setProgress(value){
+
+  document.getElementById(
+    "progress"
+  ).style.width=
+    value+"%";
+
+}
+
+
+/* =====================================================
+RENDER
+===================================================== */
+
+async function renderParsed(parsed){
+
+  const box=
+    document.getElementById(
+      "result"
+    );
+
+  if(!parsed){
+
+    box.innerHTML=
+    `
+    <div class="card">
+
+      <div class="empty">
+        Nenhuma reconstrução ainda.
+      </div>
+
+    </div>
+    `;
+
+    return;
+
+  }
+
+  const confidence=
+    Math.round(
+      parsed.confidence*100
+    );
+
+  let color=
+    confidence>=85
+      ?"green"
+      :confidence>=60
+        ?"yellow"
+        :"red";
+
+  box.innerHTML=
+  `
+
+  <div class="card">
+
+    <h2>🧠 Game State detectado</h2>
+
+    <div class="${color}">
+
+      Confiança geral:
+      <strong>${confidence}%</strong>
+
+    </div>
+
+    <div class="confidence">
+      <div
+        style="
+          width:${confidence}%;
+          background:
+          ${confidence>=85
+            ?"var(--green)"
+            :confidence>=60
+              ?"var(--yellow)"
+              :"var(--red)"};
+        "
+      ></div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>👤 Hero</h2>
+
+    <div class="heroBox">
+
+      <strong>
+        ${escapeHTML(
+          parsed.hero?.name||"Não identificado"
+        )}
+      </strong>
+
+      <br>
+
+      <span class="tag">
+        ${escapeHTML(
+          parsed.hero?.position||"?"
+        )}
+      </span>
+
+      <br><br>
+
+      <div class="board">
+        ${escapeHTML(
+          parsed.hero?.cards||"?"
+        )}
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🃏 Board</h2>
+
+    <div class="board">
+
+      ${escapeHTML(
+        parsed.board||"Não identificado"
+      )}
+
+    </div>
+
+    <br>
+
+    <span class="tag">
+
+      Pot:
+      ${escapeHTML(
+        parsed.finalPot||"?"
+      )}
+
+    </span>
+
+    <span class="tag">
+
+      ${
+        parsed.multiway
+          ?"MULTIWAY"
+          :"HEADS-UP"
+      }
+
+    </span>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>👥 Jogadores</h2>
+
+    ${
+      parsed.players.length
+      ?
+      parsed.players
+        .map(p=>`
+
+        <div class="player">
+
+          <strong>
+            ${escapeHTML(p.name)}
+          </strong>
+
+          <span class="tag">
+            ${escapeHTML(
+              p.position||"?"
+            )}
+          </span>
+
+          ${
+            p.stack
+            ?
+            `<span class="tag">
+              ${escapeHTML(p.stack)}
+            </span>`
+            :""
+          }
+
+        </div>
+
+      `).join("")
+      :
+      `<div class="warning">
+        Nenhum jogador identificado.
+      </div>`
+    }
+
+  </div>
+
+
+  ${renderStreet(
+    "Pré-flop",
+    parsed.streets.preflop
+  )}
+
+  ${renderStreet(
+    "Flop",
+    parsed.streets.flop
+  )}
+
+  ${renderStreet(
+    "Turn",
+    parsed.streets.turn
+  )}
+
+  ${renderStreet(
+    "River",
+    parsed.streets.river
+  )}
+
+
+  <div class="card">
+
+    <h2>⚠️ Conferência</h2>
+
+    <div class="warning">
+
+      A reconstrução automática é uma
+      hipótese gerada a partir da imagem.
+
+      <br><br>
+
+      Antes de salvar como definitiva,
+      confira principalmente:
+
+      <br><br>
+
+      • valores das apostas<br>
+      • ordem das ações<br>
+      • nickname dos jogadores<br>
+      • cartas<br>
+      • board
+
+    </div>
+
+    <button
+      class="primary"
+      onclick="confirmParsed()">
+
+      ✓ CONFIRMAR E SALVAR
+
+    </button>
+
+  </div>
+
+  `;
+
+}
+
+
+function renderStreet(
+  title,
+  actions
+){
+
+  if(!actions?.length)
+    return "";
+
+  return`
+
+  <div class="card">
+
+    <div class="reconstruction">
+
+      <div class="streetTitle">
+        ${title}
+      </div>
+
+      <div class="streetBody">
+
+        ${actions.map(a=>`
+
+          <div class="row">
+
+            <div>
+
+              <strong>
+                ${escapeHTML(
+                  a.player||"?"
+                )}
+              </strong>
+
+              <br>
+
+              <span class="tag">
+                ${escapeHTML(
+                  a.position||"?"
+                )}
+              </span>
+
+            </div>
+
+            <div>
+
+              <strong>
+                ${escapeHTML(
+                  a.action
+                )}
+              </strong>
+
+              ${
+                a.amount
+                ?
+                `<br>
+                ${escapeHTML(
+                  a.amount
+                )}`
+                :""
+              }
+
+            </div>
+
+          </div>
+
+        `).join("")}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+CONFIRM
+===================================================== */
+
+function confirmParsed(){
+
+  const hand=
+    DB.hands.find(
+      h=>h.id===DB.current
+    );
+
+  if(!hand)
+    return;
+
+  hand.confirmed=true;
+
+  hand.status=
+    "Game State confirmado";
+
+  save();
+
+  updatePlayers(
+    hand.parsed
+  );
+
+  alert(
+    "Mão confirmada e salva no Cérebro."
+  );
+
+  refresh();
+
+}
+
+
+/* =====================================================
+PLAYER DATABASE
+===================================================== */
+
+function updatePlayers(game){
+
+  if(!game)
+    return;
+
+  game.players.forEach(p=>{
+
+    if(!p.name)
+      return;
+
+    const existing=
+      DB.players.find(
+        x=>
+          x.name.toLowerCase()===
+          p.name.toLowerCase()
+      );
+
+    if(existing){
+
+      existing.hands++;
+
+      if(
+        p.position &&
+        !existing.positions.includes(
+          p.position
+        )
+      ){
+
+        existing.positions.push(
+          p.position
+        );
+
+      }
+
+    }else{
+
+      DB.players.push({
+
+        name:p.name,
+
+        hands:1,
+
+        positions:
+          p.position
+            ?[p.position]
+            :[],
+
+        notes:"",
+
+        profile:
+          "Desconhecido"
+
+      });
+
+    }
+
+  });
+
+  save();
+
+}
+
+
+/* =====================================================
+HANDS LIST
+===================================================== */
+
+async function renderHands(){
+
+  const box=
+    document.getElementById(
+      "handsList"
+    );
+
+  if(!box)
+    return;
+
+  if(!DB.hands.length){
+
+    box.innerHTML=
+    `
+    <div class="empty">
+      Nenhuma mão importada.
+    </div>
+    `;
+
+    return;
+
+  }
+
+  let html="";
+
+  for(
+    const hand
+    of [...DB.hands].reverse()
+  ){
+
+    const image=
+      await getImage(
+        hand.imageId
+      );
+
+    const p=
+      hand.parsed;
+
+    html+=`
+
+    <div class="hand">
+
+      ${
+        image
+        ?
+        `<img src="${image}">`
+        :""
+      }
+
+      <br>
+
+      <strong>
+        ${
+          p?.hero?.name
+          ?
+          escapeHTML(
+            p.hero.name
+          )
+          :
+          "Mão importada"
+        }
+      </strong>
+
+      <span class="tag">
+
+        ${
+          p?.multiway
+          ?"MULTIWAY"
+          :""
+
+        }
+
+      </span>
+
+      <span class="tag">
+
+        ${
+          hand.confirmed
+          ?"✓ Confirmada"
+          :"Não confirmada"
+        }
+
+      </span>
+
+      <br><br>
+
+      <button
+        class="secondary"
+        onclick=
+        "openHand('${hand.id}')">
+
+        🧩 ABRIR RECONSTRUÇÃO
+
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  box.innerHTML=html;
+
+}
+
+
+/* =====================================================
+PLAYER LIST
+===================================================== */
 
 function renderPlayers(){
 
-const box=
-document.getElementById(
-"playerList"
-);
+  const box=
+    document.getElementById(
+      "playerList"
+    );
 
-if(!DB.players.length){
+  if(!box)
+    return;
 
-box.innerHTML=
-`
-<div class="empty">
-Nenhum oponente cadastrado.
-</div>
-`;
+  if(!DB.players.length){
 
-return;
+    box.innerHTML=
+    `
+    <div class="empty">
+      Ainda não há oponentes.
+    </div>
+    `;
 
-}
+    return;
 
-box.innerHTML=
-DB.players.map(p=>`
+  }
 
-<div class="player">
+  box.innerHTML=
+    DB.players.map(p=>`
 
-<strong>
-${escapeHtml(p.name)}
-</strong>
+      <div class="player">
 
-<span class="tag">
-${escapeHtml(p.type)}
-</span>
+        <strong>
+          ${escapeHTML(p.name)}
+        </strong>
 
-<span class="tag">
-${p.hands||0} mãos
-</span>
+        <span class="tag">
+          ${p.profile}
+        </span>
 
-<p class="small reason">
+        <span class="tag">
+          ${p.hands} mãos
+        </span>
 
-${escapeHtml(
-p.notes||"Sem observações."
-)}
+        <p class="small muted">
 
-</p>
+          Posições:
+          ${p.positions.join(", ")}
 
-<span class="tag">
-Confiança:
-${escapeHtml(p.confidence)}
-</span>
+        </p>
 
-</div>
+      </div>
 
-`).join("");
+    `).join("");
 
 }
 
 
 /* =====================================================
-DELETE
+STATS
 ===================================================== */
 
-async function deleteHand(id){
+function renderStats(){
 
-if(!confirm(
-"Excluir esta mão?"
-))
-return;
+  document.getElementById(
+    "stats"
+  ).innerHTML=
 
-const hand=
-DB.hands.find(h=>h.id===id);
+  `
 
-if(hand?.imageId)
-await deleteImage(hand.imageId);
+  <div class="tag">
+    ${DB.hands.length} mãos
+  </div>
 
-DB.hands=
-DB.hands.filter(h=>h.id!==id);
+  <div class="tag">
+    ${
+      DB.hands.filter(
+        h=>h.parsed?.multiway
+      ).length
+    }
+    multiway
+  </div>
 
-save();
+  <div class="tag">
+    ${DB.players.length}
+    jogadores
+  </div>
 
-refresh();
+  `;
 
 }
 
@@ -2590,35 +2661,13 @@ REFRESH
 
 function refresh(){
 
-load();
+  load();
 
-document.getElementById(
-"countHands"
-).textContent=
-DB.hands.length;
+  renderStats();
 
-document.getElementById(
-"countPlayers"
-).textContent=
-DB.players.length;
+  renderHands();
 
-document.getElementById(
-"countImages"
-).textContent=
-DB.hands.filter(
-h=>h.imageId
-).length;
-
-document.getElementById(
-"countMultiway"
-).textContent=
-DB.hands.filter(
-h=>h.gameState?.multiway
-).length;
-
-renderHands();
-
-renderPlayers();
+  renderPlayers();
 
 }
 
@@ -2627,14 +2676,14 @@ renderPlayers();
 ESCAPE
 ===================================================== */
 
-function escapeHtml(v){
+function escapeHTML(value){
 
-return String(v??"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+  return String(value??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
@@ -2643,14 +2692,11 @@ return String(v??"")
 START
 ===================================================== */
 
-load();
-
 openImageDB()
-.then(refresh)
-.catch(refresh);
+  .then(refresh)
+  .catch(refresh);
 
 </script>
 
 </body>
-
 </html>
