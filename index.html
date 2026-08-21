@@ -1,735 +1,784 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
 content="width=device-width,
 initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no">
+maximum-scale=1.0">
 
-<title>Cérebro Poker V2</title>
+<title>Cérebro Poker V2.1</title>
 
 <style>
 
-:root {
-  --bg:#070a10;
-  --card:#111722;
-  --card2:#182130;
-  --border:#293447;
-  --text:#f5f7fa;
-  --muted:#8d99aa;
-  --green:#35d07f;
-  --red:#ff5964;
-  --yellow:#ffc857;
-  --blue:#55a7ff;
-  --purple:#a77bff;
+:root{
+--bg:#070a10;
+--card:#111722;
+--card2:#192232;
+--border:#29364a;
+--text:#f5f7fa;
+--muted:#8e9bad;
+--green:#35d07f;
+--red:#ff5964;
+--yellow:#ffc857;
+--blue:#55a7ff;
 }
 
-* {
-  box-sizing:border-box;
+*{
+box-sizing:border-box;
 }
 
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Arial,sans-serif;
 }
 
-header {
-  padding:20px 18px 12px;
+header{
+padding:20px 17px 12px;
 }
 
-.logo {
-  font-size:27px;
-  font-weight:900;
+.logo{
+font-size:27px;
+font-weight:900;
 }
 
-.subtitle {
-  color:var(--muted);
-  font-size:13px;
-  margin-top:3px;
+.subtitle{
+font-size:13px;
+color:var(--muted);
+margin-top:3px;
 }
 
-nav {
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:8px 14px 12px;
-  border-bottom:1px solid var(--border);
-  scrollbar-width:none;
+nav{
+display:flex;
+gap:7px;
+overflow-x:auto;
+padding:8px 12px 12px;
+border-bottom:1px solid var(--border);
 }
 
-nav::-webkit-scrollbar {
-  display:none;
+nav button{
+white-space:nowrap;
+background:var(--card);
+color:var(--muted);
+border:1px solid var(--border);
+border-radius:20px;
+padding:9px 13px;
 }
 
-nav button {
-  white-space:nowrap;
-  background:var(--card);
-  color:var(--muted);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:9px 14px;
+nav button.active{
+background:var(--green);
+color:#04130b;
+font-weight:900;
 }
 
-nav button.active {
-  background:var(--green);
-  color:#04130b;
-  border-color:var(--green);
-  font-weight:800;
+main{
+max-width:760px;
+margin:auto;
+padding:14px;
 }
 
-main {
-  max-width:720px;
-  margin:auto;
-  padding:14px;
+.section{
+display:none;
 }
 
-.section {
-  display:none;
+.section.active{
+display:block;
 }
 
-.section.active {
-  display:block;
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:17px;
+padding:15px;
+margin-bottom:13px;
 }
 
-.card {
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:16px;
-  margin-bottom:13px;
+.card h2{
+margin:0 0 12px;
+font-size:18px;
 }
 
-.card h2 {
-  margin:0 0 10px;
-  font-size:18px;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
 }
 
-.card h3 {
-  margin:0 0 7px;
-  font-size:15px;
+.stat{
+background:var(--card2);
+padding:13px;
+border-radius:12px;
 }
 
-.stat-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+.stat-value{
+font-size:22px;
+font-weight:900;
 }
 
-.stat {
-  background:var(--card2);
-  border-radius:12px;
-  padding:13px;
+.stat-label{
+font-size:11px;
+color:var(--muted);
+margin-top:3px;
 }
 
-.stat-value {
-  font-size:22px;
-  font-weight:900;
+input,select,textarea{
+width:100%;
+background:#0b1018;
+color:var(--text);
+border:1px solid var(--border);
+border-radius:10px;
+padding:11px;
+margin:5px 0 10px;
+font-size:15px;
 }
 
-.stat-label {
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
+textarea{
+min-height:80px;
 }
 
-.big-action {
-  font-size:34px;
-  font-weight:950;
-  margin:8px 0 12px;
+button.primary{
+width:100%;
+background:var(--green);
+color:#04130b;
+border:0;
+border-radius:11px;
+padding:13px;
+font-weight:900;
+margin-top:5px;
 }
 
-.green { color:var(--green); }
-.red { color:var(--red); }
-.yellow { color:var(--yellow); }
-.blue { color:var(--blue); }
-.purple { color:var(--purple); }
-
-.muted {
-  color:var(--muted);
+button.secondary{
+width:100%;
+background:var(--card2);
+color:var(--text);
+border:1px solid var(--border);
+border-radius:11px;
+padding:12px;
+font-weight:800;
+margin-top:7px;
 }
 
-.reason {
-  color:#d9dfe8;
-  line-height:1.55;
+button.danger{
+width:100%;
+background:rgba(255,89,100,.1);
+color:var(--red);
+border:1px solid rgba(255,89,100,.3);
+border-radius:11px;
+padding:10px;
+margin-top:7px;
 }
 
-.small {
-  font-size:12px;
+.filebox{
+border:2px dashed var(--border);
+border-radius:14px;
+padding:20px 12px;
+text-align:center;
+background:#0b1018;
 }
 
-input,
-select,
-textarea {
-  width:100%;
-  background:#0b1018;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:12px;
-  margin:5px 0 11px;
-  font-size:15px;
+.filebox input{
+border:0;
 }
 
-textarea {
-  min-height:90px;
+.hand{
+background:var(--card2);
+border-radius:14px;
+padding:12px;
+margin-bottom:12px;
 }
 
-button.primary {
-  width:100%;
-  background:var(--green);
-  color:#04130b;
-  border:0;
-  border-radius:12px;
-  padding:13px;
-  font-size:15px;
-  font-weight:900;
-  margin-top:5px;
+.hand img{
+width:100%;
+max-height:500px;
+object-fit:contain;
+background:#05070a;
+border-radius:10px;
+margin-top:9px;
 }
 
-button.secondary {
-  width:100%;
-  background:var(--card2);
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  font-weight:700;
-  margin-top:7px;
+.player{
+background:#0c121b;
+border:1px solid var(--border);
+border-radius:12px;
+padding:11px;
+margin-bottom:9px;
 }
 
-button.danger {
-  width:100%;
-  background:rgba(255,89,100,.10);
-  color:var(--red);
-  border:1px solid rgba(255,89,100,.3);
-  border-radius:12px;
-  padding:11px;
-  margin-top:7px;
+.player-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
 }
 
-.file-box {
-  border:2px dashed var(--border);
-  border-radius:15px;
-  padding:22px 14px;
-  text-align:center;
-  background:#0c111a;
-  margin-bottom:12px;
+.street{
+border:1px solid var(--border);
+border-radius:13px;
+margin-bottom:11px;
+overflow:hidden;
 }
 
-.file-box input {
-  border:0;
-  padding:5px;
-  margin:10px 0 0;
+.street-title{
+background:#1b2637;
+padding:10px 12px;
+font-weight:900;
 }
 
-.hand-card {
-  background:var(--card2);
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:10px;
+.street-body{
+padding:10px;
 }
 
-.hand-image {
-  width:100%;
-  max-height:420px;
-  object-fit:contain;
-  background:#05070b;
-  border-radius:11px;
-  margin-top:10px;
+.action{
+display:grid;
+grid-template-columns:
+1.2fr .8fr 1fr;
+gap:6px;
+align-items:center;
+margin-bottom:7px;
 }
 
-.opponent {
-  background:var(--card2);
-  border-radius:13px;
-  padding:13px;
-  margin-bottom:9px;
+.tag{
+display:inline-block;
+font-size:11px;
+background:#283449;
+color:#c7d0dd;
+border-radius:7px;
+padding:4px 7px;
+margin:2px;
 }
 
-.opponent-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.green{
+color:var(--green);
 }
 
-.tag {
-  display:inline-block;
-  background:#263246;
-  color:#bac5d5;
-  padding:4px 7px;
-  border-radius:7px;
-  font-size:11px;
-  margin:3px 2px 0 0;
+.yellow{
+color:var(--yellow);
 }
 
-.empty {
-  text-align:center;
-  color:var(--muted);
-  padding:25px 8px;
+.red{
+color:var(--red);
 }
 
-hr {
-  border:0;
-  border-top:1px solid var(--border);
-  margin:15px 0;
+.blue{
+color:var(--blue);
 }
 
-.notice {
-  background:rgba(85,167,255,.08);
-  border:1px solid rgba(85,167,255,.25);
-  border-radius:11px;
-  padding:11px;
-  color:#cbdcff;
-  font-size:13px;
-  line-height:1.5;
+.muted{
+color:var(--muted);
 }
 
-.warning {
-  background:rgba(255,200,87,.08);
-  border:1px solid rgba(255,200,87,.25);
-  border-radius:11px;
-  padding:11px;
-  color:#ffe1a0;
-  font-size:13px;
-  line-height:1.5;
+.small{
+font-size:12px;
+}
+
+.reason{
+line-height:1.55;
+color:#dce2ea;
+}
+
+.notice{
+background:rgba(85,167,255,.08);
+border:1px solid rgba(85,167,255,.25);
+border-radius:11px;
+padding:11px;
+font-size:13px;
+line-height:1.5;
+}
+
+.warning{
+background:rgba(255,200,87,.08);
+border:1px solid rgba(255,200,87,.25);
+border-radius:11px;
+padding:11px;
+font-size:13px;
+line-height:1.5;
+}
+
+.empty{
+padding:25px 8px;
+text-align:center;
+color:var(--muted);
+}
+
+hr{
+border:0;
+border-top:1px solid var(--border);
+margin:14px 0;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
 
-  <div class="logo">🧠 Cérebro</div>
+<div class="logo">🧠 Cérebro</div>
 
-  <div class="subtitle">
-    Poker Coach · V2.0
-  </div>
+<div class="subtitle">
+Poker Coach · V2.1
+</div>
 
 </header>
 
 <nav>
 
-  <button
-    class="active"
-    onclick="showSection('home',this)">
-    Início
-  </button>
+<button class="active"
+onclick="show('home',this)">
+Início
+</button>
 
-  <button
-    onclick="showSection('import',this)">
-    📸 Importar
-  </button>
+<button onclick="show('import',this)">
+📸 Importar
+</button>
 
-  <button
-    onclick="showSection('hands',this)">
-    ♠️ Mãos
-  </button>
+<button onclick="show('hands',this)">
+♠️ Mãos
+</button>
 
-  <button
-    onclick="showSection('players',this)">
-    👤 Oponentes
-  </button>
+<button onclick="show('editor',this)">
+🧩 Reconstruir
+</button>
 
-  <button
-    onclick="showSection('session',this)">
-    📊 Sessão
-  </button>
+<button onclick="show('players',this)">
+👤 Oponentes
+</button>
 
-  <button
-    onclick="showSection('study',this)">
-    📚 Estudo
-  </button>
+<button onclick="show('study',this)">
+📚 Estudo
+</button>
 
 </nav>
+
 
 <main>
 
 
-<!-- ================= HOME ================= -->
+<!-- HOME -->
 
 <section id="home" class="section active">
 
-  <div class="card">
+<div class="card">
 
-    <h2>Seu Cérebro</h2>
+<h2>🧠 Estado do Cérebro</h2>
 
-    <div class="stat-grid">
+<div class="grid">
 
-      <div class="stat">
+<div class="stat">
+<div class="stat-value" id="countHands">0</div>
+<div class="stat-label">mãos</div>
+</div>
 
-        <div
-          class="stat-value"
-          id="handCount">
-          0
-        </div>
+<div class="stat">
+<div class="stat-value" id="countPlayers">0</div>
+<div class="stat-label">oponentes</div>
+</div>
 
-        <div class="stat-label">
-          mãos
-        </div>
+<div class="stat">
+<div class="stat-value" id="countImages">0</div>
+<div class="stat-label">screenshots</div>
+</div>
 
-      </div>
+<div class="stat">
+<div class="stat-value" id="countMultiway">0</div>
+<div class="stat-label">multiway</div>
+</div>
 
-      <div class="stat">
+</div>
 
-        <div
-          class="stat-value"
-          id="playerCount">
-          0
-        </div>
-
-        <div class="stat-label">
-          oponentes
-        </div>
-
-      </div>
-
-      <div class="stat">
-
-        <div
-          class="stat-value"
-          id="sessionCount">
-          0
-        </div>
-
-        <div class="stat-label">
-          sessões
-        </div>
-
-      </div>
-
-      <div class="stat">
-
-        <div
-          class="stat-value"
-          id="imageCount">
-          0
-        </div>
-
-        <div class="stat-label">
-          imagens
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="card">
+<div class="card">
 
-    <h2>🧑‍🏫 Coach</h2>
+<h2>🎯 Fluxo da V2.1</h2>
 
-    <p class="reason">
+<p class="reason">
 
-      Ainda estou construindo seu perfil.
-      Quanto mais mãos eu receber, melhor poderei
-      identificar seus padrões e os padrões dos seus adversários.
+<strong>1.</strong> Importamos a screenshot.
 
-    </p>
+<br><br>
 
-    <button
-      class="primary"
-      onclick="goTo('import')">
+<strong>2.</strong> Reconstruímos a mão.
 
-      📸 IMPORTAR MÃOS
+<br><br>
 
-    </button>
+<strong>3.</strong> Confirmamos os dados.
 
-  </div>
+<br><br>
 
+<strong>4.</strong> O Cérebro analisa a linha.
 
-  <div class="card">
+<br><br>
 
-    <h2>🎯 Filosofia</h2>
+<strong>5.</strong> A mão passa a fazer parte
+da memória dos jogadores.
 
-    <p class="reason">
+</p>
 
-      <strong>
-      Resultado não é qualidade da decisão.
-      </strong>
+<button class="primary"
+onclick="go('import')">
 
-      Uma mão perdida pode ter sido perfeitamente jogada.
-      Uma mão ganha pode ter sido um desastre.
+📸 IMPORTAR MÃO
 
-    </p>
+</button>
 
-  </div>
+</div>
 
 </section>
 
 
-
-<!-- ================= IMPORT ================= -->
+<!-- IMPORT -->
 
 <section id="import" class="section">
 
-  <div class="card">
+<div class="card">
 
-    <h2>📸 Importar mãos</h2>
+<h2>📸 Importar screenshot</h2>
 
-    <div class="notice">
+<div class="notice">
 
-      No KKPoker, abra o Hand Review,
-      escolha a mão e use <strong>Save Image</strong>.
-      Depois selecione as imagens aqui.
+Use a imagem salva pelo Hand Review
+do KKPoker. A V2.1 aceita múltiplas
+imagens para a mesma biblioteca.
 
-    </div>
+</div>
 
-    <br>
+<br>
 
-    <div class="file-box">
+<div class="filebox">
 
-      <strong>
-        Toque para selecionar screenshots
-      </strong>
+<strong>
+Selecionar screenshots
+</strong>
 
-      <p class="small muted">
-        Você pode selecionar várias imagens.
-      </p>
+<p class="small muted">
+Você pode selecionar várias.
+</p>
 
-      <input
-        id="imageInput"
-        type="file"
-        accept="image/*"
-        multiple
-        onchange="importImages(event)">
+<input
+id="fileInput"
+type="file"
+accept="image/*"
+multiple
+onchange="importImages(event)">
 
-    </div>
+</div>
 
-    <div
-      id="importStatus"
-      class="small muted">
-    </div>
+<p id="importStatus"
+class="small muted">
+</p>
 
-  </div>
-
-
-  <div class="card">
-
-    <h2>Como vamos usar isso</h2>
-
-    <p class="reason">
-
-      <strong>V2.0:</strong>
-      guardar, organizar e associar as imagens.
-
-      <br><br>
-
-      <strong>V2.1:</strong>
-      reconhecimento automático das cartas,
-      pote, stacks, ações e jogadores.
-
-      <br><br>
-
-      <strong>V3:</strong>
-      análise estratégica completa.
-
-    </p>
-
-    <div class="warning">
-
-      A primeira versão de reconhecimento terá
-      confirmação humana antes de gravar dados
-      estratégicos. Isso evita contaminar a base
-      com uma leitura errada de uma carta ou número.
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
-
-<!-- ================= HANDS ================= -->
+<!-- HANDS -->
 
 <section id="hands" class="section">
 
-  <div class="card">
+<div class="card">
 
-    <h2>♠️ Biblioteca de mãos</h2>
+<h2>♠️ Biblioteca</h2>
 
-    <div id="handList"></div>
+<div id="handsList"></div>
 
-  </div>
+</div>
 
 </section>
 
 
+<!-- EDITOR -->
 
-<!-- ================= PLAYERS ================= -->
+<section id="editor" class="section">
+
+<div class="card">
+
+<h2>🧩 Reconstrução da mão</h2>
+
+<div class="notice">
+
+Esta é a etapa central da V2.1.
+A imagem vira um <strong>Game State</strong>
+estruturado.
+
+O reconhecimento automático será
+adicionado em uma camada posterior.
+Por enquanto, o editor garante que
+podemos representar qualquer mão
+multiway corretamente.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Dados gerais</h2>
+
+<label>Nome da mão</label>
+
+<input id="handName"
+placeholder="Ex.: MTT 25K — mão 48291">
+
+<label>Número de jogadores</label>
+
+<input id="numPlayers"
+type="number"
+min="2"
+max="9"
+value="8">
+
+<label>Hero</label>
+
+<input id="heroName"
+placeholder="Seu nickname">
+
+<label>Posição do Hero</label>
+
+<select id="heroPosition">
+
+<option>UTG</option>
+<option>UTG+1</option>
+<option>MP</option>
+<option>HJ</option>
+<option>CO</option>
+<option>BTN</option>
+<option>SB</option>
+<option>BB</option>
+
+</select>
+
+<label>Hero cards</label>
+
+<input id="heroCards"
+placeholder="A♠ K♠">
+
+<label>Board</label>
+
+<input id="board"
+placeholder="7♠ 8♥ Q♣ 3♦ J♥">
+
+<label>Pote final</label>
+
+<input id="finalPot"
+placeholder="295.9K">
+
+<button class="secondary"
+onclick="generatePlayers()">
+
+GERAR JOGADORES
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>👥 Jogadores</h2>
+
+<div id="playersEditor"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>♠️ Pré-flop</h2>
+
+<div id="preflop"></div>
+
+<button class="secondary"
+onclick="addAction('preflop')">
+
++ ADICIONAR AÇÃO
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🟢 Flop</h2>
+
+<div id="flop"></div>
+
+<button class="secondary"
+onclick="addAction('flop')">
+
++ ADICIONAR AÇÃO
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🟡 Turn</h2>
+
+<div id="turn"></div>
+
+<button class="secondary"
+onclick="addAction('turn')">
+
++ ADICIONAR AÇÃO
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔴 River</h2>
+
+<div id="river"></div>
+
+<button class="secondary"
+onclick="addAction('river')">
+
++ ADICIONAR AÇÃO
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<button class="primary"
+onclick="saveStructuredHand()">
+
+💾 SALVAR GAME STATE
+
+</button>
+
+<button class="secondary"
+onclick="analyzeCurrent()">
+
+🧠 ANALISAR MÃO
+
+</button>
+
+</div>
+
+
+<div id="analysisBox"></div>
+
+</section>
+
+
+<!-- PLAYERS -->
 
 <section id="players" class="section">
 
-  <div class="card">
+<div class="card">
 
-    <h2>👤 Novo oponente</h2>
+<h2>👤 Novo oponente</h2>
 
-    <label>Nome / apelido</label>
+<label>Nome</label>
 
-    <input
-      id="playerName"
-      placeholder="Ex.: João123">
+<input id="playerNewName"
+placeholder="Nickname">
 
-    <label>Perfil atual</label>
+<label>Perfil</label>
 
-    <select id="playerType">
+<select id="playerNewType">
 
-      <option>Desconhecido</option>
-      <option>Recreativo</option>
-      <option>TAG</option>
-      <option>LAG</option>
-      <option>Calling Station</option>
-      <option>Nit</option>
-      <option>Maníaco</option>
-      <option>Regulador</option>
+<option>Desconhecido</option>
+<option>Recreativo</option>
+<option>TAG</option>
+<option>LAG</option>
+<option>Nit</option>
+<option>Calling Station</option>
+<option>Maníaco</option>
+<option>Regular</option>
 
-    </select>
+</select>
 
-    <label>
-      Pontos de atenção
-    </label>
+<label>Observações</label>
 
-    <textarea
-      id="playerNotes"
-      placeholder="Ex.: paga demais flop; pouco agressivo river...">
-    </textarea>
+<textarea
+id="playerNewNotes"
+placeholder="Tendências observadas...">
+</textarea>
 
-    <button
-      class="primary"
-      onclick="saveOpponent()">
+<button class="primary"
+onclick="savePlayer()">
 
-      SALVAR OPONENTE
+SALVAR OPONENTE
 
-    </button>
+</button>
 
-  </div>
+</div>
 
 
-  <div class="card">
+<div class="card">
 
-    <h2>
-      Base de adversários
-    </h2>
+<h2>Base de jogadores</h2>
 
-    <div id="opponentList"></div>
+<div id="playerList"></div>
 
-  </div>
+</div>
 
 </section>
 
 
-
-<!-- ================= SESSION ================= -->
-
-<section id="session" class="section">
-
-  <div class="card">
-
-    <h2>📊 Nova sessão</h2>
-
-    <label>Nome</label>
-
-    <input
-      id="sessionName"
-      placeholder="KKPoker — MTT">
-
-    <label>Observações</label>
-
-    <textarea
-      id="sessionNotes"
-      placeholder="Como você estava jogando?">
-    </textarea>
-
-    <button
-      class="primary"
-      onclick="saveSession()">
-
-      SALVAR SESSÃO
-
-    </button>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>
-      Resumo
-    </h2>
-
-    <div id="sessionSummary">
-
-      Ainda não existem dados suficientes.
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ================= STUDY ================= -->
+<!-- STUDY -->
 
 <section id="study" class="section">
 
-  <div class="card">
+<div class="card">
 
-    <h2>📚 Plano de evolução</h2>
+<h2>📚 Evolução</h2>
 
-    <p class="reason">
+<p class="reason">
 
-      O Cérebro será desenvolvido em camadas.
+<strong>V2.1</strong><br>
+Game State multiway + pré-flop + streets.
 
-    </p>
+<br><br>
 
-    <hr>
+<strong>V2.2</strong><br>
+Reconhecimento visual/OCR assistido.
 
-    <p class="small">
+<br><br>
 
-      <strong>V2.0</strong><br>
-      Biblioteca + screenshots + memória
+<strong>V2.3</strong><br>
+Equity e avaliação de mãos.
 
-      <br><br>
+<br><br>
 
-      <strong>V2.1</strong><br>
-      OCR + reconhecimento visual
+<strong>V3</strong><br>
+Ranges, EV, ICM e análise estratégica.
 
-      <br><br>
+<br><br>
 
-      <strong>V2.2</strong><br>
-      Equity + ranges + combos
+<strong>V4</strong><br>
+Coach personalizado e estatísticas
+de adversários.
 
-      <br><br>
+</p>
 
-      <strong>V3.0</strong><br>
-      EV + GTO + ICM + exploit
-
-      <br><br>
-
-      <strong>V4.0</strong><br>
-      Coach IA + perfil estatístico dos jogadores
-
-    </p>
-
-  </div>
+</div>
 
 </section>
-
 
 </main>
 
@@ -737,955 +786,1319 @@ hr {
 <script>
 
 /* =====================================================
-   DATABASE
+DATABASE
 ===================================================== */
 
-const DB_KEY = "cerebroPokerV02";
+const DBKEY="cerebro_v21";
 
-function loadDB() {
+let DB={
+hands:[],
+players:[],
+currentHand:null
+};
 
-  const raw =
-    localStorage.getItem(DB_KEY);
+function load(){
 
-  if (!raw) {
+try{
 
-    return {
-      hands: [],
-      opponents: [],
-      sessions: []
-    };
+const x=localStorage.getItem(DBKEY);
 
-  }
+if(x){
 
-  try {
-
-    return JSON.parse(raw);
-
-  } catch {
-
-    return {
-      hands: [],
-      opponents: [],
-      sessions: []
-    };
-
-  }
+DB=JSON.parse(x);
 
 }
 
-function saveDB(db) {
+}catch(e){
 
-  localStorage.setItem(
-    DB_KEY,
-    JSON.stringify(db)
-  );
+console.error(e);
+
+}
+
+}
+
+function save(){
+
+localStorage.setItem(
+DBKEY,
+JSON.stringify(DB)
+);
 
 }
 
 
 /* =====================================================
-   NAVIGATION
+INDEXED DB FOR IMAGES
 ===================================================== */
 
-function showSection(name,button) {
+let imageDB=null;
 
-  document
-    .querySelectorAll(".section")
-    .forEach(s =>
-      s.classList.remove("active")
-    );
+function openImageDB(){
 
-  document
-    .getElementById(name)
-    .classList.add("active");
+return new Promise((resolve,reject)=>{
 
-  document
-    .querySelectorAll("nav button")
-    .forEach(b =>
-      b.classList.remove("active")
-    );
+const req=
+indexedDB.open(
+"cerebro_images",
+1
+);
 
-  if (button)
-    button.classList.add("active");
+req.onupgradeneeded=e=>{
 
-  refresh();
+const db=e.target.result;
+
+if(!db.objectStoreNames.contains("images")){
+
+db.createObjectStore(
+"images",
+{keyPath:"id"}
+);
 
 }
 
+};
 
-function goTo(name) {
+req.onsuccess=e=>{
 
-  const button =
-    [...document.querySelectorAll("nav button")]
-      .find(b => {
+imageDB=e.target.result;
 
-        const text =
-          b.textContent.toLowerCase();
+resolve(imageDB);
 
-        if (name === "import")
-          return text.includes("importar");
+};
 
-        if (name === "hands")
-          return text.includes("mãos");
+req.onerror=reject;
 
-        if (name === "players")
-          return text.includes("oponentes");
+});
 
-        if (name === "session")
-          return text.includes("sessão");
+}
 
-        if (name === "study")
-          return text.includes("estudo");
+function putImage(id,data){
 
-        return text.includes("início");
+return new Promise((resolve,reject)=>{
 
-      });
+const tx=
+imageDB.transaction(
+"images",
+"readwrite"
+);
 
-  showSection(name,button);
+tx.objectStore("images")
+.put({
+id:id,
+data:data
+});
+
+tx.oncomplete=resolve;
+tx.onerror=reject;
+
+});
+
+}
+
+function getImage(id){
+
+return new Promise((resolve,reject)=>{
+
+const tx=
+imageDB.transaction(
+"images",
+"readonly"
+);
+
+const req=
+tx.objectStore("images")
+.get(id);
+
+req.onsuccess=
+()=>resolve(
+req.result?.data || ""
+);
+
+req.onerror=reject;
+
+});
 
 }
 
 
 /* =====================================================
-   IMAGE IMPORT
+NAVIGATION
 ===================================================== */
 
-async function importImages(event) {
-
-  const files =
-    [...event.target.files];
-
-  if (!files.length)
-    return;
-
-  const status =
-    document.getElementById("importStatus");
-
-  status.textContent =
-    "Importando " +
-    files.length +
-    " imagem(ns)...";
-
-  const db =
-    loadDB();
-
-  let imported = 0;
-
-  for (const file of files) {
-
-    if (!file.type.startsWith("image/"))
-      continue;
-
-    try {
-
-      const data =
-        await resizeImage(file);
-
-      db.hands.push({
-
-        id: Date.now() +
-            Math.random(),
-
-        created:
-          new Date().toISOString(),
-
-        source:
-          "KKPoker Screenshot",
-
-        image:
-          data,
-
-        hero:
-          "",
-
-        board:
-          "",
-
-        pot:
-          "",
-
-        opponent:
-          "",
-
-        action:
-          "",
-
-        decision:
-          "",
-
-        analysis:
-          "",
-
-        status:
-          "aguardando análise"
-
-      });
-
-      imported++;
-
-    } catch(error) {
-
-      console.error(
-        "Erro ao importar imagem",
-        error
-      );
-
-    }
-
-  }
-
-  saveDB(db);
-
-  status.innerHTML =
-    `<span class="green">
-      ${imported} imagem(ns) importada(s).
-    </span>`;
-
-  event.target.value = "";
-
-  refresh();
-
-  goTo("hands");
-
-}
-
-
-/* =====================================================
-   IMAGE RESIZE
-===================================================== */
-
-function resizeImage(file) {
-
-  return new Promise((resolve,reject) => {
-
-    const reader =
-      new FileReader();
-
-    reader.onload =
-      function(e) {
-
-        const img =
-          new Image();
-
-        img.onload =
-          function() {
-
-            const maxWidth = 1400;
-
-            let width =
-              img.width;
-
-            let height =
-              img.height;
-
-            if (width > maxWidth) {
-
-              const ratio =
-                maxWidth / width;
-
-              width =
-                maxWidth;
-
-              height =
-                height * ratio;
-
-            }
-
-            const canvas =
-              document.createElement("canvas");
-
-            canvas.width =
-              width;
-
-            canvas.height =
-              height;
-
-            const ctx =
-              canvas.getContext("2d");
-
-            ctx.drawImage(
-              img,
-              0,
-              0,
-              width,
-              height
-            );
-
-            resolve(
-              canvas.toDataURL(
-                "image/jpeg",
-                0.78
-              )
-            );
-
-          };
-
-        img.onerror =
-          reject;
-
-        img.src =
-          e.target.result;
-
-      };
-
-    reader.onerror =
-      reject;
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-/* =====================================================
-   HAND LIBRARY
-===================================================== */
-
-function renderHands() {
-
-  const db =
-    loadDB();
-
-  const container =
-    document.getElementById(
-      "handList"
-    );
-
-  if (!db.hands.length) {
-
-    container.innerHTML =
-      `<div class="empty">
-        Nenhuma mão importada ainda.
-      </div>`;
-
-    return;
-
-  }
-
-  container.innerHTML =
-    db.hands
-      .slice()
-      .reverse()
-      .map(hand => {
-
-        return `
-
-          <div class="hand-card">
-
-            <div>
-              <strong>
-                Mão importada
-              </strong>
-
-              <span class="tag">
-                ${escapeHTML(
-                  hand.status
-                )}
-              </span>
-
-            </div>
-
-            <div
-              class="small muted">
-              ${new Date(
-                hand.created
-              ).toLocaleString(
-                "pt-BR"
-              )}
-            </div>
-
-            <img
-              class="hand-image"
-              src="${hand.image}"
-              alt="Screenshot da mão">
-
-            <hr>
-
-            <label>
-              Hero
-            </label>
-
-            <input
-              value="${escapeAttr(
-                hand.hero
-              )}"
-              placeholder="A♠ K♠"
-              onchange="updateHand('${hand.id}','hero',this.value)">
-
-            <label>
-              Board
-            </label>
-
-            <input
-              value="${escapeAttr(
-                hand.board
-              )}"
-              placeholder="K♦ 8♣ 4♠"
-              onchange="updateHand('${hand.id}','board',this.value)">
-
-            <label>
-              Oponente
-            </label>
-
-            <input
-              value="${escapeAttr(
-                hand.opponent
-              )}"
-              placeholder="Nome do jogador"
-              onchange="updateHand('${hand.id}','opponent',this.value)">
-
-            <label>
-              Ação observada
-            </label>
-
-            <input
-              value="${escapeAttr(
-                hand.action
-              )}"
-              placeholder="Ex.: bet 6 BB"
-              onchange="updateHand('${hand.id}','action',this.value)">
-
-            <button
-              class="secondary"
-              onclick="prepareAnalysis('${hand.id}')">
-
-              🧠 PREPARAR ANÁLISE
-
-            </button>
-
-            <button
-              class="danger"
-              onclick="deleteHand('${hand.id}')">
-
-              Excluir mão
-
-            </button>
-
-          </div>
-
-        `;
-
-      })
-      .join("");
-
-}
-
-
-/* =====================================================
-   UPDATE HAND
-===================================================== */
-
-function updateHand(id,field,value) {
-
-  const db =
-    loadDB();
-
-  const hand =
-    db.hands.find(
-      h => String(h.id) === String(id)
-    );
-
-  if (!hand)
-    return;
-
-  hand[field] =
-    value;
-
-  saveDB(db);
-
-}
-
-
-/* =====================================================
-   PREPARE ANALYSIS
-===================================================== */
-
-function prepareAnalysis(id) {
-
-  const db =
-    loadDB();
-
-  const hand =
-    db.hands.find(
-      h => String(h.id) === String(id)
-    );
-
-  if (!hand)
-    return;
-
-  const missing = [];
-
-  if (!hand.hero)
-    missing.push("Hero");
-
-  if (!hand.board)
-    missing.push("Board");
-
-  if (!hand.action)
-    missing.push("ação");
-
-  if (missing.length) {
-
-    alert(
-      "Antes de analisar, confirme: " +
-      missing.join(", ") +
-      "."
-    );
-
-    return;
-
-  }
-
-  hand.status =
-    "pronta para análise";
-
-  saveDB(db);
-
-  alert(
-    "Mão preparada. " +
-    "O próximo passo será conectar o Poker Engine."
-  );
-
-  refresh();
-
-}
-
-
-/* =====================================================
-   DELETE HAND
-===================================================== */
-
-function deleteHand(id) {
-
-  if (!confirm(
-    "Excluir esta mão?"
-  ))
-    return;
-
-  const db =
-    loadDB();
-
-  db.hands =
-    db.hands.filter(
-      h =>
-        String(h.id) !==
-        String(id)
-    );
-
-  saveDB(db);
-
-  refresh();
-
-}
-
-
-/* =====================================================
-   OPPONENTS
-===================================================== */
-
-function saveOpponent() {
-
-  const db =
-    loadDB();
-
-  const name =
-    document
-      .getElementById(
-        "playerName"
-      )
-      .value
-      .trim();
-
-  if (!name) {
-
-    alert(
-      "Digite o nome do oponente."
-    );
-
-    return;
-
-  }
-
-  const type =
-    document
-      .getElementById(
-        "playerType"
-      )
-      .value;
-
-  const notes =
-    document
-      .getElementById(
-        "playerNotes"
-      )
-      .value
-      .trim();
-
-  const existing =
-    db.opponents.find(
-      p =>
-        p.name.toLowerCase() ===
-        name.toLowerCase()
-    );
-
-  if (existing) {
-
-    existing.type =
-      type;
-
-    if (notes) {
-
-      existing.notes =
-        existing.notes
-          ? existing.notes +
-            "\n" +
-            notes
-          : notes;
-
-    }
-
-    existing.updated =
-      new Date().toISOString();
-
-  } else {
-
-    db.opponents.push({
-
-      id:
-        Date.now(),
-
-      name,
-
-      type,
-
-      notes,
-
-      hands:
-        0,
-
-      confidence:
-        "baixa",
-
-      created:
-        new Date().toISOString(),
-
-      updated:
-        new Date().toISOString()
-
-    });
-
-  }
-
-  saveDB(db);
-
-  document
-    .getElementById(
-      "playerName"
-    )
-    .value = "";
-
-  document
-    .getElementById(
-      "playerNotes"
-    )
-    .value = "";
-
-  refresh();
-
-  alert(
-    "Oponente salvo na memória."
-  );
-
-}
-
-
-function renderOpponents() {
-
-  const db =
-    loadDB();
-
-  const container =
-    document.getElementById(
-      "opponentList"
-    );
-
-  if (!db.opponents.length) {
-
-    container.innerHTML =
-      `<div class="empty">
-        Ainda não conheço seus adversários.
-      </div>`;
-
-    return;
-
-  }
-
-  container.innerHTML =
-    db.opponents
-      .map(p => {
-
-        const tags =
-          p.notes
-            ? p.notes
-                .split(/[;,\n.]/)
-                .filter(Boolean)
-                .slice(0,6)
-                .map(n =>
-                  `<span class="tag">
-                    ${escapeHTML(
-                      n.trim()
-                    )}
-                  </span>`
-                )
-                .join("")
-            : "";
-
-        return `
-
-          <div class="opponent">
-
-            <div
-              class="opponent-top">
-
-              <div>
-
-                <strong>
-                  ${escapeHTML(
-                    p.name
-                  )}
-                </strong>
-
-                <div
-                  class="small muted">
-
-                  ${escapeHTML(
-                    p.type
-                  )}
-
-                </div>
-
-              </div>
-
-              <span
-                class="tag">
-
-                confiança:
-                ${p.confidence}
-
-              </span>
-
-            </div>
-
-            <div>
-              ${tags}
-            </div>
-
-            ${
-              p.notes
-              ? `
-                <p
-                  class="small reason">
-                  ${escapeHTML(
-                    p.notes
-                  )}
-                </p>
-              `
-              : ""
-            }
-
-          </div>
-
-        `;
-
-      })
-      .join("");
-
-}
-
-
-/* =====================================================
-   SESSIONS
-===================================================== */
-
-function saveSession() {
-
-  const db =
-    loadDB();
-
-  const name =
-    document
-      .getElementById(
-        "sessionName"
-      )
-      .value
-      .trim();
-
-  const notes =
-    document
-      .getElementById(
-        "sessionNotes"
-      )
-      .value
-      .trim();
-
-  db.sessions.push({
-
-    id:
-      Date.now(),
-
-    name:
-      name ||
-      "Sessão sem nome",
-
-    notes,
-
-    created:
-      new Date().toISOString(),
-
-    handCount:
-      db.hands.length
-
-  });
-
-  saveDB(db);
-
-  document
-    .getElementById(
-      "sessionName"
-    )
-    .value = "";
-
-  document
-    .getElementById(
-      "sessionNotes"
-    )
-    .value = "";
-
-  refresh();
-
-  alert(
-    "Sessão registrada."
-  );
-
-}
-
-
-function renderSummary() {
-
-  const db =
-    loadDB();
-
-  const total =
-    db.hands.length;
-
-  const sessions =
-    db.sessions.length;
-
-  document
-    .getElementById(
-      "sessionSummary"
-    )
-    .innerHTML = `
-
-      <p class="reason">
-
-        Temos atualmente
-        <strong>${total}</strong>
-        mãos e
-        <strong>${sessions}</strong>
-        sessões registradas.
-
-      </p>
-
-      <p class="muted small">
-
-        Ainda não vou fingir que existe
-        um diagnóstico estatístico confiável.
-        Precisamos primeiro acumular dados.
-
-      </p>
-
-    `;
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function refresh() {
-
-  const db =
-    loadDB();
-
-  document
-    .getElementById(
-      "handCount"
-    )
-    .textContent =
-      db.hands.length;
-
-  document
-    .getElementById(
-      "playerCount"
-    )
-    .textContent =
-      db.opponents.length;
-
-  document
-    .getElementById(
-      "sessionCount"
-    )
-    .textContent =
-      db.sessions.length;
-
-  document
-    .getElementById(
-      "imageCount"
-    )
-    .textContent =
-      db.hands.filter(
-        h => h.image
-      ).length;
-
-  renderHands();
-  renderOpponents();
-  renderSummary();
-
-}
-
-
-/* =====================================================
-   SECURITY / HTML
-===================================================== */
-
-function escapeHTML(value) {
-
-  return String(value || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-function escapeAttr(value) {
-
-  return escapeHTML(value);
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
+function show(id,btn){
+
+document
+.querySelectorAll(".section")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+document
+.getElementById(id)
+.classList.add("active");
+
+document
+.querySelectorAll("nav button")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+if(btn)
+btn.classList.add("active");
 
 refresh();
+
+}
+
+function go(id){
+
+const btn=
+[...document.querySelectorAll("nav button")]
+.find(x=>{
+
+const t=x.textContent;
+
+if(id==="import")
+return t.includes("Importar");
+
+if(id==="hands")
+return t.includes("Mãos");
+
+if(id==="editor")
+return t.includes("Reconstruir");
+
+if(id==="players")
+return t.includes("Oponentes");
+
+if(id==="study")
+return t.includes("Estudo");
+
+return t.includes("Início");
+
+});
+
+show(id,btn);
+
+}
+
+
+/* =====================================================
+IMAGE IMPORT
+===================================================== */
+
+async function importImages(event){
+
+await openImageDB();
+
+const files=
+[...event.target.files];
+
+if(!files.length)
+return;
+
+let n=0;
+
+for(const file of files){
+
+if(!file.type.startsWith("image/"))
+continue;
+
+const data=
+await readImage(file);
+
+const id=
+"img_"+Date.now()+"_"+Math.random();
+
+await putImage(id,data);
+
+DB.hands.push({
+
+id:"hand_"+Date.now()+"_"+Math.random(),
+
+imageId:id,
+
+created:
+new Date().toISOString(),
+
+status:
+"imagem importada",
+
+gameState:
+null
+
+});
+
+n++;
+
+}
+
+save();
+
+document
+.getElementById("importStatus")
+.innerHTML=
+`<span class="green">
+${n} imagem(ns) importada(s).
+</span>`;
+
+event.target.value="";
+
+refresh();
+
+go("hands");
+
+}
+
+function readImage(file){
+
+return new Promise((resolve,reject)=>{
+
+const r=new FileReader();
+
+r.onload=
+()=>resolve(r.result);
+
+r.onerror=reject;
+
+r.readAsDataURL(file);
+
+});
+
+}
+
+
+/* =====================================================
+HAND LIBRARY
+===================================================== */
+
+async function renderHands(){
+
+const box=
+document.getElementById(
+"handsList"
+);
+
+if(!box)
+return;
+
+if(!DB.hands.length){
+
+box.innerHTML=
+`<div class="empty">
+Nenhuma mão ainda.
+</div>`;
+
+return;
+
+}
+
+let html="";
+
+for(const hand of
+DB.hands.slice().reverse()){
+
+const img=
+await getImage(hand.imageId);
+
+const gs=
+hand.gameState;
+
+html+=`
+
+<div class="hand">
+
+<strong>
+${gs?.name ||
+"Mão importada"}
+</strong>
+
+<span class="tag">
+${hand.status}
+</span>
+
+<div class="small muted">
+${new Date(hand.created)
+.toLocaleString("pt-BR")}
+</div>
+
+${img?
+`<img src="${img}">`
+:""}
+
+<hr>
+
+${
+gs
+?
+`
+<div class="small">
+
+<strong>
+${gs.players.length}
+jogadores
+</strong>
+
+·
+${gs.multiway?
+"Multiway":
+"Heads-up"}
+
+<br><br>
+
+Board:
+${escape(gs.board||"não informado")}
+
+<br>
+
+Hero:
+${escape(gs.hero?.name||"não definido")}
+
+</div>
+`
+:
+`
+<p class="small muted">
+Esta mão ainda precisa ser reconstruída.
+</p>
+`
+}
+
+<button
+class="secondary"
+onclick="editHand('${hand.id}')">
+
+🧩 RECONSTRUIR / EDITAR
+
+</button>
+
+<button
+class="secondary"
+onclick="analyzeHand('${hand.id}')">
+
+🧠 ANALISAR
+
+</button>
+
+<button
+class="danger"
+onclick="deleteHand('${hand.id}')">
+
+Excluir
+
+</button>
+
+</div>
+
+`;
+
+}
+
+box.innerHTML=html;
+
+}
+
+
+/* =====================================================
+EDIT HAND
+===================================================== */
+
+function editHand(id){
+
+const hand=
+DB.hands.find(
+h=>h.id===id
+);
+
+if(!hand)
+return;
+
+DB.currentHand=id;
+
+const gs=
+hand.gameState;
+
+document
+.getElementById("handName")
+.value=
+gs?.name||"";
+
+document
+.getElementById("numPlayers")
+.value=
+gs?.players?.length||8;
+
+document
+.getElementById("heroName")
+.value=
+gs?.hero?.name||"";
+
+document
+.getElementById("heroPosition")
+.value=
+gs?.hero?.position||"BTN";
+
+document
+.getElementById("heroCards")
+.value=
+gs?.hero?.cards||"";
+
+document
+.getElementById("board")
+.value=
+gs?.board||"";
+
+document
+.getElementById("finalPot")
+.value=
+gs?.finalPot||"";
+
+generatePlayers(
+gs?.players||[]
+);
+
+loadActions(
+gs?.streets||{}
+);
+
+go("editor");
+
+}
+
+
+/* =====================================================
+PLAYER GENERATOR
+===================================================== */
+
+function generatePlayers(existing=[]){
+
+const n=
+Math.max(
+2,
+Math.min(
+9,
+parseInt(
+document
+.getElementById("numPlayers")
+.value
+)||8
+)
+);
+
+const positions=[
+"UTG",
+"UTG+1",
+"MP",
+"HJ",
+"CO",
+"BTN",
+"SB",
+"BB"
+];
+
+let html="";
+
+for(let i=0;i<n;i++){
+
+const old=
+existing[i]||{};
+
+html+=`
+
+<div class="player">
+
+<div class="player-header">
+
+<strong>
+Jogador ${i+1}
+</strong>
+
+<span class="tag">
+${positions[i]||""}
+</span>
+
+</div>
+
+<label>Nickname</label>
+
+<input
+class="pname"
+data-index="${i}"
+value="${escape(old.name||"")}"
+placeholder="Nickname">
+
+<label>Posição</label>
+
+<select
+class="pposition"
+data-index="${i}">
+
+${positions.map(p=>
+`<option
+${old.position===p?"selected":""}>
+${p}
+</option>`
+).join("")}
+
+</select>
+
+<label>Stack</label>
+
+<input
+class="pstack"
+data-index="${i}"
+value="${escape(old.stack||"")}"
+placeholder="Ex.: 116200">
+
+<label>Cartas</label>
+
+<input
+class="pcards"
+data-index="${i}"
+value="${escape(old.cards||"")}"
+placeholder="A♠ K♠">
+
+</div>
+
+`;
+
+}
+
+document
+.getElementById("playersEditor")
+.innerHTML=html;
+
+}
+
+
+/* =====================================================
+ACTIONS
+===================================================== */
+
+function actionTemplate(street){
+
+return `
+
+<div class="action">
+
+<input
+class="aname"
+placeholder="Jogador">
+
+<select class="atype">
+
+<option>Fold</option>
+<option>Check</option>
+<option>Call</option>
+<option>Bet</option>
+<option>Raise</option>
+<option>All-In</option>
+</select>
+
+<input
+class="aamount"
+placeholder="Valor">
+
+</div>
+
+`;
+
+}
+
+function addAction(street){
+
+document
+.getElementById(street)
+.insertAdjacentHTML(
+"beforeend",
+actionTemplate(street)
+);
+
+}
+
+function loadActions(streets){
+
+["preflop","flop","turn","river"]
+.forEach(s=>{
+
+const box=
+document.getElementById(s);
+
+box.innerHTML="";
+
+const actions=
+streets[s]||[];
+
+actions.forEach(a=>{
+
+box.insertAdjacentHTML(
+"beforeend",
+actionTemplate(s)
+);
+
+const rows=
+box.querySelectorAll(".action");
+
+const row=
+rows[rows.length-1];
+
+row.querySelector(".aname")
+.value=a.player||"";
+
+row.querySelector(".atype")
+.value=a.action||"Fold";
+
+row.querySelector(".aamount")
+.value=a.amount||"";
+
+});
+
+});
+
+}
+
+
+/* =====================================================
+COLLECT GAME STATE
+===================================================== */
+
+function collectPlayers(){
+
+const names=
+[...document.querySelectorAll(".pname")];
+
+const pos=
+[...document.querySelectorAll(".pposition")];
+
+const stacks=
+[...document.querySelectorAll(".pstack")];
+
+const cards=
+[...document.querySelectorAll(".pcards")];
+
+const players=[];
+
+for(let i=0;i<names.length;i++){
+
+players.push({
+
+name:names[i].value.trim(),
+
+position:pos[i].value,
+
+stack:stacks[i].value.trim(),
+
+cards:cards[i].value.trim(),
+
+});
+
+}
+
+return players;
+
+}
+
+function collectStreet(id){
+
+return [
+...document
+.querySelectorAll(
+`#${id} .action`
+)
+].map(row=>({
+
+player:
+row.querySelector(".aname")
+.value.trim(),
+
+action:
+row.querySelector(".atype")
+.value,
+
+amount:
+row.querySelector(".aamount")
+.value.trim()
+
+})).filter(x=>
+x.player ||
+x.amount
+);
+
+}
+
+function collectState(){
+
+const players=
+collectPlayers();
+
+const heroName=
+document
+.getElementById("heroName")
+.value.trim();
+
+const hero=
+players.find(
+p=>p.name===heroName
+)||{
+
+name:heroName,
+
+position:
+document
+.getElementById("heroPosition")
+.value,
+
+cards:
+document
+.getElementById("heroCards")
+.value
+
+};
+
+return{
+
+name:
+document
+.getElementById("handName")
+.value.trim(),
+
+players,
+
+multiway:
+players.filter(
+p=>p.name
+).length>2,
+
+hero,
+
+board:
+document
+.getElementById("board")
+.value.trim(),
+
+finalPot:
+document
+.getElementById("finalPot")
+.value.trim(),
+
+streets:{
+
+preflop:
+collectStreet("preflop"),
+
+flop:
+collectStreet("flop"),
+
+turn:
+collectStreet("turn"),
+
+river:
+collectStreet("river")
+
+}
+
+};
+
+}
+
+
+/* =====================================================
+SAVE GAME STATE
+===================================================== */
+
+function saveStructuredHand(){
+
+const state=
+collectState();
+
+if(!state.players.length){
+
+alert(
+"Cadastre pelo menos dois jogadores."
+);
+
+return;
+
+}
+
+let hand;
+
+if(DB.currentHand){
+
+hand=
+DB.hands.find(
+h=>h.id===DB.currentHand
+);
+
+}else{
+
+hand={
+
+id:
+"hand_"+Date.now()+"_"+Math.random(),
+
+created:
+new Date().toISOString(),
+
+imageId:null
+
+};
+
+DB.hands.push(hand);
+
+DB.currentHand=
+hand.id;
+
+}
+
+hand.gameState=
+state;
+
+hand.status=
+"Game State confirmado";
+
+save();
+
+alert(
+"Game State salvo."
+);
+
+refresh();
+
+}
+
+
+/* =====================================================
+ANALYSIS ENGINE
+===================================================== */
+
+function analyzeCurrent(){
+
+const state=
+collectState();
+
+const result=
+buildAnalysis(state);
+
+renderAnalysis(result);
+
+}
+
+function analyzeHand(id){
+
+const hand=
+DB.hands.find(
+h=>h.id===id
+);
+
+if(!hand?.gameState){
+
+editHand(id);
+
+alert(
+"Primeiro reconstrua e salve a mão."
+);
+
+return;
+
+}
+
+DB.currentHand=id;
+
+const result=
+buildAnalysis(
+hand.gameState
+);
+
+go("editor");
+
+renderAnalysis(result);
+
+}
+
+function buildAnalysis(s){
+
+const messages=[];
+
+const players=
+s.players.filter(
+p=>p.name
+);
+
+const active=
+players.length;
+
+if(active>2){
+
+messages.push(
+`<div class="notice">
+<strong>Multiway detectado.</strong>
+A análise deve considerar a interação
+entre múltiplos ranges, e não apenas
+Hero vs. um vilão.
+</div>`
+);
+
+}
+
+const pre=
+s.streets.preflop;
+
+const raises=
+pre.filter(
+a=>a.action==="Raise"
+);
+
+const allins=
+pre.filter(
+a=>a.action==="All-In"
+);
+
+if(raises.length>=2){
+
+messages.push(
+`<p class="reason">
+<strong>Pré-flop:</strong>
+foram detectados
+${raises.length}
+raises.
+A linha merece análise de ranges
+e sizing.
+</p>`
+);
+
+}
+
+if(allins.length){
+
+messages.push(
+`<p class="reason">
+<strong>All-in pré-flop:</strong>
+foram detectados
+${allins.length}
+all-in(s).
+O Cérebro deve separar o range
+de cada jogador antes de avaliar
+a decisão do Hero.
+</p>`
+);
+
+}
+
+const streets=
+Object.values(s.streets)
+.flat();
+
+const bets=
+streets.filter(
+a=>["Bet","Raise","All-In"]
+.includes(a.action)
+);
+
+if(bets.length){
+
+messages.push(
+`<p class="reason">
+<strong>Agressão:</strong>
+foram registradas
+${bets.length}
+ações de aposta/raise/all-in.
+</p>`
+);
+
+}
+
+if(s.board){
+
+messages.push(
+`<p class="reason">
+<strong>Board:</strong>
+${escape(s.board)}
+</p>`
+);
+
+}
+
+if(s.finalPot){
+
+messages.push(
+`<p class="reason">
+<strong>Pote final informado:</strong>
+${escape(s.finalPot)}
+</p>`
+);
+
+}
+
+messages.push(
+
+`<hr>
+
+<p class="reason">
+
+<strong>Coach do Cérebro:</strong><br><br>
+
+Não vou chamar uma decisão de
+"boa" ou "ruim" apenas pelo resultado.
+
+Primeiro precisamos reconstruir:
+posição → stacks → ranges →
+sequência de ações → sizing →
+board → decisão do Hero.
+
+Depois podemos calcular equity,
+EV e comparar linhas.
+
+</p>`
+
+);
+
+return messages.join("");
+
+}
+
+function renderAnalysis(html){
+
+document
+.getElementById("analysisBox")
+.innerHTML=
+
+`
+
+<div class="card">
+
+<h2>🧠 Análise do Cérebro</h2>
+
+${html}
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+OPPONENT DATABASE
+===================================================== */
+
+function savePlayer(){
+
+const name=
+document
+.getElementById("playerNewName")
+.value.trim();
+
+if(!name){
+
+alert("Digite o nickname.");
+
+return;
+
+}
+
+const type=
+document
+.getElementById("playerNewType")
+.value;
+
+const notes=
+document
+.getElementById("playerNewNotes")
+.value.trim();
+
+const existing=
+DB.players.find(
+p=>p.name.toLowerCase()===
+name.toLowerCase()
+);
+
+if(existing){
+
+existing.type=type;
+
+if(notes){
+
+existing.notes=
+existing.notes
+?
+existing.notes+"\n"+notes
+:
+notes;
+
+}
+
+}else{
+
+DB.players.push({
+
+name,
+
+type,
+
+notes,
+
+hands:0,
+
+confidence:"baixa",
+
+created:
+new Date().toISOString()
+
+});
+
+}
+
+save();
+
+document
+.getElementById("playerNewName")
+.value="";
+
+document
+.getElementById("playerNewNotes")
+.value="";
+
+refresh();
+
+}
+
+
+function renderPlayers(){
+
+const box=
+document.getElementById(
+"playerList"
+);
+
+if(!DB.players.length){
+
+box.innerHTML=
+`<div class="empty">
+Nenhum oponente cadastrado.
+</div>`;
+
+return;
+
+}
+
+box.innerHTML=
+DB.players.map(p=>`
+
+<div class="player">
+
+<strong>
+${escape(p.name)}
+</strong>
+
+<span class="tag">
+${escape(p.type)}
+</span>
+
+<p class="small reason">
+${escape(p.notes||"Sem observações.")}
+</p>
+
+<span class="tag">
+Confiança: ${p.confidence}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =====================================================
+DELETE
+===================================================== */
+
+function deleteHand(id){
+
+if(!confirm(
+"Excluir esta mão?"
+))
+return;
+
+DB.hands=
+DB.hands.filter(
+h=>h.id!==id
+);
+
+save();
+
+refresh();
+
+}
+
+
+/* =====================================================
+DASHBOARD
+===================================================== */
+
+function refresh(){
+
+load();
+
+document
+.getElementById("countHands")
+.textContent=
+DB.hands.length;
+
+document
+.getElementById("countPlayers")
+.textContent=
+DB.players.length;
+
+document
+.getElementById("countImages")
+.textContent=
+DB.hands.filter(
+h=>h.imageId
+).length;
+
+document
+.getElementById("countMultiway")
+.textContent=
+DB.hands.filter(
+h=>h.gameState?.multiway
+).length;
+
+renderHands();
+
+renderPlayers();
+
+}
+
+
+/* =====================================================
+ESCAPE
+===================================================== */
+
+function escape(v){
+
+return String(v||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+load();
+
+openImageDB()
+.then(refresh)
+.catch(refresh);
 
 </script>
 
 </body>
+
 </html>
