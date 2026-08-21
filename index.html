@@ -2,34 +2,39 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
 
-<title>Cérebro Poker</title>
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Cérebro Poker V2</title>
 
 <style>
+
 :root {
-  --bg: #080b12;
-  --card: #111722;
-  --card2: #171e2b;
-  --text: #f4f6f8;
-  --muted: #8d98a8;
-  --green: #35d07f;
-  --red: #ff5c67;
-  --yellow: #ffc857;
-  --blue: #4ea1ff;
-  --border: #263142;
+  --bg:#070a10;
+  --card:#111722;
+  --card2:#182130;
+  --border:#293447;
+  --text:#f5f7fa;
+  --muted:#8d99aa;
+  --green:#35d07f;
+  --red:#ff5964;
+  --yellow:#ffc857;
+  --blue:#55a7ff;
+  --purple:#a77bff;
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing:border-box;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -40,342 +45,549 @@ body {
 }
 
 header {
-  padding: 20px 18px 10px;
+  padding:20px 18px 12px;
 }
 
 .logo {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  font-size:27px;
+  font-weight:900;
 }
 
 .subtitle {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 3px;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:3px;
 }
 
 nav {
-  display: flex;
-  overflow-x: auto;
-  gap: 8px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:8px 14px 12px;
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+}
+
+nav::-webkit-scrollbar {
+  display:none;
 }
 
 nav button {
-  white-space: nowrap;
-  background: var(--card);
-  color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 9px 14px;
+  white-space:nowrap;
+  background:var(--card);
+  color:var(--muted);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:9px 14px;
 }
 
 nav button.active {
-  background: var(--green);
-  color: #04130b;
-  border-color: var(--green);
-  font-weight: 700;
+  background:var(--green);
+  color:#04130b;
+  border-color:var(--green);
+  font-weight:800;
 }
 
 main {
-  padding: 14px;
-  max-width: 700px;
-  margin: auto;
+  max-width:720px;
+  margin:auto;
+  padding:14px;
 }
 
 .section {
-  display: none;
+  display:none;
 }
 
 .section.active {
-  display: block;
+  display:block;
 }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:16px;
+  margin-bottom:13px;
 }
 
 .card h2 {
-  margin: 0 0 8px;
-  font-size: 17px;
+  margin:0 0 10px;
+  font-size:18px;
 }
 
 .card h3 {
-  margin: 0 0 6px;
-  font-size: 15px;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.big-action {
-  font-size: 32px;
-  font-weight: 900;
-  margin: 10px 0;
-}
-
-.green {
-  color: var(--green);
-}
-
-.red {
-  color: var(--red);
-}
-
-.yellow {
-  color: var(--yellow);
-}
-
-.blue {
-  color: var(--blue);
+  margin:0 0 7px;
+  font-size:15px;
 }
 
 .stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .stat {
-  background: var(--card2);
-  border-radius: 12px;
-  padding: 13px;
+  background:var(--card2);
+  border-radius:12px;
+  padding:13px;
 }
 
 .stat-value {
-  font-size: 21px;
-  font-weight: 800;
+  font-size:22px;
+  font-weight:900;
 }
 
 .stat-label {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 3px;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.big-action {
+  font-size:34px;
+  font-weight:950;
+  margin:8px 0 12px;
+}
+
+.green { color:var(--green); }
+.red { color:var(--red); }
+.yellow { color:var(--yellow); }
+.blue { color:var(--blue); }
+.purple { color:var(--purple); }
+
+.muted {
+  color:var(--muted);
+}
+
+.reason {
+  color:#d9dfe8;
+  line-height:1.55;
+}
+
+.small {
+  font-size:12px;
 }
 
 input,
 select,
 textarea {
-  width: 100%;
-  background: #0b1019;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  margin: 5px 0 10px;
-  font-size: 15px;
+  width:100%;
+  background:#0b1018;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px;
+  margin:5px 0 11px;
+  font-size:15px;
 }
 
 textarea {
-  min-height: 90px;
-  resize: vertical;
+  min-height:90px;
 }
 
 button.primary {
-  width: 100%;
-  background: var(--green);
-  color: #04130b;
-  border: none;
-  border-radius: 12px;
-  padding: 13px;
-  font-size: 15px;
-  font-weight: 800;
-  margin-top: 5px;
+  width:100%;
+  background:var(--green);
+  color:#04130b;
+  border:0;
+  border-radius:12px;
+  padding:13px;
+  font-size:15px;
+  font-weight:900;
+  margin-top:5px;
 }
 
 button.secondary {
-  width: 100%;
-  background: var(--card2);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-top: 7px;
+  width:100%;
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  font-weight:700;
+  margin-top:7px;
+}
+
+button.danger {
+  width:100%;
+  background:rgba(255,89,100,.10);
+  color:var(--red);
+  border:1px solid rgba(255,89,100,.3);
+  border-radius:12px;
+  padding:11px;
+  margin-top:7px;
+}
+
+.file-box {
+  border:2px dashed var(--border);
+  border-radius:15px;
+  padding:22px 14px;
+  text-align:center;
+  background:#0c111a;
+  margin-bottom:12px;
+}
+
+.file-box input {
+  border:0;
+  padding:5px;
+  margin:10px 0 0;
+}
+
+.hand-card {
+  background:var(--card2);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.hand-image {
+  width:100%;
+  max-height:420px;
+  object-fit:contain;
+  background:#05070b;
+  border-radius:11px;
+  margin-top:10px;
 }
 
 .opponent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--card2);
-  padding: 13px;
-  border-radius: 12px;
-  margin-bottom: 8px;
+  background:var(--card2);
+  border-radius:13px;
+  padding:13px;
+  margin-bottom:9px;
+}
+
+.opponent-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .tag {
-  display: inline-block;
-  background: #222d3d;
-  color: var(--muted);
-  padding: 4px 7px;
-  border-radius: 7px;
-  font-size: 11px;
-  margin: 2px;
+  display:inline-block;
+  background:#263246;
+  color:#bac5d5;
+  padding:4px 7px;
+  border-radius:7px;
+  font-size:11px;
+  margin:3px 2px 0 0;
 }
 
 .empty {
-  text-align: center;
-  padding: 30px 10px;
-  color: var(--muted);
+  text-align:center;
+  color:var(--muted);
+  padding:25px 8px;
 }
 
 hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 15px 0;
+  border:0;
+  border-top:1px solid var(--border);
+  margin:15px 0;
 }
 
-.small {
-  font-size: 12px;
+.notice {
+  background:rgba(85,167,255,.08);
+  border:1px solid rgba(85,167,255,.25);
+  border-radius:11px;
+  padding:11px;
+  color:#cbdcff;
+  font-size:13px;
+  line-height:1.5;
 }
 
-.reason {
-  line-height: 1.5;
-  color: #d8dee7;
+.warning {
+  background:rgba(255,200,87,.08);
+  border:1px solid rgba(255,200,87,.25);
+  border-radius:11px;
+  padding:11px;
+  color:#ffe1a0;
+  font-size:13px;
+  line-height:1.5;
 }
 
-.danger {
-  background: rgba(255,92,103,.1);
-  border: 1px solid rgba(255,92,103,.25);
-  padding: 12px;
-  border-radius: 10px;
-}
 </style>
 </head>
 
 <body>
 
 <header>
+
   <div class="logo">🧠 Cérebro</div>
-  <div class="subtitle">Poker Coach — V0.1</div>
+
+  <div class="subtitle">
+    Poker Coach · V2.0
+  </div>
+
 </header>
 
 <nav>
-  <button class="active" onclick="showSection('home', this)">Início</button>
-  <button onclick="showSection('hand', this)">Mão</button>
-  <button onclick="showSection('players', this)">Oponentes</button>
-  <button onclick="showSection('session', this)">Sessão</button>
-  <button onclick="showSection('study', this)">Estudo</button>
+
+  <button
+    class="active"
+    onclick="showSection('home',this)">
+    Início
+  </button>
+
+  <button
+    onclick="showSection('import',this)">
+    📸 Importar
+  </button>
+
+  <button
+    onclick="showSection('hands',this)">
+    ♠️ Mãos
+  </button>
+
+  <button
+    onclick="showSection('players',this)">
+    👤 Oponentes
+  </button>
+
+  <button
+    onclick="showSection('session',this)">
+    📊 Sessão
+  </button>
+
+  <button
+    onclick="showSection('study',this)">
+    📚 Estudo
+  </button>
+
 </nav>
 
 <main>
 
+
+<!-- ================= HOME ================= -->
+
 <section id="home" class="section active">
 
   <div class="card">
-    <h2>Estado atual</h2>
+
+    <h2>Seu Cérebro</h2>
 
     <div class="stat-grid">
+
       <div class="stat">
-        <div class="stat-value" id="handCount">0</div>
-        <div class="stat-label">mãos registradas</div>
+
+        <div
+          class="stat-value"
+          id="handCount">
+          0
+        </div>
+
+        <div class="stat-label">
+          mãos
+        </div>
+
       </div>
 
       <div class="stat">
-        <div class="stat-value" id="playerCount">0</div>
-        <div class="stat-label">oponentes</div>
+
+        <div
+          class="stat-value"
+          id="playerCount">
+          0
+        </div>
+
+        <div class="stat-label">
+          oponentes
+        </div>
+
       </div>
+
+      <div class="stat">
+
+        <div
+          class="stat-value"
+          id="sessionCount">
+          0
+        </div>
+
+        <div class="stat-label">
+          sessões
+        </div>
+
+      </div>
+
+      <div class="stat">
+
+        <div
+          class="stat-value"
+          id="imageCount">
+          0
+        </div>
+
+        <div class="stat-label">
+          imagens
+        </div>
+
+      </div>
+
     </div>
+
   </div>
 
+
   <div class="card">
-    <h2>Coach</h2>
+
+    <h2>🧑‍🏫 Coach</h2>
 
     <p class="reason">
-      Ainda estou aprendendo seu jogo. Registre mãos e adversários
-      para começarmos a construir sua base de dados.
+
+      Ainda estou construindo seu perfil.
+      Quanto mais mãos eu receber, melhor poderei
+      identificar seus padrões e os padrões dos seus adversários.
+
     </p>
 
-    <button class="primary"
-            onclick="showSectionByName('hand')">
-      ANALISAR UMA MÃO
+    <button
+      class="primary"
+      onclick="goTo('import')">
+
+      📸 IMPORTAR MÃOS
+
     </button>
+
   </div>
 
+
   <div class="card">
-    <h2>Regra do Cérebro</h2>
+
+    <h2>🎯 Filosofia</h2>
 
     <p class="reason">
-      Resultado não é sinônimo de qualidade da decisão.
-      Uma mão perdida pode ter sido muito bem jogada.
+
+      <strong>
+      Resultado não é qualidade da decisão.
+      </strong>
+
+      Uma mão perdida pode ter sido perfeitamente jogada.
+      Uma mão ganha pode ter sido um desastre.
+
     </p>
+
   </div>
 
 </section>
 
 
-<section id="hand" class="section">
+
+<!-- ================= IMPORT ================= -->
+
+<section id="import" class="section">
 
   <div class="card">
 
-    <h2>Nova mão</h2>
+    <h2>📸 Importar mãos</h2>
 
-    <label>Hero</label>
-    <input id="hero" placeholder="Ex.: A♠ K♠">
+    <div class="notice">
 
-    <label>Board</label>
-    <input id="board" placeholder="Ex.: K♦ 8♣ 4♠">
+      No KKPoker, abra o Hand Review,
+      escolha a mão e use <strong>Save Image</strong>.
+      Depois selecione as imagens aqui.
 
-    <label>Pote antes da decisão (BB)</label>
-    <input id="pot" type="number" value="10">
+    </div>
 
-    <label>Aposta que você enfrenta (BB)</label>
-    <input id="bet" type="number" value="5">
+    <br>
 
-    <label>Outs estimados</label>
-    <input id="outs" type="number" value="0">
+    <div class="file-box">
 
-    <label>Oponente</label>
-    <input id="opponentHand"
-           placeholder="Nome/apelido do jogador">
+      <strong>
+        Toque para selecionar screenshots
+      </strong>
 
-    <label>Ação do vilão</label>
-    <select id="villainAction">
-      <option>Check</option>
-      <option>Bet</option>
-      <option>Raise</option>
-      <option>All-in</option>
-    </select>
+      <p class="small muted">
+        Você pode selecionar várias imagens.
+      </p>
 
-    <label>Seu resultado depois</label>
-    <select id="result">
-      <option>Não informado</option>
-      <option>Ganhei</option>
-      <option>Perdi</option>
-      <option>Fold</option>
-    </select>
+      <input
+        id="imageInput"
+        type="file"
+        accept="image/*"
+        multiple
+        onchange="importImages(event)">
 
-    <button class="primary"
-            onclick="analyzeHand()">
-      🧠 ANALISAR COM O CÉREBRO
-    </button>
+    </div>
+
+    <div
+      id="importStatus"
+      class="small muted">
+    </div>
 
   </div>
 
-  <div id="decisionCard"></div>
+
+  <div class="card">
+
+    <h2>Como vamos usar isso</h2>
+
+    <p class="reason">
+
+      <strong>V2.0:</strong>
+      guardar, organizar e associar as imagens.
+
+      <br><br>
+
+      <strong>V2.1:</strong>
+      reconhecimento automático das cartas,
+      pote, stacks, ações e jogadores.
+
+      <br><br>
+
+      <strong>V3:</strong>
+      análise estratégica completa.
+
+    </p>
+
+    <div class="warning">
+
+      A primeira versão de reconhecimento terá
+      confirmação humana antes de gravar dados
+      estratégicos. Isso evita contaminar a base
+      com uma leitura errada de uma carta ou número.
+
+    </div>
+
+  </div>
 
 </section>
 
+
+
+<!-- ================= HANDS ================= -->
+
+<section id="hands" class="section">
+
+  <div class="card">
+
+    <h2>♠️ Biblioteca de mãos</h2>
+
+    <div id="handList"></div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= PLAYERS ================= -->
 
 <section id="players" class="section">
 
   <div class="card">
 
-    <h2>Novo oponente</h2>
+    <h2>👤 Novo oponente</h2>
 
     <label>Nome / apelido</label>
-    <input id="playerName"
-           placeholder="Ex.: João123">
 
-    <label>Tipo de jogador</label>
+    <input
+      id="playerName"
+      placeholder="Ex.: João123">
+
+    <label>Perfil atual</label>
+
     <select id="playerType">
+
       <option>Desconhecido</option>
       <option>Recreativo</option>
       <option>TAG</option>
@@ -384,347 +596,753 @@ hr {
       <option>Nit</option>
       <option>Maníaco</option>
       <option>Regulador</option>
+
     </select>
 
-    <label>Pontos de atenção</label>
-    <textarea id="playerNotes"
-      placeholder="Ex.: paga demais no flop; pouco agressivo no river..."></textarea>
+    <label>
+      Pontos de atenção
+    </label>
 
-    <button class="primary"
-            onclick="saveOpponent()">
+    <textarea
+      id="playerNotes"
+      placeholder="Ex.: paga demais flop; pouco agressivo river...">
+    </textarea>
+
+    <button
+      class="primary"
+      onclick="saveOpponent()">
+
       SALVAR OPONENTE
+
     </button>
+
   </div>
 
+
   <div class="card">
-    <h2>Base de oponentes</h2>
+
+    <h2>
+      Base de adversários
+    </h2>
+
     <div id="opponentList"></div>
+
   </div>
 
 </section>
 
+
+
+<!-- ================= SESSION ================= -->
 
 <section id="session" class="section">
 
   <div class="card">
 
-    <h2>Sessão atual</h2>
+    <h2>📊 Nova sessão</h2>
 
     <label>Nome</label>
-    <input id="sessionName"
-           placeholder="Ex.: KKPoker — Torneio 21/08">
+
+    <input
+      id="sessionName"
+      placeholder="KKPoker — MTT">
 
     <label>Observações</label>
-    <textarea id="sessionNotes"
-      placeholder="Como você estava jogando? Algum momento importante?"></textarea>
 
-    <button class="primary"
-            onclick="saveSession()">
+    <textarea
+      id="sessionNotes"
+      placeholder="Como você estava jogando?">
+    </textarea>
+
+    <button
+      class="primary"
+      onclick="saveSession()">
+
       SALVAR SESSÃO
+
     </button>
+
   </div>
+
 
   <div class="card">
 
-    <h2>Resumo</h2>
+    <h2>
+      Resumo
+    </h2>
 
     <div id="sessionSummary">
-      Ainda não existem sessões suficientes para gerar um relatório.
+
+      Ainda não existem dados suficientes.
+
     </div>
 
   </div>
 
 </section>
 
+
+
+<!-- ================= STUDY ================= -->
 
 <section id="study" class="section">
 
   <div class="card">
 
-    <h2>📚 Estudo</h2>
+    <h2>📚 Plano de evolução</h2>
 
     <p class="reason">
-      Nesta versão estamos construindo a memória.
-      Conforme você registrar mãos, o Cérebro começará a identificar
-      padrões recorrentes.
+
+      O Cérebro será desenvolvido em camadas.
+
     </p>
 
     <hr>
 
-    <h3>Próximas evoluções</h3>
+    <p class="small">
 
-    <p class="small muted">
-      • Equity real<br>
-      • Range engine<br>
-      • EV<br>
-      • ICM<br>
-      • GTO<br>
-      • Exploit<br>
-      • Leak detection<br>
-      • Importação de mãos<br>
-      • OCR / leitura de imagens<br>
-      • Coach com IA
+      <strong>V2.0</strong><br>
+      Biblioteca + screenshots + memória
+
+      <br><br>
+
+      <strong>V2.1</strong><br>
+      OCR + reconhecimento visual
+
+      <br><br>
+
+      <strong>V2.2</strong><br>
+      Equity + ranges + combos
+
+      <br><br>
+
+      <strong>V3.0</strong><br>
+      EV + GTO + ICM + exploit
+
+      <br><br>
+
+      <strong>V4.0</strong><br>
+      Coach IA + perfil estatístico dos jogadores
+
     </p>
 
   </div>
 
 </section>
 
+
 </main>
+
 
 <script>
 
-const DB_KEY = "cerebroPokerV01";
+/* =====================================================
+   DATABASE
+===================================================== */
+
+const DB_KEY = "cerebroPokerV02";
 
 function loadDB() {
 
-  const raw = localStorage.getItem(DB_KEY);
+  const raw =
+    localStorage.getItem(DB_KEY);
 
   if (!raw) {
+
     return {
       hands: [],
       opponents: [],
       sessions: []
     };
+
   }
 
   try {
+
     return JSON.parse(raw);
+
   } catch {
+
     return {
       hands: [],
       opponents: [],
       sessions: []
     };
+
   }
+
 }
 
 function saveDB(db) {
-  localStorage.setItem(DB_KEY, JSON.stringify(db));
+
+  localStorage.setItem(
+    DB_KEY,
+    JSON.stringify(db)
+  );
+
 }
 
-function showSection(name, button) {
 
-  document.querySelectorAll(".section")
-    .forEach(s => s.classList.remove("active"));
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-  document.getElementById(name)
+function showSection(name,button) {
+
+  document
+    .querySelectorAll(".section")
+    .forEach(s =>
+      s.classList.remove("active")
+    );
+
+  document
+    .getElementById(name)
     .classList.add("active");
 
-  document.querySelectorAll("nav button")
-    .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll("nav button")
+    .forEach(b =>
+      b.classList.remove("active")
+    );
 
-  if (button) button.classList.add("active");
+  if (button)
+    button.classList.add("active");
 
   refresh();
+
 }
 
-function showSectionByName(name) {
+
+function goTo(name) {
 
   const button =
     [...document.querySelectorAll("nav button")]
-      .find(b => b.textContent.toLowerCase()
-      .includes(name === "hand" ? "mão" : name));
+      .find(b => {
 
-  showSection(name, button);
+        const text =
+          b.textContent.toLowerCase();
+
+        if (name === "import")
+          return text.includes("importar");
+
+        if (name === "hands")
+          return text.includes("mãos");
+
+        if (name === "players")
+          return text.includes("oponentes");
+
+        if (name === "session")
+          return text.includes("sessão");
+
+        if (name === "study")
+          return text.includes("estudo");
+
+        return text.includes("início");
+
+      });
+
+  showSection(name,button);
+
 }
 
-function potOdds(pot, bet) {
 
-  if (pot <= 0 || bet <= 0) return 0;
+/* =====================================================
+   IMAGE IMPORT
+===================================================== */
 
-  return bet / (pot + bet);
-}
+async function importImages(event) {
 
-function estimateEquityFromOuts(outs) {
+  const files =
+    [...event.target.files];
 
-  if (!outs || outs <= 0) return null;
+  if (!files.length)
+    return;
 
-  // Regra aproximada de 4 e 2.
-  // Será substituída pelo Equity Engine real.
-  return Math.min(outs * 4, 100);
-}
+  const status =
+    document.getElementById("importStatus");
 
-function analyzeHand() {
+  status.textContent =
+    "Importando " +
+    files.length +
+    " imagem(ns)...";
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
-  const hero =
-    document.getElementById("hero").value.trim();
+  let imported = 0;
 
-  const board =
-    document.getElementById("board").value.trim();
+  for (const file of files) {
 
-  const pot =
-    Number(document.getElementById("pot").value) || 0;
+    if (!file.type.startsWith("image/"))
+      continue;
 
-  const bet =
-    Number(document.getElementById("bet").value) || 0;
+    try {
 
-  const outs =
-    Number(document.getElementById("outs").value) || 0;
+      const data =
+        await resizeImage(file);
 
-  const opponent =
-    document.getElementById("opponentHand")
-      .value.trim();
+      db.hands.push({
 
-  const villainAction =
-    document.getElementById("villainAction").value;
+        id: Date.now() +
+            Math.random(),
 
-  const result =
-    document.getElementById("result").value;
+        created:
+          new Date().toISOString(),
 
-  const odds = potOdds(pot, bet);
+        source:
+          "KKPoker Screenshot",
 
-  const equity = estimateEquityFromOuts(outs);
+        image:
+          data,
 
-  let action = "ANÁLISE INSUFICIENTE";
-  let color = "yellow";
-  let reason =
-    "Ainda não tenho informação suficiente para tomar uma decisão confiável. " +
-    "Esta primeira versão é apenas o núcleo experimental.";
+        hero:
+          "",
 
-  if (equity !== null) {
+        board:
+          "",
 
-    if (equity / 100 > odds) {
+        pot:
+          "",
 
-      action = "CALL";
-      color = "green";
+        opponent:
+          "",
 
-      reason =
-        "Pelos dados fornecidos, a equity estimada supera " +
-        "as pot odds. Isso torna o call matematicamente defensável. " +
-        "Ainda precisamos incorporar range, posição, SPR, " +
-        "sizing e contexto para transformar isso em uma decisão completa.";
+        action:
+          "",
 
-    } else {
+        decision:
+          "",
 
-      action = "FOLD";
-      color = "red";
+        analysis:
+          "",
 
-      reason =
-        "Pelos dados fornecidos, a equity estimada não alcança " +
-        "as pot odds necessárias para pagar. Antes de considerar " +
-        "um call, precisamos verificar se existem implied odds, " +
-        "bluffs suficientes ou outras variáveis que mudem o cálculo.";
+        status:
+          "aguardando análise"
+
+      });
+
+      imported++;
+
+    } catch(error) {
+
+      console.error(
+        "Erro ao importar imagem",
+        error
+      );
+
     }
+
   }
-
-  const hand = {
-
-    id: Date.now(),
-
-    date: new Date().toISOString(),
-
-    hero,
-    board,
-    pot,
-    bet,
-    outs,
-    opponent,
-    villainAction,
-    result,
-
-    potOdds: odds,
-
-    estimatedEquity: equity,
-
-    decision: action,
-
-    reason
-  };
-
-  db.hands.push(hand);
 
   saveDB(db);
 
-  document.getElementById("decisionCard").innerHTML = `
+  status.innerHTML =
+    `<span class="green">
+      ${imported} imagem(ns) importada(s).
+    </span>`;
 
-    <div class="card">
-
-      <h2>Decisão do Cérebro</h2>
-
-      <div class="big-action ${color}">
-        ${action}
-      </div>
-
-      <div class="stat-grid">
-
-        <div class="stat">
-          <div class="stat-value">
-            ${(odds * 100).toFixed(1)}%
-          </div>
-          <div class="stat-label">
-            Pot Odds
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-value">
-            ${equity !== null
-              ? equity.toFixed(1) + "%"
-              : "—"}
-          </div>
-          <div class="stat-label">
-            Equity estimada
-          </div>
-        </div>
-
-      </div>
-
-      <hr>
-
-      <h3>🧠 O que eu estou pensando</h3>
-
-      <p class="reason">
-        ${reason}
-      </p>
-
-      <div class="small muted">
-        Esta é a V0.1. O motor GTO/range/EV completo ainda será
-        incorporado.
-      </div>
-
-    </div>
-  `;
+  event.target.value = "";
 
   refresh();
+
+  goTo("hands");
+
 }
+
+
+/* =====================================================
+   IMAGE RESIZE
+===================================================== */
+
+function resizeImage(file) {
+
+  return new Promise((resolve,reject) => {
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      function(e) {
+
+        const img =
+          new Image();
+
+        img.onload =
+          function() {
+
+            const maxWidth = 1400;
+
+            let width =
+              img.width;
+
+            let height =
+              img.height;
+
+            if (width > maxWidth) {
+
+              const ratio =
+                maxWidth / width;
+
+              width =
+                maxWidth;
+
+              height =
+                height * ratio;
+
+            }
+
+            const canvas =
+              document.createElement("canvas");
+
+            canvas.width =
+              width;
+
+            canvas.height =
+              height;
+
+            const ctx =
+              canvas.getContext("2d");
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              width,
+              height
+            );
+
+            resolve(
+              canvas.toDataURL(
+                "image/jpeg",
+                0.78
+              )
+            );
+
+          };
+
+        img.onerror =
+          reject;
+
+        img.src =
+          e.target.result;
+
+      };
+
+    reader.onerror =
+      reject;
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/* =====================================================
+   HAND LIBRARY
+===================================================== */
+
+function renderHands() {
+
+  const db =
+    loadDB();
+
+  const container =
+    document.getElementById(
+      "handList"
+    );
+
+  if (!db.hands.length) {
+
+    container.innerHTML =
+      `<div class="empty">
+        Nenhuma mão importada ainda.
+      </div>`;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    db.hands
+      .slice()
+      .reverse()
+      .map(hand => {
+
+        return `
+
+          <div class="hand-card">
+
+            <div>
+              <strong>
+                Mão importada
+              </strong>
+
+              <span class="tag">
+                ${escapeHTML(
+                  hand.status
+                )}
+              </span>
+
+            </div>
+
+            <div
+              class="small muted">
+              ${new Date(
+                hand.created
+              ).toLocaleString(
+                "pt-BR"
+              )}
+            </div>
+
+            <img
+              class="hand-image"
+              src="${hand.image}"
+              alt="Screenshot da mão">
+
+            <hr>
+
+            <label>
+              Hero
+            </label>
+
+            <input
+              value="${escapeAttr(
+                hand.hero
+              )}"
+              placeholder="A♠ K♠"
+              onchange="updateHand('${hand.id}','hero',this.value)">
+
+            <label>
+              Board
+            </label>
+
+            <input
+              value="${escapeAttr(
+                hand.board
+              )}"
+              placeholder="K♦ 8♣ 4♠"
+              onchange="updateHand('${hand.id}','board',this.value)">
+
+            <label>
+              Oponente
+            </label>
+
+            <input
+              value="${escapeAttr(
+                hand.opponent
+              )}"
+              placeholder="Nome do jogador"
+              onchange="updateHand('${hand.id}','opponent',this.value)">
+
+            <label>
+              Ação observada
+            </label>
+
+            <input
+              value="${escapeAttr(
+                hand.action
+              )}"
+              placeholder="Ex.: bet 6 BB"
+              onchange="updateHand('${hand.id}','action',this.value)">
+
+            <button
+              class="secondary"
+              onclick="prepareAnalysis('${hand.id}')">
+
+              🧠 PREPARAR ANÁLISE
+
+            </button>
+
+            <button
+              class="danger"
+              onclick="deleteHand('${hand.id}')">
+
+              Excluir mão
+
+            </button>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+/* =====================================================
+   UPDATE HAND
+===================================================== */
+
+function updateHand(id,field,value) {
+
+  const db =
+    loadDB();
+
+  const hand =
+    db.hands.find(
+      h => String(h.id) === String(id)
+    );
+
+  if (!hand)
+    return;
+
+  hand[field] =
+    value;
+
+  saveDB(db);
+
+}
+
+
+/* =====================================================
+   PREPARE ANALYSIS
+===================================================== */
+
+function prepareAnalysis(id) {
+
+  const db =
+    loadDB();
+
+  const hand =
+    db.hands.find(
+      h => String(h.id) === String(id)
+    );
+
+  if (!hand)
+    return;
+
+  const missing = [];
+
+  if (!hand.hero)
+    missing.push("Hero");
+
+  if (!hand.board)
+    missing.push("Board");
+
+  if (!hand.action)
+    missing.push("ação");
+
+  if (missing.length) {
+
+    alert(
+      "Antes de analisar, confirme: " +
+      missing.join(", ") +
+      "."
+    );
+
+    return;
+
+  }
+
+  hand.status =
+    "pronta para análise";
+
+  saveDB(db);
+
+  alert(
+    "Mão preparada. " +
+    "O próximo passo será conectar o Poker Engine."
+  );
+
+  refresh();
+
+}
+
+
+/* =====================================================
+   DELETE HAND
+===================================================== */
+
+function deleteHand(id) {
+
+  if (!confirm(
+    "Excluir esta mão?"
+  ))
+    return;
+
+  const db =
+    loadDB();
+
+  db.hands =
+    db.hands.filter(
+      h =>
+        String(h.id) !==
+        String(id)
+    );
+
+  saveDB(db);
+
+  refresh();
+
+}
+
+
+/* =====================================================
+   OPPONENTS
+===================================================== */
 
 function saveOpponent() {
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
   const name =
-    document.getElementById("playerName")
-      .value.trim();
+    document
+      .getElementById(
+        "playerName"
+      )
+      .value
+      .trim();
 
   if (!name) {
-    alert("Digite o nome ou apelido do oponente.");
+
+    alert(
+      "Digite o nome do oponente."
+    );
+
     return;
+
   }
 
   const type =
-    document.getElementById("playerType").value;
+    document
+      .getElementById(
+        "playerType"
+      )
+      .value;
 
   const notes =
-    document.getElementById("playerNotes").value.trim();
+    document
+      .getElementById(
+        "playerNotes"
+      )
+      .value
+      .trim();
 
   const existing =
     db.opponents.find(
-      p => p.name.toLowerCase() === name.toLowerCase()
+      p =>
+        p.name.toLowerCase() ===
+        name.toLowerCase()
     );
 
   if (existing) {
 
-    existing.type = type;
+    existing.type =
+      type;
 
     if (notes) {
 
       existing.notes =
         existing.notes
-          ? existing.notes + "\n" + notes
+          ? existing.notes +
+            "\n" +
+            notes
           : notes;
+
     }
 
     existing.updated =
@@ -734,7 +1352,8 @@ function saveOpponent() {
 
     db.opponents.push({
 
-      id: Date.now(),
+      id:
+        Date.now(),
 
       name,
 
@@ -742,192 +1361,327 @@ function saveOpponent() {
 
       notes,
 
+      hands:
+        0,
+
+      confidence:
+        "baixa",
+
       created:
         new Date().toISOString(),
 
       updated:
         new Date().toISOString()
+
     });
+
   }
 
   saveDB(db);
 
-  document.getElementById("playerName").value = "";
-  document.getElementById("playerNotes").value = "";
+  document
+    .getElementById(
+      "playerName"
+    )
+    .value = "";
 
-  renderOpponents();
+  document
+    .getElementById(
+      "playerNotes"
+    )
+    .value = "";
+
   refresh();
 
-  alert("Oponente salvo.");
+  alert(
+    "Oponente salvo na memória."
+  );
+
 }
+
 
 function renderOpponents() {
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
   const container =
-    document.getElementById("opponentList");
+    document.getElementById(
+      "opponentList"
+    );
 
   if (!db.opponents.length) {
 
     container.innerHTML =
       `<div class="empty">
-        Nenhum oponente cadastrado ainda.
+        Ainda não conheço seus adversários.
       </div>`;
 
     return;
+
   }
 
   container.innerHTML =
-    db.opponents.map(p => {
+    db.opponents
+      .map(p => {
 
-      const tags =
-        p.notes
-          ? p.notes
-              .split(/[;,.\n]/)
-              .filter(Boolean)
-              .slice(0, 5)
-              .map(n =>
-                `<span class="tag">
-                  ${escapeHTML(n.trim())}
-                </span>`
-              ).join("")
-          : "";
+        const tags =
+          p.notes
+            ? p.notes
+                .split(/[;,\n.]/)
+                .filter(Boolean)
+                .slice(0,6)
+                .map(n =>
+                  `<span class="tag">
+                    ${escapeHTML(
+                      n.trim()
+                    )}
+                  </span>`
+                )
+                .join("")
+            : "";
 
-      return `
+        return `
 
-        <div class="opponent">
+          <div class="opponent">
 
-          <div>
+            <div
+              class="opponent-top">
 
-            <strong>
-              ${escapeHTML(p.name)}
-            </strong>
+              <div>
 
-            <div class="small muted">
-              ${escapeHTML(p.type)}
+                <strong>
+                  ${escapeHTML(
+                    p.name
+                  )}
+                </strong>
+
+                <div
+                  class="small muted">
+
+                  ${escapeHTML(
+                    p.type
+                  )}
+
+                </div>
+
+              </div>
+
+              <span
+                class="tag">
+
+                confiança:
+                ${p.confidence}
+
+              </span>
+
             </div>
 
             <div>
               ${tags}
             </div>
 
+            ${
+              p.notes
+              ? `
+                <p
+                  class="small reason">
+                  ${escapeHTML(
+                    p.notes
+                  )}
+                </p>
+              `
+              : ""
+            }
+
           </div>
 
-        </div>
-      `;
+        `;
 
-    }).join("");
+      })
+      .join("");
+
 }
+
+
+/* =====================================================
+   SESSIONS
+===================================================== */
 
 function saveSession() {
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
   const name =
-    document.getElementById("sessionName")
-      .value.trim();
+    document
+      .getElementById(
+        "sessionName"
+      )
+      .value
+      .trim();
 
   const notes =
-    document.getElementById("sessionNotes")
-      .value.trim();
+    document
+      .getElementById(
+        "sessionNotes"
+      )
+      .value
+      .trim();
 
   db.sessions.push({
 
-    id: Date.now(),
-
-    date:
-      new Date().toISOString(),
+    id:
+      Date.now(),
 
     name:
-      name || "Sessão sem nome",
+      name ||
+      "Sessão sem nome",
 
     notes,
 
-    hands:
+    created:
+      new Date().toISOString(),
+
+    handCount:
       db.hands.length
+
   });
 
   saveDB(db);
 
-  document.getElementById("sessionName").value = "";
-  document.getElementById("sessionNotes").value = "";
+  document
+    .getElementById(
+      "sessionName"
+    )
+    .value = "";
+
+  document
+    .getElementById(
+      "sessionNotes"
+    )
+    .value = "";
 
   refresh();
 
-  alert("Sessão salva.");
+  alert(
+    "Sessão registrada."
+  );
+
 }
+
 
 function renderSummary() {
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
-  const total = db.hands.length;
+  const total =
+    db.hands.length;
 
-  if (!total) {
+  const sessions =
+    db.sessions.length;
 
-    document.getElementById("sessionSummary").innerHTML =
-      "Ainda não existem mãos suficientes para gerar um relatório.";
+  document
+    .getElementById(
+      "sessionSummary"
+    )
+    .innerHTML = `
 
-    return;
-  }
+      <p class="reason">
 
-  const calls =
-    db.hands.filter(h => h.decision === "CALL").length;
+        Temos atualmente
+        <strong>${total}</strong>
+        mãos e
+        <strong>${sessions}</strong>
+        sessões registradas.
 
-  const folds =
-    db.hands.filter(h => h.decision === "FOLD").length;
+      </p>
 
-  document.getElementById("sessionSummary").innerHTML = `
+      <p class="muted small">
 
-    <p>
-      <strong>${total}</strong> mãos registradas.
-    </p>
+        Ainda não vou fingir que existe
+        um diagnóstico estatístico confiável.
+        Precisamos primeiro acumular dados.
 
-    <p>
-      Calls analisados:
-      <strong>${calls}</strong>
-    </p>
+      </p>
 
-    <p>
-      Folds analisados:
-      <strong>${folds}</strong>
-    </p>
+    `;
 
-    <hr>
-
-    <p class="reason">
-      Ainda é cedo para diagnosticar leaks.
-      O Cérebro precisa acumular mãos suficientes
-      antes de começar a tirar conclusões sobre seu jogo.
-    </p>
-  `;
 }
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
 function refresh() {
 
-  const db = loadDB();
+  const db =
+    loadDB();
 
-  document.getElementById("handCount")
-    .textContent = db.hands.length;
+  document
+    .getElementById(
+      "handCount"
+    )
+    .textContent =
+      db.hands.length;
 
-  document.getElementById("playerCount")
-    .textContent = db.opponents.length;
+  document
+    .getElementById(
+      "playerCount"
+    )
+    .textContent =
+      db.opponents.length;
 
+  document
+    .getElementById(
+      "sessionCount"
+    )
+    .textContent =
+      db.sessions.length;
+
+  document
+    .getElementById(
+      "imageCount"
+    )
+    .textContent =
+      db.hands.filter(
+        h => h.image
+      ).length;
+
+  renderHands();
   renderOpponents();
-
   renderSummary();
+
 }
+
+
+/* =====================================================
+   SECURITY / HTML
+===================================================== */
 
 function escapeHTML(value) {
 
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
 }
+
+function escapeAttr(value) {
+
+  return escapeHTML(value);
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
 
 refresh();
 
