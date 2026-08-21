@@ -10,7 +10,10 @@ content="width=device-width,
 initial-scale=1.0,
 maximum-scale=1.0">
 
-<title>Cérebro Poker V2.2</title>
+<title>Cérebro Poker V2.3</title>
+
+<!-- OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 
@@ -35,12 +38,7 @@ body{
 margin:0;
 background:var(--bg);
 color:var(--text);
-font-family:
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-Roboto,
-Arial,sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
 header{
@@ -148,36 +146,32 @@ textarea{
 min-height:85px;
 }
 
-button.primary{
+button.primary,
+button.secondary,
+button.danger{
 width:100%;
-background:var(--green);
-color:#04130b;
-border:0;
 border-radius:11px;
 padding:13px;
 font-weight:900;
-margin-top:5px;
+margin-top:6px;
+}
+
+button.primary{
+background:var(--green);
+color:#04130b;
+border:0;
 }
 
 button.secondary{
-width:100%;
 background:var(--card2);
 color:var(--text);
 border:1px solid var(--border);
-border-radius:11px;
-padding:12px;
-font-weight:800;
-margin-top:7px;
 }
 
 button.danger{
-width:100%;
 background:rgba(255,89,100,.1);
 color:var(--red);
 border:1px solid rgba(255,89,100,.3);
-border-radius:11px;
-padding:10px;
-margin-top:7px;
 }
 
 .filebox{
@@ -258,8 +252,7 @@ padding:10px;
 
 .action{
 display:grid;
-grid-template-columns:
-1.2fr .8fr 1fr;
+grid-template-columns:1.2fr .8fr 1fr;
 gap:6px;
 align-items:center;
 margin-bottom:7px;
@@ -275,25 +268,11 @@ padding:4px 7px;
 margin:2px;
 }
 
-.green{
-color:var(--green);
-}
-
-.yellow{
-color:var(--yellow);
-}
-
-.red{
-color:var(--red);
-}
-
-.blue{
-color:var(--blue);
-}
-
-.muted{
-color:var(--muted);
-}
+.green{color:var(--green);}
+.yellow{color:var(--yellow);}
+.red{color:var(--red);}
+.blue{color:var(--blue);}
+.muted{color:var(--muted);}
 
 .small{
 font-size:12px;
@@ -304,31 +283,28 @@ line-height:1.55;
 color:#dce2ea;
 }
 
-.notice{
-background:rgba(85,167,255,.08);
-border:1px solid rgba(85,167,255,.25);
+.notice,
+.warning,
+.success{
 border-radius:11px;
 padding:11px;
 font-size:13px;
 line-height:1.5;
+}
+
+.notice{
+background:rgba(85,167,255,.08);
+border:1px solid rgba(85,167,255,.25);
 }
 
 .warning{
 background:rgba(255,200,87,.08);
 border:1px solid rgba(255,200,87,.25);
-border-radius:11px;
-padding:11px;
-font-size:13px;
-line-height:1.5;
 }
 
 .success{
 background:rgba(53,208,127,.08);
 border:1px solid rgba(53,208,127,.25);
-border-radius:11px;
-padding:11px;
-font-size:13px;
-line-height:1.5;
 }
 
 .ocr-box{
@@ -339,7 +315,7 @@ padding:12px;
 font-size:13px;
 line-height:1.5;
 white-space:pre-wrap;
-max-height:280px;
+max-height:300px;
 overflow:auto;
 }
 
@@ -362,10 +338,38 @@ text-align:center;
 color:var(--muted);
 }
 
+.progress{
+height:10px;
+background:#263244;
+border-radius:10px;
+overflow:hidden;
+margin:10px 0;
+}
+
+.progress div{
+height:100%;
+width:0%;
+background:var(--green);
+transition:.2s;
+}
+
 hr{
 border:0;
 border-top:1px solid var(--border);
 margin:14px 0;
+}
+
+.auto-field{
+border:1px solid var(--border);
+border-radius:11px;
+padding:10px;
+margin-bottom:8px;
+background:#0c121b;
+}
+
+.auto-field strong{
+display:block;
+margin-bottom:3px;
 }
 
 </style>
@@ -379,7 +383,7 @@ margin:14px 0;
 <div class="logo">🧠 Cérebro</div>
 
 <div class="subtitle">
-Poker Coach · V2.2 · Vision Assisted
+Poker Coach · V2.3 · Auto Reconstruction
 </div>
 
 </header>
@@ -387,8 +391,7 @@ Poker Coach · V2.2 · Vision Assisted
 
 <nav>
 
-<button class="active"
-onclick="show('home',this)">
+<button class="active" onclick="show('home',this)">
 Início
 </button>
 
@@ -455,31 +458,35 @@ Início
 
 <div class="card">
 
-<h2>🎯 Pipeline</h2>
+<h2>🚀 Novo fluxo</h2>
 
 <p class="reason">
+
+Agora o processo é:
+
+<br><br>
 
 📸 Screenshot
 
 <br>↓
 
-🔎 Leitura assistida
+🔎 OCR automático
 
 <br>↓
 
-🧩 Reconstrução
+🧠 Parser de poker
 
 <br>↓
 
-✅ Confirmação
+🧩 Game State
 
 <br>↓
 
-🧠 Análise
+⚠️ Você confirma somente o que estiver duvidoso
 
 <br>↓
 
-📚 Memória do Cérebro
+💾 Salvar
 
 </p>
 
@@ -505,11 +512,9 @@ onclick="go('import')">
 
 <div class="notice">
 
-Você pode selecionar uma ou várias
-screenshots salvas do Hand Review.
-
-As imagens ficam armazenadas
-localmente no navegador.
+Selecione uma ou várias screenshots.
+O Cérebro tentará reconstruir
+automaticamente as informações.
 
 </div>
 
@@ -567,24 +572,34 @@ class="small muted">
 
 <div class="card">
 
-<h2>🧩 Reconstrução da mão</h2>
+<h2>🤖 Reconstrução automática</h2>
 
 <div class="notice">
 
-A imagem acima é a referência visual.
-O Cérebro tenta auxiliar a leitura, mas
-você confirma os dados antes de salvar.
+A V2.3 tenta transformar a screenshot
+em dados de poker automaticamente.
+
+Você não precisa preencher tudo
+manualmente.
 
 </div>
 
 <br>
 
 <button class="primary"
-onclick="runVisionAssist()">
+onclick="runAutoReconstruction()">
 
-🔎 LER SCREENSHOT
+🧠 RECONSTRUIR AUTOMATICAMENTE
 
 </button>
+
+<div class="progress">
+<div id="ocrProgress"></div>
+</div>
+
+<p id="ocrStatus"
+class="small muted">
+</p>
 
 </div>
 
@@ -598,14 +613,12 @@ onclick="runVisionAssist()">
 
 <label>Nome da mão</label>
 
-<input
-id="handName"
-placeholder="Ex.: MTT 25K — mão 48291">
+<input id="handName"
+placeholder="Ex.: MTT 25K">
 
 <label>Número de jogadores</label>
 
-<input
-id="numPlayers"
+<input id="numPlayers"
 type="number"
 min="2"
 max="9"
@@ -613,8 +626,7 @@ value="8">
 
 <label>Hero</label>
 
-<input
-id="heroName"
+<input id="heroName"
 placeholder="Seu nickname">
 
 <label>Posição do Hero</label>
@@ -634,28 +646,18 @@ placeholder="Seu nickname">
 
 <label>Hero cards</label>
 
-<input
-id="heroCards"
+<input id="heroCards"
 placeholder="A♠ K♠">
 
 <label>Board</label>
 
-<input
-id="board"
-placeholder="7♠ 8♥ Q♣ 3♦ J♥">
+<input id="board"
+placeholder="7♠ 8♥ Q♣">
 
 <label>Pote final</label>
 
-<input
-id="finalPot"
+<input id="finalPot"
 placeholder="295.9K">
-
-<button class="secondary"
-onclick="generatePlayers()">
-
-GERAR JOGADORES
-
-</button>
 
 </div>
 
@@ -665,6 +667,13 @@ GERAR JOGADORES
 <h2>👥 Jogadores</h2>
 
 <div id="playersEditor"></div>
+
+<button class="secondary"
+onclick="generatePlayers()">
+
++ REGENERAR JOGADORES
+
+</button>
 
 </div>
 
@@ -790,7 +799,7 @@ placeholder="Nickname">
 
 <textarea
 id="playerNewNotes"
-placeholder="Tendências observadas...">
+placeholder="Tendências observadas">
 </textarea>
 
 <button class="primary"
@@ -824,33 +833,28 @@ SALVAR OPONENTE
 
 <p class="reason">
 
-<strong>V2.1</strong><br>
-Game State multiway + streets.
-
-<br><br>
-
-<strong>V2.2</strong><br>
-Screenshot contextual + leitura assistida.
-
-<br><br>
-
 <strong>V2.3</strong><br>
-Equity + pot odds + outs.
+OCR + Auto-Reconstruction.
 
 <br><br>
 
 <strong>V2.4</strong><br>
-Ranges e banco automático de oponentes.
+Parser especializado do layout.
 
 <br><br>
 
 <strong>V2.5</strong><br>
-EV + análise de linhas.
+Equity + pot odds + outs.
+
+<br><br>
+
+<strong>V2.6</strong><br>
+Banco inteligente de oponentes.
 
 <br><br>
 
 <strong>V3.0</strong><br>
-Coach personalizado.
+Coach pessoal.
 
 </p>
 
@@ -867,7 +871,7 @@ Coach personalizado.
 DATABASE
 ===================================================== */
 
-const DBKEY="cerebro_v22";
+const DBKEY="cerebro_v23";
 
 let DB={
 hands:[],
@@ -879,14 +883,9 @@ function load(){
 
 try{
 
-const x=
-localStorage.getItem(DBKEY);
+const x=localStorage.getItem(DBKEY);
 
-if(x){
-
-DB=JSON.parse(x);
-
-}
+if(x) DB=JSON.parse(x);
 
 }catch(e){
 
@@ -907,7 +906,7 @@ JSON.stringify(DB)
 
 
 /* =====================================================
-INDEXED DB
+IMAGE DB
 ===================================================== */
 
 let imageDB=null;
@@ -916,10 +915,8 @@ function openImageDB(){
 
 return new Promise((resolve,reject)=>{
 
-const req=
-indexedDB.open(
-"cerebro_images_v22",
-1
+const req=indexedDB.open(
+"cerebro_images_v23",1
 );
 
 req.onupgradeneeded=e=>{
@@ -940,7 +937,6 @@ db.createObjectStore(
 req.onsuccess=e=>{
 
 imageDB=e.target.result;
-
 resolve(imageDB);
 
 };
@@ -955,20 +951,15 @@ function putImage(id,data){
 
 return new Promise((resolve,reject)=>{
 
-const tx=
-imageDB.transaction(
-"images",
-"readwrite"
+const tx=imageDB.transaction(
+"images","readwrite"
 );
 
-tx.objectStore("images")
-.put({
-id:id,
-data:data
+tx.objectStore("images").put({
+id,data
 });
 
 tx.oncomplete=resolve;
-
 tx.onerror=reject;
 
 });
@@ -980,27 +971,19 @@ function getImage(id){
 return new Promise((resolve,reject)=>{
 
 if(!id){
-
 resolve("");
-
 return;
-
 }
 
-const tx=
-imageDB.transaction(
-"images",
-"readonly"
+const tx=imageDB.transaction(
+"images","readonly"
 );
 
-const req=
-tx.objectStore("images")
-.get(id);
+const req=tx.objectStore("images").get(id);
 
-req.onsuccess=
-()=>resolve(
-req.result?.data || ""
-);
+req.onsuccess=()=>{
+resolve(req.result?.data||"");
+};
 
 req.onerror=reject;
 
@@ -1013,21 +996,15 @@ function deleteImage(id){
 return new Promise(resolve=>{
 
 if(!id){
-
 resolve();
-
 return;
-
 }
 
-const tx=
-imageDB.transaction(
-"images",
-"readwrite"
+const tx=imageDB.transaction(
+"images","readwrite"
 );
 
-tx.objectStore("images")
-.delete(id);
+tx.objectStore("images").delete(id);
 
 tx.oncomplete=resolve;
 
@@ -1044,9 +1021,7 @@ function show(id,btn){
 
 document
 .querySelectorAll(".section")
-.forEach(x=>
-x.classList.remove("active")
-);
+.forEach(x=>x.classList.remove("active"));
 
 document
 .getElementById(id)
@@ -1054,12 +1029,9 @@ document
 
 document
 .querySelectorAll("nav button")
-.forEach(x=>
-x.classList.remove("active")
-);
+.forEach(x=>x.classList.remove("active"));
 
-if(btn)
-btn.classList.add("active");
+if(btn) btn.classList.add("active");
 
 refresh();
 
@@ -1067,7 +1039,7 @@ refresh();
 
 function go(id){
 
-const map={
+const names={
 home:"Início",
 import:"Importar",
 hands:"Mãos",
@@ -1076,11 +1048,9 @@ players:"Oponentes",
 study:"Estudo"
 };
 
-const btn=
-[...document.querySelectorAll("nav button")]
-.find(x=>
-x.textContent.includes(map[id])
-);
+const btn=[
+...document.querySelectorAll("nav button")
+].find(x=>x.textContent.includes(names[id]));
 
 show(id,btn);
 
@@ -1095,11 +1065,9 @@ async function importImages(event){
 
 await openImageDB();
 
-const files=
-[...event.target.files];
+const files=[...event.target.files];
 
-if(!files.length)
-return;
+if(!files.length) return;
 
 let count=0;
 
@@ -1108,8 +1076,7 @@ for(const file of files){
 if(!file.type.startsWith("image/"))
 continue;
 
-const data=
-await readImage(file);
+const data=await readImage(file);
 
 const id=
 "img_"+Date.now()+"_"+Math.random();
@@ -1141,9 +1108,9 @@ count++;
 
 save();
 
-document
-.getElementById("importStatus")
-.innerHTML=
+document.getElementById(
+"importStatus"
+).innerHTML=
 `
 <span class="green">
 ${count} screenshot(s) importada(s).
@@ -1162,15 +1129,15 @@ function readImage(file){
 
 return new Promise((resolve,reject)=>{
 
-const r=
-new FileReader();
+const reader=new FileReader();
 
-r.onload=
-()=>resolve(r.result);
+reader.onload=()=>{
+resolve(reader.result);
+};
 
-r.onerror=reject;
+reader.onerror=reject;
 
-r.readAsDataURL(file);
+reader.readAsDataURL(file);
 
 });
 
@@ -1178,18 +1145,14 @@ r.readAsDataURL(file);
 
 
 /* =====================================================
-HAND LIBRARY
+HAND LIST
 ===================================================== */
 
 async function renderHands(){
 
-const box=
-document.getElementById(
-"handsList"
-);
+const box=document.getElementById("handsList");
 
-if(!box)
-return;
+if(!box) return;
 
 if(!DB.hands.length){
 
@@ -1206,28 +1169,24 @@ return;
 
 let html="";
 
-for(const hand of
-DB.hands.slice().reverse()){
+for(const hand of DB.hands.slice().reverse()){
 
-const img=
-await getImage(hand.imageId);
+const img=await getImage(hand.imageId);
 
-const gs=
-hand.gameState;
+const gs=hand.gameState;
 
 html+=`
 
 <div class="hand">
 
 <strong>
-${escape(
-gs?.name ||
-"Mão importada"
+${escapeHtml(
+gs?.name||"Mão importada"
 )}
 </strong>
 
 <span class="tag">
-${escape(hand.status)}
+${escapeHtml(hand.status)}
 </span>
 
 <div class="small muted">
@@ -1237,17 +1196,9 @@ ${new Date(hand.created)
 
 </div>
 
-${
-img
-?
-`
-<img
-src="${img}"
-alt="Screenshot da mão">
-`
-:
-""
-}
+${img?`
+<img src="${img}">
+`:""}
 
 <hr>
 
@@ -1258,33 +1209,22 @@ gs
 <div class="small">
 
 <strong>
-${gs.players.length}
-jogadores
+${gs.players.length} jogadores
 </strong>
 
 ·
 
-${gs.multiway
-?
-"Multiway"
-:
-"Heads-up"}
+${gs.multiway?"Multiway":"Heads-up"}
 
 <br><br>
 
 Board:
-${escape(
-gs.board ||
-"não informado"
-)}
+${escapeHtml(gs.board||"não informado")}
 
 <br>
 
 Hero:
-${escape(
-gs.hero?.name ||
-"não definido"
-)}
+${escapeHtml(gs.hero?.name||"não definido")}
 
 </div>
 `
@@ -1300,20 +1240,12 @@ Ainda não reconstruída.
 class="secondary"
 onclick="editHand('${hand.id}')">
 
-🧩 RECONSTRUIR
+🧩 ABRIR
 
 </button>
 
 <button
 class="secondary"
-onclick="analyzeHand('${hand.id}')">
-
-🧠 ANALISAR
-
-</button>
-
-<button
-class="danger"
 onclick="deleteHand('${hand.id}')">
 
 EXCLUIR
@@ -1336,110 +1268,67 @@ EDIT HAND
 
 async function editHand(id){
 
-const hand=
-DB.hands.find(
-h=>h.id===id
-);
+const hand=DB.hands.find(h=>h.id===id);
 
-if(!hand)
-return;
+if(!hand) return;
 
 DB.currentHand=id;
 
-const gs=
-hand.gameState;
+const gs=hand.gameState||{};
 
-document
-.getElementById("handName")
-.value=
-gs?.name||"";
+document.getElementById("handName").value=
+gs.name||"";
 
-document
-.getElementById("numPlayers")
-.value=
-gs?.players?.length||8;
+document.getElementById("numPlayers").value=
+gs.players?.length||8;
 
-document
-.getElementById("heroName")
-.value=
-gs?.hero?.name||"";
+document.getElementById("heroName").value=
+gs.hero?.name||"";
 
-document
-.getElementById("heroPosition")
-.value=
-gs?.hero?.position||"BTN";
+document.getElementById("heroPosition").value=
+gs.hero?.position||"BTN";
 
-document
-.getElementById("heroCards")
-.value=
-gs?.hero?.cards||"";
+document.getElementById("heroCards").value=
+gs.hero?.cards||"";
 
-document
-.getElementById("board")
-.value=
-gs?.board||"";
+document.getElementById("board").value=
+gs.board||"";
 
-document
-.getElementById("finalPot")
-.value=
-gs?.finalPot||"";
+document.getElementById("finalPot").value=
+gs.finalPot||"";
 
-generatePlayers(
-gs?.players||[]
-);
+generatePlayers(gs.players||[]);
 
-loadActions(
-gs?.streets||{}
-);
-
-document
-.getElementById("visionResult")
-.innerHTML="";
+loadActions(gs.streets||{});
 
 const imageBox=
-document
-.getElementById("editorImageBox");
+document.getElementById("editorImageBox");
 
-if(hand.imageId){
+const img=await getImage(hand.imageId);
 
-const img=
-await getImage(hand.imageId);
-
-imageBox.innerHTML=
+imageBox.innerHTML=img
+?
 `
 <div class="card">
 
-<h2>📸 Screenshot da mão</h2>
+<h2>📸 Screenshot</h2>
 
 <img
 class="editor-image"
-src="${img}"
-alt="Screenshot">
+src="${img}">
 
 <div class="image-caption">
-
-Imagem associada a esta mão.
-Use-a como referência durante
-a reconstrução.
-
+Fonte da reconstrução.
 </div>
 
 </div>
-`;
-
-}else{
-
-imageBox.innerHTML=
 `
-<div class="warning">
+:
+"";
 
-Esta mão não possui screenshot
-associada.
-
-</div>
-`;
-
-}
+document.getElementById(
+"visionResult"
+).innerHTML="";
 
 go("editor");
 
@@ -1447,26 +1336,70 @@ go("editor");
 
 
 /* =====================================================
-VISION ASSIST
+OCR WORKER
 ===================================================== */
 
-async function runVisionAssist(){
+let OCR_WORKER=null;
 
-const id=
-DB.currentHand;
+async function getOCRWorker(){
+
+if(OCR_WORKER)
+return OCR_WORKER;
+
+if(typeof Tesseract==="undefined"){
+
+throw new Error(
+"O mecanismo OCR não carregou."
+);
+
+}
+
+OCR_WORKER=
+await Tesseract.createWorker(
+"eng",
+1,
+{
+logger:m=>{
+
+if(
+m.status==="recognizing text" &&
+typeof m.progress==="number"
+){
+
+setProgress(
+Math.round(m.progress*100)
+);
+
+}
+
+}
+}
+);
+
+return OCR_WORKER;
+
+}
+
+
+/* =====================================================
+AUTO RECONSTRUCTION
+===================================================== */
+
+async function runAutoReconstruction(){
+
+const id=DB.currentHand;
 
 if(!id){
 
 alert(
-"Abra uma mão importada primeiro."
+"Abra uma screenshot primeiro."
 );
 
 return;
 
 }
 
-const hand=
-DB.hands.find(
+const hand=DB.hands.find(
 h=>h.id===id
 );
 
@@ -1480,61 +1413,402 @@ return;
 
 }
 
-const box=
-document
-.getElementById(
-"visionResult"
-);
+const status=
+document.getElementById("ocrStatus");
 
-box.innerHTML=
+const resultBox=
+document.getElementById("visionResult");
+
+try{
+
+status.textContent=
+"Preparando imagem...";
+
+setProgress(5);
+
+const image=
+await getImage(hand.imageId);
+
+const worker=
+await getOCRWorker();
+
+status.textContent=
+"Executando OCR...";
+
+setProgress(10);
+
+const result=
+await worker.recognize(image);
+
+setProgress(100);
+
+const raw=
+result.data.text||"";
+
+const parsed=
+parsePokerText(raw);
+
+hand.vision={
+rawText:raw,
+parsed,
+timestamp:
+new Date().toISOString()
+};
+
+hand.status=
+"Reconstrução automática disponível";
+
+save();
+
+applyParsedState(parsed);
+
+renderVisionResult(parsed,raw);
+
+status.textContent=
+"Leitura concluída.";
+
+}catch(error){
+
+console.error(error);
+
+status.textContent=
+"Erro durante a leitura.";
+
+resultBox.innerHTML=
 `
 <div class="card">
 
-<h2>🔎 Leitura assistida</h2>
+<div class="warning">
 
-<div class="notice">
+<strong>
+Não foi possível concluir o OCR.
+</strong>
 
-O Cérebro está preparando a imagem
-para análise.
+<br><br>
 
-A leitura visual automática completa
-será adicionada em uma camada futura.
-Nesta versão, a imagem é mantida
-como fonte de verdade e o resultado
-precisa ser confirmado.
+${escapeHtml(
+error.message||String(error)
+)}
 
 </div>
 
 </div>
 `;
 
-const img=
-await getImage(hand.imageId);
+}
 
-const result=
-inspectImage(img);
+}
 
-hand.vision={
-status:
-"aguardando confirmação",
 
-imageDimensions:
-result
+/* =====================================================
+PROGRESS
+===================================================== */
+
+function setProgress(value){
+
+const bar=
+document.getElementById("ocrProgress");
+
+if(bar)
+bar.style.width=
+Math.max(0,Math.min(100,value))+"%";
+
+}
+
+
+/* =====================================================
+POKER PARSER
+===================================================== */
+
+function parsePokerText(raw){
+
+const lines=
+raw
+.split(/\r?\n/)
+.map(x=>x.trim())
+.filter(Boolean);
+
+const actions=[];
+
+let hero="";
+let board="";
+let pot="";
+
+const actionRegex=
+/^(.{2,25}?)\s+(fold|check|call|bet|raise|all[\s-]?in)(?:\s+([0-9.,kKmM]+))?/i;
+
+for(const line of lines){
+
+const lower=line.toLowerCase();
+
+/* pot */
+
+if(
+lower.includes("pot") ||
+lower.includes("pote")
+){
+
+const match=
+line.match(
+/([0-9][0-9.,]*\s*[kKmM]?)/
+);
+
+if(match)
+pot=match[1];
+
+}
+
+/* board */
+
+const cardMatches=
+line.match(
+/\b[2-9TJQKA][♠♥♦♣shdc]\b/gi
+);
+
+if(
+cardMatches &&
+cardMatches.length>=3 &&
+cardMatches.length<=5
+){
+
+board=
+cardMatches.join(" ");
+
+}
+
+/* actions */
+
+const m=
+line.match(actionRegex);
+
+if(m){
+
+let action=
+normalizeAction(m[2]);
+
+actions.push({
+
+player:
+m[1].trim(),
+
+action,
+
+amount:
+m[3]||"",
+
+source:
+line,
+
+confidence:
+action==="Fold"||
+action==="Check"
+?
+0.91
+:
+0.76
+
+});
+
+}
+
+}
+
+/*
+heurística simples para Hero.
+Não inventa nickname.
+*/
+const heroCandidates=
+lines.filter(x=>
+/hero|you|você/i.test(x)
+);
+
+if(heroCandidates.length)
+hero=heroCandidates[0];
+
+return{
+
+lines,
+
+hero,
+
+board,
+
+pot,
+
+actions,
+
+confidence:
+calculateOverallConfidence(
+actions,
+lines
+)
 
 };
 
-save();
+}
+
+function normalizeAction(action){
+
+const x=
+action
+.toLowerCase()
+.replace("-"," ")
+.trim();
+
+if(x==="fold") return "Fold";
+if(x==="check") return "Check";
+if(x==="call") return "Call";
+if(x==="bet") return "Bet";
+if(x==="raise") return "Raise";
+if(x==="all in") return "All-In";
+
+return action;
+
+}
+
+function calculateOverallConfidence(actions,lines){
+
+if(!lines.length)
+return 0;
+
+if(!actions.length)
+return .35;
+
+const avg=
+actions.reduce(
+(a,b)=>a+b.confidence,0
+)/actions.length;
+
+return Math.min(
+.95,
+avg
+);
+
+}
+
+
+/* =====================================================
+APPLY OCR TO GAME STATE
+===================================================== */
+
+function applyParsedState(parsed){
+
+/*
+Não apagamos dados já confirmados.
+
+O OCR só preenche campos vazios.
+*/
+
+if(
+parsed.board &&
+!document.getElementById("board").value
+){
+
+document.getElementById("board").value=
+parsed.board;
+
+}
+
+if(
+parsed.pot &&
+!document.getElementById("finalPot").value
+){
+
+document.getElementById("finalPot").value=
+parsed.pot;
+
+}
+
+
+/*
+Ações OCR são colocadas no pré-flop
+como primeira hipótese.
+
+Depois refinaremos o parser por região
+específica do layout.
+*/
+
+if(parsed.actions.length){
+
+const box=
+document.getElementById("preflop");
+
+box.innerHTML="";
+
+parsed.actions.forEach(a=>{
+
+box.insertAdjacentHTML(
+"beforeend",
+actionTemplate()
+);
+
+const rows=
+box.querySelectorAll(".action");
+
+const row=
+rows[rows.length-1];
+
+row.querySelector(".aname").value=
+a.player;
+
+row.querySelector(".atype").value=
+a.action;
+
+row.querySelector(".aamount").value=
+a.amount;
+
+});
+
+}
+
+}
+
+
+/* =====================================================
+OCR RESULT
+===================================================== */
+
+function renderVisionResult(parsed,raw){
+
+const box=
+document.getElementById(
+"visionResult"
+);
+
+const confidence=
+Math.round(
+parsed.confidence*100
+);
+
+let confidenceClass=
+confidence>=85
+?
+"green"
+:
+confidence>=60
+?
+"yellow"
+:
+"red";
 
 box.innerHTML=
 `
 <div class="card">
 
-<h2>🔎 Vision Assist</h2>
+<h2>🤖 Resultado automático</h2>
 
-<div class="success">
+<div class="${confidenceClass}">
 
-Screenshot carregada corretamente.
+<strong>
+Confiança geral: ${confidence}%
+</strong>
 
+</div>
+
+<br>
+
+<div class="confidence">
+<div style="width:${confidence}%"></div>
 </div>
 
 <br>
@@ -1544,11 +1818,11 @@ Screenshot carregada corretamente.
 <div class="stat">
 
 <div class="stat-value">
-${result.width}
+${parsed.actions.length}
 </div>
 
 <div class="stat-label">
-largura
+ações encontradas
 </div>
 
 </div>
@@ -1556,11 +1830,11 @@ largura
 <div class="stat">
 
 <div class="stat-value">
-${result.height}
+${parsed.board?"✓":"?"}
 </div>
 
 <div class="stat-label">
-altura
+board
 </div>
 
 </div>
@@ -1569,150 +1843,83 @@ altura
 
 <br>
 
-<div class="notice">
+<h3>
+🔎 O que foi encontrado
+</h3>
+
+${
+parsed.actions.length
+?
+parsed.actions.map(a=>`
+
+<div class="auto-field">
 
 <strong>
-Próxima etapa:
+${escapeHtml(a.player)}
 </strong>
 
-usar regiões específicas do layout
-do KKPoker para tentar reconhecer
-nomes, posições, stacks, board e
-histórico de ações.
+${escapeHtml(a.action)}
 
-Por enquanto, confirme manualmente
-os dados abaixo.
+${a.amount
+?
+" · "+escapeHtml(a.amount)
+:
+""}
 
-</div>
+<br>
 
-</div>
-`;
+<span class="small muted">
 
-}
+Confiança:
+${Math.round(a.confidence*100)}%
 
-function inspectImage(src){
-
-return {
-width:"auto",
-height:"auto",
-source:"screenshot"
-};
-
-}
-
-
-/* =====================================================
-PLAYERS
-===================================================== */
-
-function generatePlayers(existing=[]){
-
-const n=
-Math.max(
-2,
-Math.min(
-9,
-parseInt(
-document
-.getElementById("numPlayers")
-.value
-)||8
-)
-);
-
-const positions=[
-"UTG",
-"UTG+1",
-"MP",
-"HJ",
-"CO",
-"BTN",
-"SB",
-"BB"
-];
-
-let html="";
-
-for(let i=0;i<n;i++){
-
-const old=
-existing[i]||{};
-
-html+=`
-
-<div class="player">
-
-<div class="player-header">
-
-<strong>
-Jogador ${i+1}
-</strong>
-
-<span class="tag">
-${positions[i]||""}
 </span>
 
 </div>
 
-<label>Nickname</label>
-
-<input
-class="pname"
-data-index="${i}"
-value="${escape(old.name||"")}"
-placeholder="Nickname">
-
-<label>Posição</label>
-
-<select
-class="pposition"
-data-index="${i}">
-
-${positions.map(p=>
+`).join("")
+:
 `
-<option
-${old.position===p
-?"selected"
-:""}>
-${p}
-</option>
+<div class="warning">
+Nenhuma ação foi reconhecida
+com confiança suficiente.
+</div>
 `
-).join("")}
+}
 
-</select>
+<hr>
 
-<label>Stack</label>
+<h3>
+📄 Texto bruto do OCR
+</h3>
 
-<input
-class="pstack"
-data-index="${i}"
-value="${escape(old.stack||"")}"
-placeholder="Ex.: 116200">
+<div class="ocr-box">
+${escapeHtml(raw||"Nenhum texto encontrado.")}
+</div>
 
-<label>Cartas</label>
+<br>
 
-<input
-class="pcards"
-data-index="${i}"
-value="${escape(old.cards||"")}"
-placeholder="A♠ K♠">
+<div class="warning">
+
+<strong>
+Importante:
+</strong>
+
+O OCR é uma hipótese, não uma
+fonte infalível.
+
+Confira os campos antes de salvar.
+
+</div>
 
 </div>
 `;
 
 }
 
-document
-.getElementById(
-"playersEditor"
-)
-.innerHTML=html;
-
-}
-
 
 /* =====================================================
-ACTIONS
+ACTION TEMPLATE
 ===================================================== */
 
 function actionTemplate(){
@@ -1755,6 +1962,108 @@ actionTemplate()
 
 }
 
+
+/* =====================================================
+PLAYERS
+===================================================== */
+
+function generatePlayers(existing=[]){
+
+const n=Math.max(
+2,
+Math.min(
+9,
+parseInt(
+document.getElementById(
+"numPlayers"
+).value
+)||8
+)
+);
+
+const positions=[
+"UTG",
+"UTG+1",
+"MP",
+"HJ",
+"CO",
+"BTN",
+"SB",
+"BB"
+];
+
+let html="";
+
+for(let i=0;i<n;i++){
+
+const old=existing[i]||{};
+
+html+=`
+
+<div class="player">
+
+<div class="player-header">
+
+<strong>
+Jogador ${i+1}
+</strong>
+
+<span class="tag">
+${positions[i]||""}
+</span>
+
+</div>
+
+<label>Nickname</label>
+
+<input
+class="pname"
+value="${escapeHtml(old.name||"")}"
+placeholder="Nickname">
+
+<label>Posição</label>
+
+<select class="pposition">
+
+${positions.map(p=>`
+<option
+${old.position===p?"selected":""}>
+${p}
+</option>
+`).join("")}
+
+</select>
+
+<label>Stack</label>
+
+<input
+class="pstack"
+value="${escapeHtml(old.stack||"")}"
+placeholder="Stack">
+
+<label>Cartas</label>
+
+<input
+class="pcards"
+value="${escapeHtml(old.cards||"")}"
+placeholder="Cartas">
+
+</div>
+`;
+
+}
+
+document.getElementById(
+"playersEditor"
+).innerHTML=html;
+
+}
+
+
+/* =====================================================
+LOAD ACTIONS
+===================================================== */
+
 function loadActions(streets){
 
 [
@@ -1770,10 +2079,7 @@ document.getElementById(s);
 
 box.innerHTML="";
 
-const actions=
-streets[s]||[];
-
-actions.forEach(a=>{
+(streets[s]||[]).forEach(a=>{
 
 box.insertAdjacentHTML(
 "beforeend",
@@ -1781,26 +2087,18 @@ actionTemplate()
 );
 
 const rows=
-box.querySelectorAll(
-".action"
-);
+box.querySelectorAll(".action");
 
 const row=
 rows[rows.length-1];
 
-row.querySelector(
-".aname"
-).value=
+row.querySelector(".aname").value=
 a.player||"";
 
-row.querySelector(
-".atype"
-).value=
+row.querySelector(".atype").value=
 a.action||"Fold";
 
-row.querySelector(
-".aamount"
-).value=
+row.querySelector(".aamount").value=
 a.amount||"";
 
 });
@@ -1811,43 +2109,30 @@ a.amount||"";
 
 
 /* =====================================================
-COLLECT PLAYERS
+COLLECT
 ===================================================== */
 
 function collectPlayers(){
 
-const names=
-[
-...document
-.querySelectorAll(".pname")
+const names=[
+...document.querySelectorAll(".pname")
 ];
 
-const positions=
-[
-...document
-.querySelectorAll(".pposition")
+const positions=[
+...document.querySelectorAll(".pposition")
 ];
 
-const stacks=
-[
-...document
-.querySelectorAll(".pstack")
+const stacks=[
+...document.querySelectorAll(".pstack")
 ];
 
-const cards=
-[
-...document
-.querySelectorAll(".pcards")
+const cards=[
+...document.querySelectorAll(".pcards")
 ];
 
-const players=[];
+return names.map((x,i)=>({
 
-for(let i=0;i<names.length;i++){
-
-players.push({
-
-name:
-names[i].value.trim(),
+name:x.value.trim(),
 
 position:
 positions[i].value,
@@ -1858,119 +2143,82 @@ stacks[i].value.trim(),
 cards:
 cards[i].value.trim()
 
-});
+}));
 
 }
-
-return players;
-
-}
-
-
-/* =====================================================
-COLLECT ACTIONS
-===================================================== */
 
 function collectStreet(id){
 
 return [
-...
-document
-.querySelectorAll(
+...document.querySelectorAll(
 `#${id} .action`
 )
 ]
 .map(row=>({
 
 player:
-row
-.querySelector(".aname")
-.value.trim(),
+row.querySelector(".aname").value.trim(),
 
 action:
-row
-.querySelector(".atype")
-.value,
+row.querySelector(".atype").value,
 
 amount:
-row
-.querySelector(".aamount")
-.value.trim()
+row.querySelector(".aamount").value.trim()
 
 }))
-.filter(x=>
-x.player ||
-x.amount
-);
+.filter(x=>x.player||x.amount);
 
 }
 
-
-/* =====================================================
-COLLECT GAME STATE
-===================================================== */
-
 function collectState(){
 
-const players=
-collectPlayers();
+const players=collectPlayers();
 
 const heroName=
-document
-.getElementById("heroName")
-.value.trim();
+document.getElementById(
+"heroName"
+).value.trim();
 
 const hero=
 players.find(
-p=>
-p.name===heroName
-)
-||
-{
+p=>p.name===heroName
+)||{
+
 name:heroName,
 
 position:
-document
-.getElementById(
+document.getElementById(
 "heroPosition"
-)
-.value,
+).value,
 
 cards:
-document
-.getElementById(
+document.getElementById(
 "heroCards"
-)
-.value
+).value.trim()
+
 };
 
 return{
 
 name:
-document
-.getElementById(
+document.getElementById(
 "handName"
-)
-.value.trim(),
+).value.trim(),
 
 players,
 
 multiway:
-players.filter(
-p=>p.name
-).length>2,
+players.filter(p=>p.name).length>2,
 
 hero,
 
 board:
-document
-.getElementById(
+document.getElementById(
 "board"
 ).value.trim(),
 
 finalPot:
-document
-.getElementById(
+document.getElementById(
 "finalPot"
 ).value.trim(),
 
@@ -2001,8 +2249,7 @@ SAVE
 
 function saveStructuredHand(){
 
-const state=
-collectState();
+const state=collectState();
 
 if(state.players.length<2){
 
@@ -2014,21 +2261,17 @@ return;
 
 }
 
-let hand;
-
-if(DB.currentHand){
-
-hand=
+let hand=
 DB.hands.find(
 h=>h.id===DB.currentHand
 );
 
-}else{
+if(!hand){
 
 hand={
 
 id:
-"hand_"+Date.now()+"_"+Math.random(),
+"hand_"+Date.now(),
 
 created:
 new Date().toISOString(),
@@ -2039,13 +2282,11 @@ imageId:null
 
 DB.hands.push(hand);
 
-DB.currentHand=
-hand.id;
+DB.currentHand=hand.id;
 
 }
 
-hand.gameState=
-state;
+hand.gameState=state;
 
 hand.status=
 "Game State confirmado";
@@ -2064,33 +2305,29 @@ refresh();
 
 
 /* =====================================================
-OPPONENT LEARNING
+OPPONENT DB
 ===================================================== */
 
 function updateOpponentDatabase(state){
 
-const hero=
-state.hero?.name;
+const hero=state.hero?.name;
 
 state.players
-.filter(p=>
-p.name &&
-p.name!==hero
-)
-.forEach(player=>{
+.filter(p=>p.name&&p.name!==hero)
+.forEach(p=>{
 
 let dbPlayer=
 DB.players.find(
 x=>
 x.name.toLowerCase()===
-player.name.toLowerCase()
+p.name.toLowerCase()
 );
 
 if(!dbPlayer){
 
 dbPlayer={
 
-name:player.name,
+name:p.name,
 
 type:"Desconhecido",
 
@@ -2098,35 +2335,21 @@ notes:"",
 
 hands:0,
 
-confidence:"baixa",
-
-created:
-new Date().toISOString()
+confidence:"baixa"
 
 };
 
-DB.players.push(
-dbPlayer
-);
+DB.players.push(dbPlayer);
 
 }
 
-dbPlayer.hands=
-(dbPlayer.hands||0)+1;
+dbPlayer.hands++;
 
-if(dbPlayer.hands>=20){
+if(dbPlayer.hands>=20)
+dbPlayer.confidence="moderada";
 
-dbPlayer.confidence=
-"moderada";
-
-}
-
-if(dbPlayer.hands>=100){
-
-dbPlayer.confidence=
-"alta";
-
-}
+if(dbPlayer.hands>=100)
+dbPlayer.confidence="alta";
 
 });
 
@@ -2141,261 +2364,68 @@ ANALYSIS
 
 function analyzeCurrent(){
 
-const state=
-collectState();
+const state=collectState();
 
-renderAnalysis(
-buildAnalysis(state)
-);
-
-}
-
-function analyzeHand(id){
-
-const hand=
-DB.hands.find(
-h=>h.id===id
-);
-
-if(!hand?.gameState){
-
-editHand(id);
-
-alert(
-"Reconstrua e salve a mão primeiro."
-);
-
-return;
-
-}
-
-DB.currentHand=id;
-
-go("editor");
-
-renderAnalysis(
-buildAnalysis(
-hand.gameState
-)
-);
-
-}
-
-function buildAnalysis(s){
-
-const players=
-s.players.filter(
-p=>p.name
-);
-
-const pre=
-s.streets.preflop;
-
-const raises=
-pre.filter(
-a=>a.action==="Raise"
-);
-
-const allins=
-pre.filter(
-a=>a.action==="All-In"
-);
-
-const actions=
-Object
-.values(s.streets)
-.flat();
-
-const aggressive=
-actions.filter(
-a=>
-[
-"Bet",
-"Raise",
-"All-In"
-]
-.includes(a.action)
-);
-
-let html="";
-
-if(players.length>2){
-
-html+=`
-
-<div class="notice">
-
-<strong>
-Multiway detectado.
-</strong>
-
-<br><br>
-
-Esta mão possui
-${players.length}
-jogadores cadastrados.
-
-A análise estratégica deve considerar
-ranges condicionais de múltiplos
-jogadores, e não simplesmente
-Hero vs. um vilão.
-
-</div>
-
-<br>
-`;
-
-}
-
-if(raises.length){
-
-html+=`
-
-<p class="reason">
-
-<strong>
-Pré-flop:
-</strong>
-
-${raises.length}
-raise(s) detectado(s).
-
-O próximo motor deverá avaliar
-posição, sizing, stacks e ranges.
-
-</p>
-
-`;
-
-}
-
-if(allins.length){
-
-html+=`
-
-<p class="reason">
-
-<strong>
-All-in:
-</strong>
-
-${allins.length}
-all-in(s) detectado(s).
-
-A linha deve ser separada por
-jogador antes de calcular equity.
-
-</p>
-
-`;
-
-}
-
-html+=`
-
-<p class="reason">
-
-<strong>
-Ações agressivas:
-</strong>
-
-${aggressive.length}
-
-</p>
-
-`;
-
-if(s.board){
-
-html+=`
-
-<p class="reason">
-
-<strong>
-Board:
-</strong>
-
-${escape(s.board)}
-
-</p>
-
-`;
-
-}
-
-if(s.finalPot){
-
-html+=`
-
-<p class="reason">
-
-<strong>
-Pote:
-</strong>
-
-${escape(s.finalPot)}
-
-</p>
-
-`;
-
-}
-
-html+=`
-
-<hr>
-
-<div class="success">
-
-<strong>
-Coach:
-</strong>
-
-<br><br>
-
-Não vou avaliar a decisão pelo resultado
-da mão.
-
-Primeiro reconstruímos a informação,
-depois calculamos a decisão.
-
-</div>
-
-<br>
-
-<p class="reason">
-
-<strong>
-Próxima camada:
-</strong>
-
-equity → pot odds → ranges → EV →
-análise de linha.
-
-</p>
-
-`;
-
-return html;
-
-}
-
-function renderAnalysis(html){
-
-document
-.getElementById(
+const box=
+document.getElementById(
 "analysisBox"
-)
-.innerHTML=
+);
 
+box.innerHTML=
 `
 <div class="card">
 
-<h2>
-🧠 Análise do Cérebro
-</h2>
+<h2>🧠 Coach</h2>
 
-${html}
+<div class="success">
+
+A mão foi reconstruída com
+${state.players.length} jogadores.
+
+</div>
+
+<br>
+
+<p class="reason">
+
+<strong>Tipo:</strong>
+
+${state.multiway
+?"Multiway"
+:"Heads-up"}
+
+<br><br>
+
+<strong>Board:</strong>
+
+${escapeHtml(
+state.board||"não informado"
+)}
+
+<br><br>
+
+<strong>Pré-flop:</strong>
+
+${state.streets.preflop.length}
+ações encontradas.
+
+</p>
+
+<hr>
+
+<p class="reason">
+
+O Cérebro ainda não deve chamar
+uma decisão de GTO com base apenas
+no OCR.
+
+A próxima camada será:
+
+<br><br>
+
+Equity → ranges → pot odds → EV.
+
+</p>
 
 </div>
 `;
@@ -2404,17 +2434,15 @@ ${html}
 
 
 /* =====================================================
-PLAYER DATABASE
+PLAYER DB UI
 ===================================================== */
 
 function savePlayer(){
 
 const name=
-document
-.getElementById(
+document.getElementById(
 "playerNewName"
-)
-.value.trim();
+).value.trim();
 
 if(!name){
 
@@ -2427,18 +2455,14 @@ return;
 }
 
 const type=
-document
-.getElementById(
+document.getElementById(
 "playerNewType"
-)
-.value;
+).value;
 
 const notes=
-document
-.getElementById(
+document.getElementById(
 "playerNewNotes"
-)
-.value.trim();
+).value.trim();
 
 const existing=
 DB.players.find(
@@ -2451,35 +2475,20 @@ if(existing){
 
 existing.type=type;
 
-if(notes){
-
+if(notes)
 existing.notes=
-existing.notes
-?
-existing.notes+
-"\n"+
-notes
-:
-notes;
-
-}
+(existing.notes||"")+
+"\n"+notes;
 
 }else{
 
 DB.players.push({
 
 name,
-
 type,
-
 notes,
-
 hands:0,
-
-confidence:"baixa",
-
-created:
-new Date().toISOString()
+confidence:"baixa"
 
 });
 
@@ -2487,28 +2496,14 @@ new Date().toISOString()
 
 save();
 
-document
-.getElementById(
-"playerNewName"
-)
-.value="";
-
-document
-.getElementById(
-"playerNewNotes"
-)
-.value="";
-
 refresh();
 
 }
 
-
 function renderPlayers(){
 
 const box=
-document
-.getElementById(
+document.getElementById(
 "playerList"
 );
 
@@ -2526,17 +2521,16 @@ return;
 }
 
 box.innerHTML=
-DB.players
-.map(p=>`
+DB.players.map(p=>`
 
 <div class="player">
 
 <strong>
-${escape(p.name)}
+${escapeHtml(p.name)}
 </strong>
 
 <span class="tag">
-${escape(p.type)}
+${escapeHtml(p.type)}
 </span>
 
 <span class="tag">
@@ -2545,25 +2539,20 @@ ${p.hands||0} mãos
 
 <p class="small reason">
 
-${escape(
-p.notes ||
-"Sem observações."
+${escapeHtml(
+p.notes||"Sem observações."
 )}
 
 </p>
 
 <span class="tag">
 Confiança:
-${escape(
-p.confidence
-)}
-
+${escapeHtml(p.confidence)}
 </span>
 
 </div>
 
-`)
-.join("");
+`).join("");
 
 }
 
@@ -2580,22 +2569,13 @@ if(!confirm(
 return;
 
 const hand=
-DB.hands.find(
-h=>h.id===id
-);
+DB.hands.find(h=>h.id===id);
 
-if(hand?.imageId){
-
-await deleteImage(
-hand.imageId
-);
-
-}
+if(hand?.imageId)
+await deleteImage(hand.imageId);
 
 DB.hands=
-DB.hands.filter(
-h=>h.id!==id
-);
+DB.hands.filter(h=>h.id!==id);
 
 save();
 
@@ -2612,34 +2592,26 @@ function refresh(){
 
 load();
 
-document
-.getElementById(
+document.getElementById(
 "countHands"
-)
-.textContent=
+).textContent=
 DB.hands.length;
 
-document
-.getElementById(
+document.getElementById(
 "countPlayers"
-)
-.textContent=
+).textContent=
 DB.players.length;
 
-document
-.getElementById(
+document.getElementById(
 "countImages"
-)
-.textContent=
+).textContent=
 DB.hands.filter(
 h=>h.imageId
 ).length;
 
-document
-.getElementById(
+document.getElementById(
 "countMultiway"
-)
-.textContent=
+).textContent=
 DB.hands.filter(
 h=>h.gameState?.multiway
 ).length;
@@ -2655,9 +2627,9 @@ renderPlayers();
 ESCAPE
 ===================================================== */
 
-function escape(v){
+function escapeHtml(v){
 
-return String(v||"")
+return String(v??"")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
